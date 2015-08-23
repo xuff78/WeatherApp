@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<resources>
+
+    <color name="normal_blue">#4682B4</color> <!-- 皇家蓝 -->
+    <color name="light_blue">#1C86EE</color>
+    <color name="white">#ffffff</color>
+</resources> 
