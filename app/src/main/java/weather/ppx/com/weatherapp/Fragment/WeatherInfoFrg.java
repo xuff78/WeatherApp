@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,12 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import weather.ppx.com.weatherapp.R;
+import weather.ppx.com.weatherapp.Util.LogUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,7 +53,7 @@ public class WeatherInfoFrg extends BaseFragment {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                mWebView.loadUrl("javascript:setData('" + "let me test" + "'," + 99 +")");
+                mWebView.loadUrl("javascript:setData('" + getJsonData() +"')");
             }
 
             @Override
@@ -60,6 +63,36 @@ public class WeatherInfoFrg extends BaseFragment {
             }
         });
         return v;
+    }
+
+    String[] formData1={"1", "2.8", "3.5", "3", "3", "3.4", "3.2", "2.9", "3.5", "3.5", "2.1", "1.3"};
+    String[] formData2={"40", "20", "40", "45", "40", "38", "36", "29", "35", "40", "21", "13"};
+    private String getJsonData() {
+        String jsonData="";
+        try {
+            JSONObject jsonObj=new JSONObject();
+            JSONArray array=new JSONArray();
+            for(int i=0;i<formData1.length;i++){
+                JSONObject objsub=new JSONObject();
+                objsub.put("data", formData1[i]);
+                array.put(i, objsub);
+            }
+            jsonObj.put("FristFormInfo1", array);
+
+            array=new JSONArray();
+            for(int i=0;i<formData2.length;i++){
+                JSONObject objsub=new JSONObject();
+                objsub.put("data", formData2[i]);
+                array.put(i, objsub);
+            }
+            jsonObj.put("FristFormInfo2", array);
+
+            jsonData=jsonObj.toString();
+            LogUtil.d("Weather", jsonObj.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonData.toString();
     }
 
     @Override

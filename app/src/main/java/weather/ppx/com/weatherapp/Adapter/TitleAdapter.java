@@ -14,16 +14,19 @@ import java.net.URLEncoder;
 
 import weather.ppx.com.weatherapp.MainActivity;
 import weather.ppx.com.weatherapp.R;
+import weather.ppx.com.weatherapp.Util.ScreenUtil;
 
 public class TitleAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
     private Context con;
     private String[] areaNames= MainActivity.areaNames;
+    private int itemHeight=0;
 
     public TitleAdapter(Context context){
         this.mInflater = LayoutInflater.from(context);
         con=context;
+        this.itemHeight= ScreenUtil.dip2px(context, 38);
     }
     @Override
     public int getCount() {
@@ -46,9 +49,8 @@ public class TitleAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        AbsListView.LayoutParams alp=new  AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        AbsListView.LayoutParams alp=new  AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, itemHeight);
         TextView title = new TextView(con);
-        title.setPadding(0,15,0,15);
         title.setGravity(Gravity.CENTER);
         title.setText(areaNames[position]);
         title.setLayoutParams(alp);
