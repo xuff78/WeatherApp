@@ -9,6 +9,8 @@ import android.view.MenuItem;
 
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
 import weather.ppx.com.weatherapp.Fragment.WeatherInfoMain;
+import weather.ppx.com.weatherapp.Fragment.WeatherMap;
+import weather.ppx.com.weatherapp.Fragment.WeatherSetting;
 
 
 public class MainActivity extends BaseActivity
@@ -45,9 +47,12 @@ public class MainActivity extends BaseActivity
         // update the main content by replacing fragments
         _setHeaderTitle(areaNames[position]);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, WeatherInfoMain.newInstance())
-                .commit();
+        if(position==10){
+            fragmentManager.beginTransaction().replace(R.id.container, WeatherMap.newInstance()).commit();
+        }else if(position==11){
+            fragmentManager.beginTransaction().replace(R.id.container, WeatherSetting.newInstance()).commit();
+        }else
+            fragmentManager.beginTransaction().replace(R.id.container, WeatherInfoMain.newInstance()).commit();
     }
 
 
