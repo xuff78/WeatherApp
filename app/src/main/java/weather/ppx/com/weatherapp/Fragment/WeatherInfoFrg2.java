@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import weather.ppx.com.weatherapp.R;
 import weather.ppx.com.weatherapp.Util.ActUtil;
+import weather.ppx.com.weatherapp.Util.ScreenUtil;
 
 /**
  * Created by 可爱的蘑菇 on 2015/8/23.
@@ -48,10 +50,27 @@ public class WeatherInfoFrg2  extends BaseFragment {
             LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             llp.weight=1;
             layout.setLayoutParams(llp);
-            layout.addView(ActUtil.getTextView(getActivity(), "周一", 14));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20));
+            layout.addView(ActUtil.getTextView(getActivity(), "周一", 15));
+            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20,8));
+            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20,8));
             topDaysInfoLayout.addView(layout);
+        }
+
+        int marginTop= ScreenUtil.dip2px(getActivity(), 8);
+        for (int i=0; i<9; i++){
+            LinearLayout layout=new LinearLayout(getActivity());
+            layout.setOrientation(LinearLayout.HORIZONTAL);
+            layout.setGravity(Gravity.CENTER);
+            LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            llp.topMargin=marginTop;
+            layout.setLayoutParams(llp);
+            layout.addView(ActUtil.getTextView(getActivity(), "06-12时   |   ", 14));
+            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 15));
+            layout.addView(ActUtil.getTextView(getActivity(), "晴转多云", 14, 1));
+            layout.addView(ActUtil.getTextView(getActivity(), "28°/30°", 14, 1));
+            layout.addView(ActUtil.getTextView(getActivity(), "东南风", 14, 1));
+            layout.addView(ActUtil.getTextView(getActivity(), "3-4级", 14, 1));
+            bottomDayInfoLayout.addView(layout);
         }
     }
 }

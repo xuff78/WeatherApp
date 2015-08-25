@@ -5,19 +5,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import weather.ppx.com.weatherapp.R;
+import weather.ppx.com.weatherapp.Util.ActUtil;
 import weather.ppx.com.weatherapp.Util.LogUtil;
+import weather.ppx.com.weatherapp.Util.ScreenUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +41,7 @@ public class WeatherInfoFrg extends BaseFragment {
     }
 
     WebView mWebView;
+    LinearLayout topDaysInfoLayout, bottomDayInfoLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +58,7 @@ public class WeatherInfoFrg extends BaseFragment {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                mWebView.loadUrl("javascript:setData('" + getJsonData() +"')");
+                mWebView.loadUrl("javascript:setData('" + getJsonData() + "')");
             }
 
             @Override
@@ -62,7 +67,43 @@ public class WeatherInfoFrg extends BaseFragment {
                 return true;
             }
         });
+
+        topDaysInfoLayout= (LinearLayout) v.findViewById(R.id.topDaysInfoLayout);
+        bottomDayInfoLayout= (LinearLayout) v.findViewById(R.id.bottomDayInfoLayout);
+        setTopInfoItem();
         return v;
+    }
+
+    private void setTopInfoItem(){
+        for (int i=0; i<6; i++){
+            LinearLayout layout=new LinearLayout(getActivity());
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setGravity(Gravity.CENTER);
+            LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            llp.weight=1;
+            layout.setLayoutParams(llp);
+            layout.addView(ActUtil.getTextView(getActivity(), "周一", 15));
+            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20,8));
+            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20,8));
+            topDaysInfoLayout.addView(layout);
+        }
+
+        int marginTop= ScreenUtil.dip2px(getActivity(), 8);
+        for (int i=0; i<9; i++){
+            LinearLayout layout=new LinearLayout(getActivity());
+            layout.setOrientation(LinearLayout.HORIZONTAL);
+            layout.setGravity(Gravity.CENTER);
+            LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            llp.topMargin=marginTop;
+            layout.setLayoutParams(llp);
+            layout.addView(ActUtil.getTextView(getActivity(), "06-12时   |   ", 14));
+            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 15));
+            layout.addView(ActUtil.getTextView(getActivity(), "晴转多云", 14, 1));
+            layout.addView(ActUtil.getTextView(getActivity(), "28°/30°", 14, 1));
+            layout.addView(ActUtil.getTextView(getActivity(), "东南风", 14, 1));
+            layout.addView(ActUtil.getTextView(getActivity(), "3-4级", 14, 1));
+            bottomDayInfoLayout.addView(layout);
+        }
     }
 
     String[] formData1={"1", "2.8", "3.5", "3", "3", "3.4", "3.2", "2.9", "3.5", "3.5", "2.1", "1.3"};

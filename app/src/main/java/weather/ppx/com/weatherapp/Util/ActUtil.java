@@ -21,12 +21,33 @@ public class ActUtil {
         return  tv;
     }
 
+    public static TextView getTextView(Context con, String txt, int size, int weight){
+        TextView tv=new TextView(con);
+        tv.setTextColor(Color.WHITE);
+        tv.setGravity(Gravity.CENTER);
+        tv.setTextSize(size);
+        tv.setText(txt);
+        LinearLayout.LayoutParams llpTxt=new LinearLayout.LayoutParams(-1,-2);
+        llpTxt.weight=weight;
+        tv.setLayoutParams(llpTxt);
+        return  tv;
+    }
+
     public static ImageView getImageView(Context con, int res, int w){
         int width=ScreenUtil.dip2px(con, w);
         ImageView iv=new ImageView(con);
         iv.setImageResource(res);
         LinearLayout.LayoutParams llp=new LinearLayout.LayoutParams(width,width);
-        llp.topMargin=5;
+        iv.setLayoutParams(llp);
+        return iv;
+    }
+
+    public static ImageView getImageView(Context con, int res, int w, int topM){
+        int width=ScreenUtil.dip2px(con, w);
+        ImageView iv=new ImageView(con);
+        iv.setImageResource(res);
+        LinearLayout.LayoutParams llp=new LinearLayout.LayoutParams(width,width);
+        llp.topMargin=topM;
         iv.setLayoutParams(llp);
         return iv;
     }
