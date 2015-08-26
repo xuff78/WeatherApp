@@ -1,5 +1,6 @@
 package weather.ppx.com.weatherapp;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -9,8 +10,6 @@ import android.view.MenuItem;
 
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
 import weather.ppx.com.weatherapp.Fragment.WeatherInfoMain;
-import weather.ppx.com.weatherapp.Fragment.WeatherMap;
-import weather.ppx.com.weatherapp.Fragment.WeatherSetting;
 
 
 public class MainActivity extends BaseActivity
@@ -45,14 +44,17 @@ public class MainActivity extends BaseActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        _setHeaderTitle(areaNames[position]);
         FragmentManager fragmentManager = getSupportFragmentManager();
         if(position==10){
-            fragmentManager.beginTransaction().replace(R.id.container, WeatherMap.newInstance()).commit();
+            Intent intent=new Intent(MainActivity.this, WeatherMap.class);
+            startActivity(intent);
         }else if(position==11){
-            fragmentManager.beginTransaction().replace(R.id.container, WeatherSetting.newInstance()).commit();
-        }else
+            Intent intent=new Intent(MainActivity.this, WeatherSetting.class);
+            startActivity(intent);
+        }else {
+            _setHeaderTitle(areaNames[position]);
             fragmentManager.beginTransaction().replace(R.id.container, WeatherInfoMain.newInstance()).commit();
+        }
     }
 
 

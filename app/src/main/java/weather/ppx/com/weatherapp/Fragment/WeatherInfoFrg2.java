@@ -29,6 +29,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
     }
 
     LinearLayout topDaysInfoLayout, bottomDayInfoLayout;
+    View selectedView=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,18 +45,37 @@ public class WeatherInfoFrg2  extends BaseFragment {
 
     private void setTopInfoItem(){
         for (int i=0; i<6; i++){
-            LinearLayout layout=new LinearLayout(getActivity());
+            final LinearLayout layout=new LinearLayout(getActivity());
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setGravity(Gravity.CENTER);
             LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             llp.weight=1;
             layout.setLayoutParams(llp);
             layout.addView(ActUtil.getTextView(getActivity(), "周一", 15));
+            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20, 8));
             layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20,8));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20,8));
+            layout.setBackgroundResource(R.drawable.weather_day_selector);
             topDaysInfoLayout.addView(layout);
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedView.setSelected(false);
+                    layout.setSelected(true);
+                    selectedView = layout;
+                    setBottomInfo();
+                }
+            });
+            if(i==0){
+                layout.setSelected(true);
+                selectedView=layout;
+            }
         }
 
+        setBottomInfo();
+    }
+
+    private void setBottomInfo(){
+        bottomDayInfoLayout.removeAllViews();
         int marginTop= ScreenUtil.dip2px(getActivity(), 8);
         for (int i=0; i<9; i++){
             LinearLayout layout=new LinearLayout(getActivity());

@@ -17,7 +17,7 @@ import weather.ppx.com.weatherapp.R;
 import weather.ppx.com.weatherapp.Util.ImageUtil;
 import weather.ppx.com.weatherapp.Util.ScreenUtil;
 
-public class MallSlipButton extends View implements OnTouchListener{
+public class SlipButton extends View implements OnTouchListener{
 
 	private boolean NowChoose = false;//记录当前按钮是否打开,true为打开,flase为关闭
 	private boolean OnSlip = false;//记录用户是否在滑动的变量
@@ -29,13 +29,13 @@ public class MallSlipButton extends View implements OnTouchListener{
 	
 	private Bitmap bg_on,bg_off,slip_btn;
 	
-	public MallSlipButton(Context context) {
+	public SlipButton(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
 		init(context);
 	}
 
-	public MallSlipButton(Context context, AttributeSet attrs) {
+	public SlipButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 		init(context);

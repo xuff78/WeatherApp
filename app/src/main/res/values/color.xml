@@ -27,6 +27,8 @@
     <color name="text_date">#A1A1A1</color>
     <color name="text_state">#7EA608</color>
     <color name="text_price">#54A5CA</color>
+    <color name="trans">#00000000</color>
+    <color name="whitesmoke">#F5F5F5</color><!--烟白色 -->
 
     <color name="white_trans_hard">#88ffffff</color>
     <color name="white_trans_light">#BBffffff</color>

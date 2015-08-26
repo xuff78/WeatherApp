@@ -13,6 +13,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +42,8 @@ public class WeatherInfoFrg extends BaseFragment {
     }
 
     WebView mWebView;
-    LinearLayout topDaysInfoLayout, bottomDayInfoLayout;
+    TextView moreHint;
+    LinearLayout topDaysInfoLayout, bottomDayInfoLayout1, bottomDayInfoLayout2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,25 +70,36 @@ public class WeatherInfoFrg extends BaseFragment {
             }
         });
 
+        moreHint=(TextView)v.findViewById(R.id.moreHint);
         topDaysInfoLayout= (LinearLayout) v.findViewById(R.id.topDaysInfoLayout);
-        bottomDayInfoLayout= (LinearLayout) v.findViewById(R.id.bottomDayInfoLayout);
+        bottomDayInfoLayout2 = (LinearLayout) v.findViewById(R.id.bottomDayInfoLayout2);
+        bottomDayInfoLayout1 = (LinearLayout) v.findViewById(R.id.bottomDayInfoLayout1);
         setTopInfoItem();
+        v.findViewById(R.id.showMore).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(bottomDayInfoLayout2.isShown()) {
+                    moreHint.setText("显示");
+                    bottomDayInfoLayout2.setVisibility(View.GONE);
+                }else {
+                    bottomDayInfoLayout2.setVisibility(View.VISIBLE);
+                    moreHint.setText("隐藏");
+                }
+            }
+        });
         return v;
     }
 
     private void setTopInfoItem(){
-        for (int i=0; i<6; i++){
-            LinearLayout layout=new LinearLayout(getActivity());
-            layout.setOrientation(LinearLayout.VERTICAL);
-            layout.setGravity(Gravity.CENTER);
-            LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            llp.weight=1;
-            layout.setLayoutParams(llp);
-            layout.addView(ActUtil.getTextView(getActivity(), "周一", 15));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20,8));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20,8));
-            topDaysInfoLayout.addView(layout);
-        }
+
+        int Swidth=40;
+        int Lwidth=60;
+        topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(getActivity(), "时间", 15, Lwidth));
+        topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(getActivity(), "风", 15, Lwidth));
+        topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(getActivity(), "潮位", 15, Swidth));
+        topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(getActivity(), "浪高", 15, Swidth));
+        topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(getActivity(), "风向", 15, Lwidth));
+        topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(getActivity(), "安全\n等级", 15, Lwidth));
 
         int marginTop= ScreenUtil.dip2px(getActivity(), 8);
         for (int i=0; i<9; i++){
@@ -96,18 +109,21 @@ public class WeatherInfoFrg extends BaseFragment {
             LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             llp.topMargin=marginTop;
             layout.setLayoutParams(llp);
-            layout.addView(ActUtil.getTextView(getActivity(), "06-12时   |   ", 14));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 15));
-            layout.addView(ActUtil.getTextView(getActivity(), "晴转多云", 14, 1));
-            layout.addView(ActUtil.getTextView(getActivity(), "28°/30°", 14, 1));
-            layout.addView(ActUtil.getTextView(getActivity(), "东南风", 14, 1));
-            layout.addView(ActUtil.getTextView(getActivity(), "3-4级", 14, 1));
-            bottomDayInfoLayout.addView(layout);
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "06-12时", 14, Lwidth));
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "3-4级", 14, Lwidth));
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "1.4", 14, Swidth));
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "50", 14, Swidth));
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "东南波", 14, Lwidth));
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "极不安全", 14, Lwidth));
+            if(i>3){
+                bottomDayInfoLayout2.addView(layout);
+            }else
+                bottomDayInfoLayout1.addView(layout);
         }
     }
 
-    String[] formData1={"1", "2.8", "3.5", "3", "3", "3.4", "3.2", "2.9", "3.5", "3.5", "2.1", "1.3"};
-    String[] formData2={"40", "20", "40", "45", "40", "38", "36", "29", "35", "40", "21", "13"};
+    String[] formData1={"0.8", "2.2", "1.3", "1.5", "1.2", "0.7", "0.6", "0.7", "1", "1.2", "1.1", "0.7"};
+    String[] formData2={"40", "40", "40", "45", "46", "48", "38", "35", "35", "40", "45", "30"};
     private String getJsonData() {
         String jsonData="";
         try {

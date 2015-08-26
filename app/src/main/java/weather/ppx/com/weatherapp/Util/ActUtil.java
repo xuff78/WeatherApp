@@ -33,6 +33,18 @@ public class ActUtil {
         return  tv;
     }
 
+    public static TextView getTextViewWithWidth(Context con, String txt, int size, int w){
+        int width=ScreenUtil.dip2px(con, w);
+        TextView tv=new TextView(con);
+        tv.setTextColor(Color.WHITE);
+        tv.setGravity(Gravity.CENTER);
+        tv.setTextSize(size);
+        tv.setText(txt);
+        LinearLayout.LayoutParams llpTxt=new LinearLayout.LayoutParams(width,-2);
+        tv.setLayoutParams(llpTxt);
+        return  tv;
+    }
+
     public static ImageView getImageView(Context con, int res, int w){
         int width=ScreenUtil.dip2px(con, w);
         ImageView iv=new ImageView(con);
