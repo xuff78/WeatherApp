@@ -2,7 +2,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -123,7 +127,7 @@
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:id="@+id/topDaysInfoLayout"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
@@ -180,5 +184,5 @@
                 android:layout_width="match_parent"
                 android:layout_height="600dip"/>
         </LinearLayout>
-    </ScrollView>
+    </ScrollView>-->
 </LinearLayout>

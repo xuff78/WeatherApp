@@ -2,8 +2,10 @@
 <resources>
 
     <color name="normal_blue">#4682B4</color> <!-- 皇家蓝 -->
-    <color name="light_blue">#1C86EE</color>
+    <color name="light_blue">#4F94CD</color>
     <color name="white">#ffffff</color>
+    <color name="trans_white">#aaffffff</color>
+    <color name="hard_blue">#bb104E8B</color>
 
     <!-- 商城使用字体颜色 -->
     <color name="highlight_gray">#eaeaea</color><!--高亮灰 -->
@@ -19,6 +21,7 @@
     <!-- 商城使用字体颜色 -->
     <color name="line">#c0c0c0</color><!--咖啡色 -->
     <color name="normal_orange">#e77338</color><!--橙色 -->
+    <color name="norma_red">#EE0000</color><!--橙色 -->
     <color name="press_gray">#d7d7d7</color>
     <color name="title_gray">#EFEFF4</color>
     <color name="cent_gray">#DDDDE3</color>

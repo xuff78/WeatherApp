@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <WebView
+        android:id="@+id/mWebView"
+        android:layout_margin="10dip"
+        android:background="@color/hard_blue"
+        android:layout_width="match_parent"
+        android:layout_height="550dip"/>
+</LinearLayout>
