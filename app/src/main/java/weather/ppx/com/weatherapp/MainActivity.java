@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
 import weather.ppx.com.weatherapp.Fragment.WeatherInfoMain;
@@ -39,6 +40,19 @@ public class MainActivity extends BaseActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        _setRightHomeListener(R.drawable.icon_app_location, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        _setRightImgListener(R.drawable.icon_app_refresh, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override

@@ -1,5 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:src="@drawable/mpbg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></RelativeLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dip"
+        android:layout_marginRight="15dip"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="8月25日 15时"
+            android:textSize="14sp"
+            android:textColor="@color/hard_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="3dip"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="■"
+            android:textSize="14sp"
+            android:textColor="@color/text_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="安全"
+            android:textSize="13sp"
+            android:textColor="@color/hard_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="■"
+            android:textSize="14sp"
+            android:textColor="@color/normal_orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="不安全"
+            android:textSize="13sp"
+            android:textColor="@color/hard_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="■"
+            android:textSize="14sp"
+            android:textColor="@color/norma_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="极安全"
+            android:textSize="13sp"
+            android:textColor="@color/hard_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:background="@color/hard_blue"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="45dip">
+        <LinearLayout
+            android:layout_centerVertical="true"
+            android:id="@+id/controlLayout"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/prevBtn"
+                android:layout_width="30dip"
+                android:layout_height="30dip" />
+            <ImageView
+                android:id="@+id/playBtn"
+                android:layout_marginLeft="5dip"
+                android:layout_width="30dip"
+                android:layout_height="30dip" />
+            <ImageView
+                android:id="@+id/nxtBtn"
+                android:layout_marginLeft="5dip"
+                android:layout_width="30dip"
+                android:layout_height="30dip" />
+        </LinearLayout>
+        <ProgressBar
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:layout_centerVertical="true"
+            android:progress="50"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_toLeftOf="@+id/dateTxt"
+            android:layout_toRightOf="@+id/controlLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/dateTxt"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:text="8月28日 15:07"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</RelativeLayout>

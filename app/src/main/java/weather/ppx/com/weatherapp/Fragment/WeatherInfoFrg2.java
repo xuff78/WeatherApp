@@ -44,16 +44,18 @@ public class WeatherInfoFrg2  extends BaseFragment {
     }
 
     private void setTopInfoItem(){
+        int toppadding=ScreenUtil.dip2px(getActivity(),5);
         for (int i=0; i<6; i++){
             final LinearLayout layout=new LinearLayout(getActivity());
+            layout.setPadding(0,toppadding,0,toppadding);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setGravity(Gravity.CENTER);
             LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             llp.weight=1;
             layout.setLayoutParams(llp);
             layout.addView(ActUtil.getTextView(getActivity(), "周一", 15));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20, 8));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 20,8));
+            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.weather_sun_s, 20, 8));
+            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.weather_sun_cloud_s, 20,8));
             layout.setBackgroundResource(R.drawable.weather_day_selector);
             topDaysInfoLayout.addView(layout);
             layout.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +87,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
             llp.topMargin=marginTop;
             layout.setLayoutParams(llp);
             layout.addView(ActUtil.getTextView(getActivity(), "06-12时   |   ", 14));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.abc_btn_check_to_on_mtrl_000, 15));
+            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.weather_rain_s, 20));
             layout.addView(ActUtil.getTextView(getActivity(), "晴转多云", 14, 1));
             layout.addView(ActUtil.getTextView(getActivity(), "28°/30°", 14, 1));
             layout.addView(ActUtil.getTextView(getActivity(), "东南风", 14, 1));

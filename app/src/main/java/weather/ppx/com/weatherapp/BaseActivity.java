@@ -69,6 +69,18 @@ public class BaseActivity extends ActionBarActivity {
         btnBack.setOnClickListener(listener);
     }
 
+    protected void _setRightHomeListener(int backImage, View.OnClickListener listener) {
+        btnHome.setVisibility(View.VISIBLE);
+        btnHome.setImageResource(backImage);
+        btnHome.setOnClickListener(listener);
+    }
+
+    protected void _setRightImgListener(int backImage, View.OnClickListener listener) {
+        rightImg.setVisibility(View.VISIBLE);
+        rightImg.setImageResource(backImage);
+        rightImg.setOnClickListener(listener);
+    }
+
     private final class ClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {

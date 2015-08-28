@@ -102,7 +102,7 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setAdapter(new TitleAdapter(getActivity()));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
-        ((BaseActivity)getActivity())._setLeftBackListener(R.drawable.abc_ic_ab_back_mtrl_am_alpha, new View.OnClickListener() {
+        ((BaseActivity)getActivity())._setLeftBackListener(R.drawable.icon_app_menuy, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isDrawerOpen()) {

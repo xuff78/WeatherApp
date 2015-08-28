@@ -24,6 +24,12 @@ public class WeatherSetting extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_weather_setting_frg);
 
+        _setLeftBackListener(R.drawable.icon_app_back, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         _setHeaderTitle("设置");
         initView();
     }
