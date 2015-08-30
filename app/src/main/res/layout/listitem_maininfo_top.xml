@@ -34,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:background="@drawable/ringbg"
             android:id="@+id/todayInfoLeft"
             android:orientation="vertical"
             android:gravity="center_horizontal"

@@ -5,7 +5,8 @@
     <color name="light_blue">#4F94CD</color>
     <color name="white">#ffffff</color>
     <color name="trans_white">#aaffffff</color>
-    <color name="hard_blue">#bb104E8B</color>
+    <color name="hard_blue">#44000000</color>
+    <color name="black_blue">#104E8B</color>
 
     <!-- 商城使用字体颜色 -->
     <color name="highlight_gray">#eaeaea</color><!--高亮灰 -->
@@ -29,6 +30,8 @@
     <color name="text_gray">#484848</color>
     <color name="text_date">#A1A1A1</color>
     <color name="text_state">#7EA608</color>
+    <color name="normal_green">#309d62</color>
+    <color name="normal_brown">#cd9f50</color>
     <color name="text_price">#54A5CA</color>
     <color name="trans">#00000000</color>
     <color name="whitesmoke">#F5F5F5</color><!--烟白色 -->
