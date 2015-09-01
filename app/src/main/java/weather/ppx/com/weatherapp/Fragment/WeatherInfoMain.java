@@ -12,6 +12,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import weather.ppx.com.weatherapp.BaseActivity;
 import weather.ppx.com.weatherapp.R;
 
 /**
@@ -21,20 +22,48 @@ public class WeatherInfoMain extends BaseFragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static WeatherInfoMain newInstance() {
+    public static WeatherInfoMain newInstance(String area, String code) {
         WeatherInfoMain fragment = new WeatherInfoMain();
+        Bundle b=new Bundle();
+        b.putString("Area", area);
+        b.putString("Code", code);
+        fragment.setArguments(b);
         return fragment;
     }
 
     ViewPager mViewPager;
+    private String areaName, areaCode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        areaName=getArguments().getString("Area");
+        areaCode=getArguments().getString("Code");
         View v= inflater.inflate(R.layout.fragment_info_main, container, false);
         mViewPager=(ViewPager)v.findViewById(R.id.mViewPager);
         mViewPager.setAdapter(new WeatherInfoAdapter(getActivity().getSupportFragmentManager()));
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position==0){
+                    ((BaseActivity)getActivity())._setHeaderTitle(areaName+"作业区");
+
+                }else
+                    ((BaseActivity)getActivity())._setHeaderTitle(areaName);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         return v;
     }
 

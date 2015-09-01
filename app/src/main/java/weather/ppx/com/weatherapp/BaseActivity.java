@@ -53,7 +53,7 @@ public class BaseActivity extends ActionBarActivity {
         frameLayout.addView(content, -1, layoutParams);
     }
 
-    protected void _setHeaderTitle(String title) {
+    public void _setHeaderTitle(String title) {
         mTitle.setText(title);
     }
 
@@ -87,6 +87,8 @@ public class BaseActivity extends ActionBarActivity {
             int id = v.getId();
             if (id == R.id.app_back_imagebtn) {
                 //ActUtil.showHome(EBaseActivity.this);
+                KeyBoardCancle();
+                finish();
             } else if (id == R.id.app_home_imagebtn) {
                 KeyBoardCancle();
                 finish();
