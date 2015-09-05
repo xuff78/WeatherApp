@@ -151,8 +151,8 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
         int Lwidth = 60;
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "时间", 15, Lwidth));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "风", 15, Lwidth));
+        mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "浪高\n(m)", 15, Swidth));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "潮位\n(cm)", 15, Swidth));
-        mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "浪高\n(cm)", 15, Swidth));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "波向", 15, Lwidth));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "安全\n等级", 15, Lwidth));
 
@@ -170,8 +170,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             llp.topMargin=marginTop;
             layout.setLayoutParams(llp);
             layout.addView(ActUtil.getTextViewWithWidth(mContext, "06-12时", 14, Lwidth));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, "3-4级◀", 14, Lwidth));
-//            layout.addView(ActUtil.getImageView(mContext, R.drawable.icon_wind, 20));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, "3-4级", 14, Lwidth));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, "1.4", 14, Swidth));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, "50", 14, Swidth));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, "东南波", 14, Lwidth));
@@ -185,8 +184,6 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
 
     String[] formData1={"0.8", "2.2", "1.3", "1.5", "1.2", "0.7", "0.6", "0.7", "1", "1.2", "1.1", "0.7"};
     String[] formData2={"40", "40", "40", "45", "46", "48", "38", "35", "35", "40", "45", "30"};
-    String[] formData3={"1.3", "1.9", "2.0", "1.4", "2.7", "1.7", "2.6", "1.2", "1.7", "0.8", "1.0", "2.3"};
-    String[] formData4={"46.3", "32.2", "36.6", "75.1", "34.6", "50.2", "36.3", "32.2", "46.6", "75.1", "34.6", "50.2"};
     private String getJsonData() {
         String jsonData="";
         try {
@@ -207,27 +204,11 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             }
             jsonObj.put("FristFormInfo2", array);
 
-            array=new JSONArray();
-            for(int i=0;i<formData3.length;i++){
-                JSONObject objsub=new JSONObject();
-                objsub.put("data", formData3[i]);
-                array.put(i, objsub);
-            }
-            jsonObj.put("SecondFormInfo1", array);
-
-            array=new JSONArray();
-            for(int i=0;i<formData4.length;i++){
-                JSONObject objsub=new JSONObject();
-                objsub.put("data", formData4[i]);
-                array.put(i, objsub);
-            }
-            jsonObj.put("SecondFormInfo2", array);
-
             jsonData=jsonObj.toString();
             LogUtil.d("Weather", jsonObj.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return jsonData;
+        return jsonData.toString();
     }
 }

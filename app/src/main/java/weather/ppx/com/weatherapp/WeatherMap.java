@@ -2,6 +2,7 @@ package weather.ppx.com.weatherapp;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -123,6 +124,7 @@ public class WeatherMap extends BaseActivity {
             rlp.leftMargin= (int) (bmpWidth*areaInfos.get(i).getXpos());
             rlp.topMargin= (int) (bmpHeight*areaInfos.get(i).getYpos());
             img.setImageBitmap(bmpimg);
+            img.setPadding(0, 0, 0, 4);
             img.setLayoutParams(rlp);
             imgs.add(img);
             mapLayout.addView(img);

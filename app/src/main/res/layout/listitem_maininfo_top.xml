@@ -84,14 +84,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="风：2-3级"
+                android:text="风向：2-3级"
                 android:textSize="14sp"
                 android:layout_marginTop="5dip"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="浪高：2.4cm"
+                android:text="浪高：1.4m"
+                android:textSize="14sp"
+                android:layout_marginTop="5dip"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="潮位：69cm"
                 android:textSize="14sp"
                 android:layout_marginTop="5dip"
                 android:textColor="@color/white"
@@ -99,13 +106,6 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:text="波向：东南波"
-                android:textSize="14sp"
-                android:layout_marginTop="5dip"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text="05:00 多云"
                 android:textSize="14sp"
                 android:layout_marginTop="5dip"
                 android:textColor="@color/white"

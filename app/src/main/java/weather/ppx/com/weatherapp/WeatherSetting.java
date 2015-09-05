@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
+import weather.ppx.com.weatherapp.Util.SharedPreferencesUtil;
 import weather.ppx.com.weatherapp.View.SlipButton;
 
 /**
@@ -17,6 +18,7 @@ public class WeatherSetting extends BaseActivity {
 
     SlipButton btnLocation, btnPush;
     private ImageView themeChecked1, themeChecked2, bgImg1, bgImg2;
+    int bgType=0;
 
 
     @Override
@@ -35,6 +37,7 @@ public class WeatherSetting extends BaseActivity {
     }
 
     private void initView() {
+        bgType=SharedPreferencesUtil.getInt(this, "BgType", 0);
         btnLocation=(SlipButton)findViewById(R.id.btnLocation);
         btnPush=(SlipButton)findViewById(R.id.btnPush);
 
@@ -45,6 +48,7 @@ public class WeatherSetting extends BaseActivity {
             public void onClick(View v) {
                 themeChecked1.setVisibility(View.VISIBLE);
                 themeChecked2.setVisibility(View.GONE);
+                SharedPreferencesUtil.setInt(WeatherSetting.this, "BgType", 0);
             }
         });
         bgImg2=(ImageView)findViewById(R.id.bgImg2);
@@ -54,7 +58,13 @@ public class WeatherSetting extends BaseActivity {
             public void onClick(View v) {
                 themeChecked2.setVisibility(View.VISIBLE);
                 themeChecked1.setVisibility(View.GONE);
+                SharedPreferencesUtil.setInt(WeatherSetting.this, "BgType", 1);
             }
         });
+        if(bgType==0){
+            themeChecked1.setVisibility(View.VISIBLE);
+        }else if(bgType==1){
+            themeChecked2.setVisibility(View.VISIBLE);
+        }
     }
 }
