@@ -1,6 +1,7 @@
 package weather.ppx.com.weatherapp;
 
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -10,32 +11,39 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.math.BigDecimal;
 
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
 import weather.ppx.com.weatherapp.Fragment.WeatherInfoMain;
 import weather.ppx.com.weatherapp.Util.LogUtil;
-import weather.ppx.com.weatherapp.Util.SharedPreferencesUtil;
+import weather.ppx.com.weatherapp.http.CallBack;
+import weather.ppx.com.weatherapp.http.HttpHandler;
 
 
 public class MainActivity extends BaseActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, BaseFragment.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, BaseFragment.OnFragmentInteractionListener, AMapLocationListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private String areaCode="";
+    private HttpHandler handler;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private String mTitle="赣榆作业区";
     public static final String[] areaNames={"作业区", "赣榆", "灌云" , "响水", "海滨", "射阳", "大丰", "东台", "如东", "启东", "地图显示", "设置"};
-    private LocationClient mLocationClient = null;
+    int selectedPos=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,29 +62,45 @@ public class MainActivity extends BaseActivity
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "开始定位", 500).show();
-                if (!mLocationClient.isStarted()) {
-//                    mLocationClient.registerLocationListener(locationListener);
-                    mLocationClient.start();
-                }
-                mLocationClient.requestLocation();
+                mLocationManagerProxy.requestLocationData(
+                        LocationProviderProxy.AMapNetwork, 10*1000, 15, MainActivity.this);
             }
         });
 
         _setRightImgListener(R.drawable.icon_app_refresh, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, WeatherInfoMain.newInstance(areaNames[selectedPos], areaCode)).commit();
             }
         });
         startActivity(new Intent(this, FirstPage.class));
         overridePendingTransition(0, 0);
+        initHandler();
         initLocation();
         mNavigationDrawerFragment.selectItem(1);
+    }
+
+    private void initHandler() {
+        handler=new HttpHandler(this, new CallBack(this){
+            @Override
+            public void onSuccess(String method, String jsonMessage) {
+                super.onSuccess(method, jsonMessage);
+                LogUtil.i("Location", jsonMessage);
+                try {
+                    JSONObject obj = new JSONObject(jsonMessage);
+                    JSONObject addressInfo=obj.getJSONObject("result").getJSONObject("addressComponent");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
+        selectedPos=position;
         FragmentManager fragmentManager = getSupportFragmentManager();
         if(position==0){
 
@@ -97,9 +121,6 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.main, menu);
             return true;
         }
@@ -127,47 +148,61 @@ public class MainActivity extends BaseActivity
 
     }
 
+    LocationManagerProxy mLocationManagerProxy;
     private void initLocation() {
-        mLocationClient = new LocationClient(this);
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true);// 打开gps
-        option.setCoorType("bd09ll"); // 设置坐标类型
-//        option.setScanSpan(2000);
-        option.setAddrType("all");
-        option.setIsNeedAddress(true);
-        mLocationClient.setLocOption(option);
-        mLocationClient.registerLocationListener(locationListener);
-        mLocationClient.start();
+        mLocationManagerProxy = LocationManagerProxy.getInstance(this);
+        mLocationManagerProxy.requestLocationData(
+                LocationProviderProxy.AMapNetwork, 10*1000, 15, this);
+        mLocationManagerProxy.setGpsEnable(true);
     }
 
     @Override
     protected void onDestroy() {
-        if(mLocationClient!=null) {
-            mLocationClient.stop();
-            mLocationClient=null;
+        if (mLocationManagerProxy != null) {
+            mLocationManagerProxy.removeUpdates(this);
+            mLocationManagerProxy.destroy();
         }
+        mLocationManagerProxy = null;
         super.onDestroy();
     }
 
-    BDLocationListener locationListener=new BDLocationListener() {
+    @Override
+    public void onLocationChanged(Location location) {
 
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            // TODO Auto-generated method stub
-            if (location == null)
-                return;
-            SharedPreferencesUtil.setString(MainActivity.this,
-                    "La", "" + location.getLatitude());
-            SharedPreferencesUtil.setString(MainActivity.this,
-                    "Lo", "" + location.getLongitude());
-            if (mLocationClient != null && mLocationClient.isStarted()) {
-                mLocationClient.stop();
-            }
-            LogUtil.d("Location", "La:" + location.getLatitude()+"  Lo:"+location.getLongitude());
-            String address = location.getDistrict();
-            if(address!=null&&address.length()>0)
-                Toast.makeText(getApplicationContext(), "所在位置：" + address, 500).show();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation amapLocation) {
+        if(amapLocation != null && amapLocation.getAMapException().getErrorCode() == 0){
+            //获取位置信息
+            mLocationManagerProxy.removeUpdates(MainActivity.this);
+            Double geoLat = amapLocation.getLatitude();
+            Double geoLng = amapLocation.getLongitude();
+            BigDecimal dbLa = new BigDecimal(amapLocation.getLatitude());
+            BigDecimal dbLo = new BigDecimal(amapLocation.getLongitude());
+            String latitude = dbLa.toString();
+            String longitude = dbLo.toString();
+//            handler.getLocation(latitude, longitude);
+            Toast.makeText(this, "城市："+amapLocation.getCity()+"\n" +
+                    "位置："+amapLocation.getAddress(), 500).show();
+//            LogUtil.i("Location", "定位在："+amapLocation.getCity()+amapLocation.getAddress());
+            LogUtil.i("Location", "La:" + amapLocation.getLatitude() + "  Lo:" + amapLocation.getLongitude());
+            mLocationManagerProxy.removeUpdates(this);
         }
-
-    };
+    }
 }
