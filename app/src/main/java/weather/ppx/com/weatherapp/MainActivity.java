@@ -23,7 +23,10 @@ import java.math.BigDecimal;
 
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
 import weather.ppx.com.weatherapp.Fragment.WeatherInfoMain;
+import weather.ppx.com.weatherapp.Util.ActUtil;
+import weather.ppx.com.weatherapp.Util.ConstantUtil;
 import weather.ppx.com.weatherapp.Util.LogUtil;
+import weather.ppx.com.weatherapp.Util.SharedPreferencesUtil;
 import weather.ppx.com.weatherapp.http.CallBack;
 import weather.ppx.com.weatherapp.http.HttpHandler;
 
@@ -36,7 +39,6 @@ public class MainActivity extends BaseActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private String areaCode="";
-    private HttpHandler handler;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -55,15 +57,13 @@ public class MainActivity extends BaseActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp( R.id.navigation_drawer,(DrawerLayout) findViewById(R.id.drawer_layout));
         _setRightHomeListener(R.drawable.icon_app_location, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "开始定位", 500).show();
                 mLocationManagerProxy.requestLocationData(
-                        LocationProviderProxy.AMapNetwork, 10*1000, 15, MainActivity.this);
+                        LocationProviderProxy.AMapNetwork, 10 * 1000, 15, MainActivity.this);
             }
         });
 
@@ -76,26 +76,11 @@ public class MainActivity extends BaseActivity
         });
         startActivity(new Intent(this, FirstPage.class));
         overridePendingTransition(0, 0);
-        initHandler();
         initLocation();
         mNavigationDrawerFragment.selectItem(1);
     }
 
-    private void initHandler() {
-        handler=new HttpHandler(this, new CallBack(this){
-            @Override
-            public void onSuccess(String method, String jsonMessage) {
-                super.onSuccess(method, jsonMessage);
-                LogUtil.i("Location", jsonMessage);
-                try {
-                    JSONObject obj = new JSONObject(jsonMessage);
-                    JSONObject addressInfo=obj.getJSONObject("result").getJSONObject("addressComponent");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -112,6 +97,7 @@ public class MainActivity extends BaseActivity
             startActivity(intent);
         }else {
             _setHeaderTitle(areaNames[position]+"作业区");
+            areaCode=ActUtil.getAreaCode(areaNames[position]);
             fragmentManager.beginTransaction()
                     .replace(R.id.container, WeatherInfoMain.newInstance(areaNames[position], areaCode)).commit();
         }
@@ -190,19 +176,24 @@ public class MainActivity extends BaseActivity
     public void onLocationChanged(AMapLocation amapLocation) {
         if(amapLocation != null && amapLocation.getAMapException().getErrorCode() == 0){
             //获取位置信息
-            mLocationManagerProxy.removeUpdates(MainActivity.this);
-            Double geoLat = amapLocation.getLatitude();
-            Double geoLng = amapLocation.getLongitude();
-            BigDecimal dbLa = new BigDecimal(amapLocation.getLatitude());
-            BigDecimal dbLo = new BigDecimal(amapLocation.getLongitude());
-            String latitude = dbLa.toString();
-            String longitude = dbLo.toString();
+//            BigDecimal dbLa = new BigDecimal(amapLocation.getLatitude());
+//            BigDecimal dbLo = new BigDecimal(amapLocation.getLongitude());
+//            String latitude = dbLa.toString();
+//            String longitude = dbLo.toString();
 //            handler.getLocation(latitude, longitude);
-            Toast.makeText(this, "城市："+amapLocation.getCity()+"\n" +
-                    "位置："+amapLocation.getAddress(), 500).show();
-//            LogUtil.i("Location", "定位在："+amapLocation.getCity()+amapLocation.getAddress());
+            if(amapLocation.getCity()!=null) {
+                Toast.makeText(this, "城市：" + amapLocation.getCity() + "\n" +
+                        "位置：" + amapLocation.getAddress(), 500).show();
+                areaCode = ActUtil.getAreaCode(amapLocation.getCity());
+                if(areaCode.length()>0) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container, WeatherInfoMain.newInstance(areaNames[selectedPos], areaCode)).commit();
+                    SharedPreferencesUtil.setString(this, ConstantUtil.AreCode, areaCode);
+                }
+                mLocationManagerProxy.removeUpdates(MainActivity.this);
+
+            }
             LogUtil.i("Location", "La:" + amapLocation.getLatitude() + "  Lo:" + amapLocation.getLongitude());
-            mLocationManagerProxy.removeUpdates(this);
         }
     }
 }

@@ -38,6 +38,8 @@ import weather.ppx.com.weatherapp.Util.ScreenUtil;
  */
 public class WeatherMap extends BaseActivity {
 
+
+
     ArrayList<AreaInfo> areaInfos=new ArrayList<AreaInfo>();
     ArrayList<ImageView> imgs=new ArrayList<ImageView>();
     int bmpHeight=0, bmpWidth=0;
@@ -74,7 +76,7 @@ public class WeatherMap extends BaseActivity {
         seekBar=(SeekBar)findViewById(R.id.seekBar);
         mapLayout=(RelativeLayout)findViewById(R.id.mapLayout);
         ImageView mapImg=(ImageView)findViewById(R.id.mapImg);
-        Bitmap bmptmp= BitmapFactory.decodeResource(getResources(),R.drawable.mpbg);
+        Bitmap bmptmp= BitmapFactory.decodeResource(getResources(),R.drawable.mpbg2);
         scale=(float) ScreenUtil.getScreenWidth(this)/bmptmp.getWidth();
         Bitmap bmp=Bitmap.createScaledBitmap(bmptmp, ScreenUtil.getScreenWidth(this), (int) (scale*bmptmp.getHeight()), false);
         bmpHeight=bmp.getHeight();
@@ -98,8 +100,8 @@ public class WeatherMap extends BaseActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if(seekBar.getProgress()%5!=0){
-                    seekBar.setProgress(seekBar.getProgress()/5*5);
+                if (seekBar.getProgress() % 5 != 0) {
+                    seekBar.setProgress(seekBar.getProgress() / 5 * 5);
                 }
                 setAreaColors();
             }
@@ -118,16 +120,33 @@ public class WeatherMap extends BaseActivity {
         areaInfos.add(new AreaInfo(R.drawable.qidong, 0.705f, 0.775f));
         for (int i=0; i<areaInfos.size(); i++){
             final int j=i;
+            RelativeLayout rlayout=new RelativeLayout(this);
             ImageView img=new ImageView(this);
             Bitmap bmpimg= BitmapFactory.decodeResource(getResources(),areaInfos.get(i).getResId());
-            RelativeLayout.LayoutParams rlp=new RelativeLayout.LayoutParams((int) (bmpimg.getWidth()*scale), (int) (bmpimg.getHeight()*scale));
-            rlp.leftMargin= (int) (bmpWidth*areaInfos.get(i).getXpos());
-            rlp.topMargin= (int) (bmpHeight*areaInfos.get(i).getYpos());
             img.setImageBitmap(bmpimg);
             img.setPadding(0, 0, 0, 4);
-            img.setLayoutParams(rlp);
+            RelativeLayout.LayoutParams rlpimg=new RelativeLayout.LayoutParams((int) (bmpimg.getWidth()*scale), (int) (bmpimg.getHeight()*scale));
+            img.setLayoutParams(rlpimg);
             imgs.add(img);
-            mapLayout.addView(img);
+            TextView tv=new TextView(this);
+            tv.setTextColor(Color.WHITE);
+            tv.setTextSize(14);
+            tv.setText(ConstantUtil.areaNames[i]);
+            RelativeLayout.LayoutParams rlptxt=new RelativeLayout.LayoutParams(-2, -2);
+            if(i==areaInfos.size()-1){
+                rlptxt.addRule(RelativeLayout.CENTER_VERTICAL);
+                rlptxt.leftMargin = rlpimg.height/2;
+            }else {
+                rlptxt.addRule(RelativeLayout.CENTER_IN_PARENT);
+            }
+            tv.setLayoutParams(rlptxt);
+            RelativeLayout.LayoutParams rlp=new RelativeLayout.LayoutParams(-2,-2);
+            rlp.leftMargin= (int) (bmpWidth*areaInfos.get(i).getXpos());
+            rlp.topMargin= (int) (bmpHeight*areaInfos.get(i).getYpos());
+            rlayout.setLayoutParams(rlp);
+            rlayout.addView(img);
+            rlayout.addView(tv);
+            mapLayout.addView(rlayout);
 
             Drawable imgDrawable=img.getDrawable();
             imgDrawable.setColorFilter(colors[i%3], PorterDuff.Mode.SRC_IN);

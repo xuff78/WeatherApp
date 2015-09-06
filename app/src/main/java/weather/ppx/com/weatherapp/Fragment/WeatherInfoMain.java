@@ -67,7 +67,7 @@ public class WeatherInfoMain extends BaseFragment {
         return v;
     }
 
-    public static class WeatherInfoAdapter extends FragmentStatePagerAdapter {
+    public class WeatherInfoAdapter extends FragmentStatePagerAdapter {
         public WeatherInfoAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -83,7 +83,7 @@ public class WeatherInfoMain extends BaseFragment {
             Fragment frg=null;
             switch (position){
                 case 0:
-                    frg=WeatherInfoFrg.newInstance();
+                    frg=WeatherInfoFrg.newInstance(areaCode);
                     break;
                 case 1:
                     frg=WeatherInfoFrg2.newInstance();

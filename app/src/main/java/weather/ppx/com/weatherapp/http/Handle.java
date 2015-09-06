@@ -46,11 +46,12 @@ public abstract class Handle implements HttpCallback {
 	 * 处理请求返回的结果
 	 */
 	public void httpCallback(String reqUrl, String result) {
-		if(new JsonValidator().validate(result)){
+//		result = result.replaceAll("\\r\\n\\t", "");
+//		if(result.startsWith("{")){//new JsonValidator().validate(result)){
 			mCallBack.onSuccess(reqUrl,result);
-		}else{
-			mCallBack.onHTTPException(reqUrl,result);
-		}
+//		}else{
+//			mCallBack.onHTTPException(reqUrl,result);
+//		}
 		
 	}
 }

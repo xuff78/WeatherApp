@@ -47,7 +47,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile group: 'common.eric.com.ebaselibrary', name: 'ebaselibrary', version: '0.0.7-SNAPSHOT', changing: true
     compile 'com.android.support:appcompat-v7:+'
+    compile 'com.alibaba:fastjson:1.1.43.android'
     compile 'com.android.support:recyclerview-v7:21.+'
     compile 'com.android.support:cardview-v7:21.+'
     compile files('src/main/libs/BaiduLBS_Android.jar')

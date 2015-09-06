@@ -123,8 +123,9 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
         {
             super(v);
             mWebView=(WebView)v.findViewById(R.id.mWebView);
-            mWebView.setBackgroundColor(1);
+//            mWebView.setBackgroundColor(1);
             mWebView.getSettings().setJavaScriptEnabled(true);
+            mWebView.setBackgroundColor(mContext.getResources().getColor(R.color.hard_blue));
             mWebView.loadUrl("file:///android_asset/test.html");
             mWebView.setWebChromeClient(new WebChromeClient());
             mWebView.setFocusable(false);
@@ -170,7 +171,8 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             llp.topMargin=marginTop;
             layout.setLayoutParams(llp);
             layout.addView(ActUtil.getTextViewWithWidth(mContext, "06-12时", 14, Lwidth));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, "3-4级", 14, Lwidth));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, "3-4级◀", 14, Lwidth));
+//            layout.addView(ActUtil.getImageView(mContext, R.drawable.icon_wind, 20));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, "1.4", 14, Swidth));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, "50", 14, Swidth));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, "东南波", 14, Lwidth));
@@ -184,6 +186,8 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
 
     String[] formData1={"0.8", "2.2", "1.3", "1.5", "1.2", "0.7", "0.6", "0.7", "1", "1.2", "1.1", "0.7"};
     String[] formData2={"40", "40", "40", "45", "46", "48", "38", "35", "35", "40", "45", "30"};
+    String[] formData3={"1.3", "1.9", "2.0", "1.4", "2.7", "1.7", "2.6", "1.2", "1.7", "0.8", "1.0", "2.3"};
+    String[] formData4={"46.3", "32.2", "36.6", "75.1", "34.6", "50.2", "36.3", "32.2", "46.6", "75.1", "34.6", "50.2"};
     private String getJsonData() {
         String jsonData="";
         try {
@@ -204,11 +208,27 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             }
             jsonObj.put("FristFormInfo2", array);
 
+            array=new JSONArray();
+            for(int i=0;i<formData3.length;i++){
+                JSONObject objsub=new JSONObject();
+                objsub.put("data", formData3[i]);
+                array.put(i, objsub);
+            }
+            jsonObj.put("SecondFormInfo1", array);
+
+            array=new JSONArray();
+            for(int i=0;i<formData4.length;i++){
+                JSONObject objsub=new JSONObject();
+                objsub.put("data", formData4[i]);
+                array.put(i, objsub);
+            }
+            jsonObj.put("SecondFormInfo2", array);
+
             jsonData=jsonObj.toString();
             LogUtil.d("Weather", jsonObj.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return jsonData.toString();
+        return jsonData;
     }
 }

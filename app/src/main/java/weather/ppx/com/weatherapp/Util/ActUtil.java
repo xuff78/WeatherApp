@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import static weather.ppx.com.weatherapp.Util.ConstantUtil.areaNames;
+
 /**
  * Created by 可爱的蘑菇 on 2015/8/25.
  */
@@ -62,5 +64,14 @@ public class ActUtil {
         llp.topMargin=topM;
         iv.setLayoutParams(llp);
         return iv;
+    }
+
+    public static String getAreaCode(String city){
+        for(int i=0;i<9;i++) {
+            if (city.contains(areaNames[i])) {
+                return ConstantUtil.areaCodes[i];
+            }
+        }
+        return "";
     }
 }

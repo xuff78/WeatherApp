@@ -39,22 +39,31 @@ public class HttpHandler extends Handle {
 		String url="http://api.map.baidu.com/geocoder/v2/?ak=nOTBQ1fXDOYG3z3qXsi8yFjX" +
 				"&location="+La+","+lo+"&output=json&pois=1&mcode=" +
 				"B9:80:60:E1:D4:5C:C0:00:C3:11:3F:F8:A1:70:3B:E3;weather.ppx.com.weatherapp";
-		LogUtil.i("Location","url: "+url);
+		LogUtil.i("Location", "url: " + url);
 		new HttpAsyncTask(mContext, this, false).execute(url, ConstantUtil.Method_Loaction, null, "", true);
 	}
 
-	protected void request(String method, HashMap<String, String> params) {
-		request(method, params, true, true);
+	public void getCityPredict(String cityCode) {
+		request(ConstantUtil.Method_CityPredict, cityCode);
 	}
 
-	protected void requestNoDialog(String method, HashMap<String, String> params) {
-		request(method, params, false, true);
+	public void getSeaInfo(String cityCode) {
+		request(ConstantUtil.Method_SeaInfo, cityCode);
 	}
 
-	protected void request(String method, HashMap<String, String> params,
-			boolean showDialog, boolean canBeCancel) {
+	protected void request(String method, String citycode) {
+		request(method, citycode, true, true);
+	}
+
+	protected void requestNoDialog(String url, String citycode) {
+		request(url, citycode, false, true);
+	}
+
+	protected void request(String method, String citycode, boolean showDialog, boolean canBeCancel) {
 		String progressInfo = "";
-		String url= ConstantUtil.Api_Url;
+		String url= ConstantUtil.Api_Url+method+citycode+".json";
+		LogUtil.i("Location","url: "+url);
+		HashMap<String, String> params=new HashMap<>();
 		new HttpAsyncTask(mContext, this, showDialog)
 				.execute(url, method, params, progressInfo, true);
 	}

@@ -4,7 +4,6 @@
     <WebView
         android:id="@+id/mWebView"
         android:layout_margin="10dip"
-        android:background="@color/hard_blue"
         android:layout_width="match_parent"
         android:layout_height="550dip"/>
 </LinearLayout>
