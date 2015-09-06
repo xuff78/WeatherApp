@@ -8,12 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import common.eric.com.ebaselibrary.util.ToastUtils;
@@ -78,9 +76,9 @@ public class WeatherInfoFrg extends BaseFragment {
             public void onSuccess(String method, String jsonMessage) {
                 super.onSuccess(method, jsonMessage);
                 LogUtil.i("Location", jsonMessage);
-//                JSONObject result=JSONObject.parseObject(jsonMessage);
-//                List<WorkingInfo> details=JSONArray.parseArray(result.getJSONArray("detail").toJSONString(), WorkingInfo.class);
-//                ToastUtils.show(getActivity(), "size: "+details.size());
+//                JSONObject result= JSONObject.parseObject(jsonMessage);
+//                List<WorkingInfo> details= JSONArray.parseArray(result.getJSONArray("detail").toJSONString(), WorkingInfo.class);
+//                ToastUtils.show(getActivity(), "size: " + details.size());
             }
         });
     }
