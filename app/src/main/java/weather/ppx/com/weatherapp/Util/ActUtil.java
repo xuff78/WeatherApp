@@ -74,4 +74,12 @@ public class ActUtil {
         }
         return "";
     }
+
+    public static String getWeekDay(int day){
+        String weekday="";
+        switch (day){
+            case 0:
+        }
+        return weekday;
+    }
 }
