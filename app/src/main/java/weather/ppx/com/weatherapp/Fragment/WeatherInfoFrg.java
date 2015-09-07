@@ -9,14 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-
-import java.util.List;
-
-import common.eric.com.ebaselibrary.util.ToastUtils;
 import weather.ppx.com.weatherapp.Adapter.MainInfoAdapter;
-import weather.ppx.com.weatherapp.Bean.WorkingInfo;
 import weather.ppx.com.weatherapp.R;
 import weather.ppx.com.weatherapp.Util.LogUtil;
 import weather.ppx.com.weatherapp.http.CallBack;

@@ -12,9 +12,17 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+
+import weather.ppx.com.weatherapp.Bean.DayNightInfo;
 import weather.ppx.com.weatherapp.R;
 import weather.ppx.com.weatherapp.Util.ActUtil;
+import weather.ppx.com.weatherapp.Util.ConstantUtil;
+import weather.ppx.com.weatherapp.Util.JsonUtil;
+import weather.ppx.com.weatherapp.Util.LogUtil;
 import weather.ppx.com.weatherapp.Util.ScreenUtil;
+import weather.ppx.com.weatherapp.http.CallBack;
+import weather.ppx.com.weatherapp.http.HttpHandler;
 
 /**
  * Created by 可爱的蘑菇 on 2015/8/23.
@@ -23,13 +31,35 @@ public class WeatherInfoFrg2  extends BaseFragment {
 
 
     // TODO: Rename and change types and number of parameters
-    public static WeatherInfoFrg2 newInstance() {
+    public static WeatherInfoFrg2 newInstance(String areaCode) {
         WeatherInfoFrg2 fragment = new WeatherInfoFrg2();
+        Bundle b=new Bundle();
+        b.putString("Code", areaCode);
+        fragment.setArguments(b);
         return fragment;
     }
 
     LinearLayout topDaysInfoLayout, bottomDayInfoLayout;
     View selectedView=null;
+    private HttpHandler weatherHandler;
+    private String areaCode="";
+    private ArrayList<DayNightInfo> dayNightInfos;
+
+    private void initHandler() {
+        weatherHandler=new HttpHandler(getActivity(), new CallBack(getActivity()){
+            @Override
+            public void onSuccess(String method, String jsonMessage) {
+                super.onSuccess(method, jsonMessage);
+                LogUtil.i("Location", jsonMessage);
+                if(method.equals(ConstantUtil.Method_CityPredict)){
+                    dayNightInfos= JsonUtil.getDayNightInfo(jsonMessage);
+                    weatherHandler.getCityRefined(areaCode);
+                }else if(method.equals(ConstantUtil.Method_CityPredict)){
+
+                }
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,9 +67,12 @@ public class WeatherInfoFrg2  extends BaseFragment {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_weather_info_frg2, container, false);
 
+        areaCode=getArguments().getString("Code");
         topDaysInfoLayout= (LinearLayout) v.findViewById(R.id.topDaysInfoLayout);
         bottomDayInfoLayout= (LinearLayout) v.findViewById(R.id.bottomDayInfoLayout);
         setTopInfoItem();
+        initHandler();
+        weatherHandler.getCityPredict(areaCode);
         return v;
     }
 

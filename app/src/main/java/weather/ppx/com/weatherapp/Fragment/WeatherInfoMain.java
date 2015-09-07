@@ -86,7 +86,7 @@ public class WeatherInfoMain extends BaseFragment {
                     frg=WeatherInfoFrg.newInstance(areaCode);
                     break;
                 case 1:
-                    frg=WeatherInfoFrg2.newInstance();
+                    frg=WeatherInfoFrg2.newInstance(areaCode);
                     break;
             }
             return frg;

@@ -47,8 +47,16 @@ public class HttpHandler extends Handle {
 		request(ConstantUtil.Method_CityPredict, cityCode);
 	}
 
+	public void getCityRefined(String cityCode) {
+		request(ConstantUtil.Method_CityRefined, cityCode);
+	}
+
 	public void getSeaInfo(String cityCode) {
 		request(ConstantUtil.Method_SeaInfo, cityCode);
+	}
+
+	public void getMapInfo() {
+		request(ConstantUtil.Method_SeaInfo, "map");
 	}
 
 	protected void request(String method, String citycode) {
