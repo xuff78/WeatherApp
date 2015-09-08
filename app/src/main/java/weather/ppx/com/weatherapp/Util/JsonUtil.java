@@ -50,10 +50,10 @@ public class JsonUtil {
                     item.setDt(itemObj.getString("dt"));
                     item.setImg(itemObj.getString("img"));
                     item.setInfo(itemObj.getString("info"));
-                    item.setInfo(itemObj.getString("maxtemp"));
-                    item.setInfo(itemObj.getString("mintemp"));
-                    item.setInfo(itemObj.getString("direct"));
-                    item.setInfo(itemObj.getString("power"));
+                    item.setMaxtemp(itemObj.getString("maxtemp"));
+                    item.setMintemp(itemObj.getString("mintemp"));
+                    item.setDirect(itemObj.getString("direct"));
+                    item.setPower(itemObj.getString("power"));
                     dayInfo.add(item);
                 }
                 infos.add(dayInfo);

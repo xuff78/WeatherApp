@@ -72,7 +72,6 @@ public class WeatherInfoFrg extends BaseFragment {
                 workingInfo= JsonUtil.getWorkingInfo(jsonMessage);
                 myAdapter = new MainInfoAdapter(getActivity(), workingInfo);
                 mRecyclerView.setAdapter(myAdapter);
-                ToastUtils.show(getActivity(), "size: " + workingInfo.getDetail().size());
             }
         });
     }

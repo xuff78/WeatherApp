@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -20,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
 import weather.ppx.com.weatherapp.Fragment.WeatherInfoMain;
@@ -39,13 +42,16 @@ public class MainActivity extends BaseActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private String areaCode="";
+    private ImageView mainBgImg;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private String mTitle="赣榆作业区";
+    private WeatherInfoMain mainFrgment;
     public static final String[] areaNames={"作业区", "赣榆", "灌云" , "响水", "海滨", "射阳", "大丰", "东台", "如东", "启东", "地图显示", "设置"};
     int selectedPos=1;
+    private int bgType=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,7 @@ public class MainActivity extends BaseActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         // Set up the drawer.
+        mainBgImg=(ImageView)findViewById(R.id.mainBgImg);
         mNavigationDrawerFragment.setUp( R.id.navigation_drawer,(DrawerLayout) findViewById(R.id.drawer_layout));
         _setRightHomeListener(R.drawable.icon_app_location, new View.OnClickListener() {
             @Override
@@ -80,7 +87,23 @@ public class MainActivity extends BaseActivity
         mNavigationDrawerFragment.selectItem(1);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int type=SharedPreferencesUtil.getInt(this, "BgType", 0);
+        setBg(type);
+    }
 
+    public void setBg(int bgType){
+        if(this.bgType!=bgType) {
+            this.bgType = bgType;
+            if (bgType == 0) {
+                mainBgImg.setBackgroundResource(R.drawable.mianbg);
+            } else if (bgType == 1) {
+                mainBgImg.setBackgroundResource(R.drawable.main_bg2);
+            }
+        }
+    }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -184,8 +207,9 @@ public class MainActivity extends BaseActivity
             if(amapLocation.getCity()!=null) {
                 Toast.makeText(this, "城市：" + amapLocation.getCity() + "\n" +
                         "位置：" + amapLocation.getAddress(), 500).show();
-                areaCode = ActUtil.getAreaCode(amapLocation.getCity());
-                if(areaCode.length()>0) {
+                String getAreaCode = ActUtil.getAreaCode(amapLocation.getCity());
+                if(getAreaCode.length()>0) {
+                    areaCode=getAreaCode;
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.container, WeatherInfoMain.newInstance(areaNames[selectedPos], areaCode)).commit();
                     SharedPreferencesUtil.setString(this, ConstantUtil.AreCode, areaCode);

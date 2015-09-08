@@ -28,10 +28,16 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import common.eric.com.ebaselibrary.util.ToastUtils;
+import weather.ppx.com.weatherapp.Adapter.MainInfoAdapter;
 import weather.ppx.com.weatherapp.Bean.AreaInfo;
+import weather.ppx.com.weatherapp.Bean.AreaWorkingInfo;
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
 import weather.ppx.com.weatherapp.Util.ConstantUtil;
+import weather.ppx.com.weatherapp.Util.JsonUtil;
 import weather.ppx.com.weatherapp.Util.ScreenUtil;
+import weather.ppx.com.weatherapp.http.CallBack;
+import weather.ppx.com.weatherapp.http.HttpHandler;
 
 /**
  * Created by Administrator on 2015/8/25.
@@ -51,6 +57,19 @@ public class WeatherMap extends BaseActivity {
     ImageView playBtn, prevBtn, nextBtn;
     private boolean isPlay=false;
     Random r = new Random();
+    HttpHandler weatherHandler;
+    ArrayList<AreaWorkingInfo> mapinfo;
+
+    private void initHandler() {
+        weatherHandler=new HttpHandler(WeatherMap.this, new CallBack(WeatherMap.this){
+            @Override
+            public void onSuccess(String method, String jsonMessage) {
+                super.onSuccess(method, jsonMessage);
+//                LogUtil.i("Location", jsonMessage);
+                mapinfo = JsonUtil.getMapInfo(jsonMessage);
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +81,10 @@ public class WeatherMap extends BaseActivity {
         colors[0]=getResources().getColor(R.color.normal_green);
         colors[1]=getResources().getColor(R.color.normal_brown);
         colors[2]=getResources().getColor(R.color.norma_red);
-        dip50=ScreenUtil.dip2px(this,60);
+        dip50=ScreenUtil.dip2px(this, 60);
         initView();
+        initHandler();
+        weatherHandler.getMapInfo();
     }
 
     private void initView() {

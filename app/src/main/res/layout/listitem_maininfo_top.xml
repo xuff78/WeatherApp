@@ -78,19 +78,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/dateTxt"
                 android:text="06:00-9:00"
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="风向：2-3级"
+                android:id="@+id/fengxiangTxt"
+                android:text="风速：2-3级"
                 android:textSize="14sp"
                 android:layout_marginTop="5dip"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/langgaoTxt"
                 android:text="浪高：1.4m"
                 android:textSize="14sp"
                 android:layout_marginTop="5dip"
@@ -98,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/chaoweiTxt"
                 android:text="潮位：69cm"
                 android:textSize="14sp"
                 android:layout_marginTop="5dip"
@@ -105,6 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/boxiangTxt"
                 android:text="波向：东南波"
                 android:textSize="14sp"
                 android:layout_marginTop="5dip"

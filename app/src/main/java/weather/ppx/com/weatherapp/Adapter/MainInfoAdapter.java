@@ -67,6 +67,14 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
         // 给ViewHolder设置元素
         if(i==0) {
             TopViewHolder th=(TopViewHolder)viewHolder;
+            if(workingInfo.getDetail().size()>0){
+                WeatherInfo info=workingInfo.getDetail().get(0);
+                th.dateTxt.setText(info.getDt());
+                th.fengxiangTxt.setText("风速：" + info.getWiSV()+"级");
+                th.langgaoTxt.setText("浪高：" + info.getWaH()+"m");
+                th.chaoweiTxt.setText("潮位：" + info.gettL()+"cm");
+                th.boxiangTxt.setText("波向：" + info.getWaDT());
+            }
         }else if(i==1) {
             MidViewHolder mh=(MidViewHolder)viewHolder;
             setTopInfoItem(mh);
@@ -85,10 +93,15 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
     // 重写的自定义ViewHolder
     public class TopViewHolder extends RecyclerView.ViewHolder
     {
-
+        TextView dateTxt, fengxiangTxt, chaoweiTxt, langgaoTxt, boxiangTxt;
         public TopViewHolder( View v )
         {
             super(v);
+            dateTxt=(TextView)v.findViewById(R.id.fengxiangTxt);
+            fengxiangTxt=(TextView)v.findViewById(R.id.fengxiangTxt);
+            chaoweiTxt=(TextView)v.findViewById(R.id.chaoweiTxt);
+            langgaoTxt=(TextView)v.findViewById(R.id.langgaoTxt);
+            boxiangTxt=(TextView)v.findViewById(R.id.boxiangTxt);
         }
     }
 
@@ -168,9 +181,9 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             LinearLayout layout=new LinearLayout(mContext);
             layout.setOrientation(LinearLayout.HORIZONTAL);
             layout.setGravity(Gravity.CENTER);
-            if(i==3)
+            if(info.getSafe().equals("不安全"))
                 layout.setBackgroundColor(mContext.getResources().getColor(R.color.normal_orange));
-            else if(i==4)
+            else if(info.getSafe().equals("极不安全"))
                 layout.setBackgroundColor(mContext.getResources().getColor(R.color.norma_red));
             LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, itemHeight);
             llp.topMargin=marginTop;
