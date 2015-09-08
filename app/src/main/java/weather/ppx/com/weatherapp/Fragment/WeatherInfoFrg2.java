@@ -58,7 +58,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
             @Override
             public void onSuccess(String method, String jsonMessage) {
                 super.onSuccess(method, jsonMessage);
-                LogUtil.i("Location", jsonMessage);
+//                LogUtil.i("Location", jsonMessage);
                 if(method.equals(ConstantUtil.Method_CityPredict)){
                     dayNightInfos= JsonUtil.getDayNightInfo(jsonMessage);
                     weatherHandler.getCityRefined(areaCode);
@@ -72,7 +72,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
             @Override
             public void onSuccess(String method, String jsonMessage) {
                 super.onSuccess(method, jsonMessage);
-                LogUtil.i("Location", jsonMessage);
+//                LogUtil.i("Location", jsonMessage);
                 try {
                     JSONObject obj=new JSONObject(jsonMessage);
                     String temperature=obj.getJSONObject("weather").getString("temperature");
@@ -132,7 +132,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
                     selectedView.setSelected(false);
                     layout.setSelected(true);
                     selectedView = layout;
-//                    setBottomInfo(j);
+                    setBottomInfo(j);
                 }
             });
             if(i==0){
@@ -141,7 +141,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
             }
         }
 
-//        setBottomInfo(0);
+        setBottomInfo(0);
     }
 
     private void setBottomInfo(int pos){

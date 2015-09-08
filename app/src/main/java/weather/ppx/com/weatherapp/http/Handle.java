@@ -1,7 +1,9 @@
 package weather.ppx.com.weatherapp.http;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import common.eric.com.ebaselibrary.util.ToastUtils;
 import weather.ppx.com.weatherapp.Util.JsonValidator;
 
 
@@ -48,6 +50,9 @@ public abstract class Handle implements HttpCallback {
 	public void httpCallback(String reqUrl, String result) {
 //		result = result.replaceAll("\\r\\n\\t", "");
 //		if(result.startsWith("{")){//new JsonValidator().validate(result)){
+		if(result.equals(GlbsNet.HTTP_ERROR_MESSAGE))
+			ToastUtils.show(mContext,result);
+		else
 			mCallBack.onSuccess(reqUrl,result);
 //		}else{
 //			mCallBack.onHTTPException(reqUrl,result);

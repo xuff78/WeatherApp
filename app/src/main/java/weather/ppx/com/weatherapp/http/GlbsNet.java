@@ -181,7 +181,6 @@ public final class GlbsNet {
 	 * @return 返回服务器响应的二进制数据或者字符串。网络异常时，返回错误信息。
 	 */
 	public static String doGet(String uri) {
-		LogUtil.i("totp", "get request--->"+uri);
 		sHttpClient = MyHttpClient.newInstance();
 		HttpGet httpGet = new HttpGet();
 		try {

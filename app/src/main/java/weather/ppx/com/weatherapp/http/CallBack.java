@@ -27,7 +27,7 @@ public class CallBack {
 	 * @param jsonMessage 回调成功字符串信息
 	 */
 	public void onSuccess(String method,String jsonMessage){
-		LogUtil.e(TAG, "onSuccess:"+jsonMessage);
+//		LogUtil.e(TAG, "onSuccess:"+jsonMessage);
 	}
 	
 	/**

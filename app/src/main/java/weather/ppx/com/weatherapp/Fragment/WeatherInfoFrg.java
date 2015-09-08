@@ -9,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import common.eric.com.ebaselibrary.util.ToastUtils;
 import weather.ppx.com.weatherapp.Adapter.MainInfoAdapter;
+import weather.ppx.com.weatherapp.Bean.AreaWorkingInfo;
 import weather.ppx.com.weatherapp.R;
+import weather.ppx.com.weatherapp.Util.JsonUtil;
 import weather.ppx.com.weatherapp.Util.LogUtil;
 import weather.ppx.com.weatherapp.http.CallBack;
 import weather.ppx.com.weatherapp.http.HttpHandler;
@@ -36,9 +39,10 @@ public class WeatherInfoFrg extends BaseFragment {
     }
 
     private String areaCode="";
-    RecyclerView mRecyclerView;
-    MainInfoAdapter myAdapter;
+    private RecyclerView mRecyclerView;
+    private MainInfoAdapter myAdapter;
     private HttpHandler weatherHandler;
+    private AreaWorkingInfo workingInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,10 +58,6 @@ public class WeatherInfoFrg extends BaseFragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         // 设置固定大小
         mRecyclerView.setHasFixedSize(true);
-        // 初始化自定义的适配器
-        myAdapter = new MainInfoAdapter(getActivity());
-        // 为mRecyclerView设置适配器
-        mRecyclerView.setAdapter(myAdapter);
         initHandler();
         weatherHandler.getSeaInfo(areaCode);
         return v;
@@ -68,10 +68,11 @@ public class WeatherInfoFrg extends BaseFragment {
             @Override
             public void onSuccess(String method, String jsonMessage) {
                 super.onSuccess(method, jsonMessage);
-                LogUtil.i("Location", jsonMessage);
-//                JSONObject result= JSONObject.parseObject(jsonMessage);
-//                List<WorkingInfo> details= JSONArray.parseArray(result.getJSONArray("detail").toJSONString(), WorkingInfo.class);
-//                ToastUtils.show(getActivity(), "size: " + details.size());
+//                LogUtil.i("Location", jsonMessage);
+                workingInfo= JsonUtil.getWorkingInfo(jsonMessage);
+                myAdapter = new MainInfoAdapter(getActivity(), workingInfo);
+                mRecyclerView.setAdapter(myAdapter);
+                ToastUtils.show(getActivity(), "size: " + workingInfo.getDetail().size());
             }
         });
     }

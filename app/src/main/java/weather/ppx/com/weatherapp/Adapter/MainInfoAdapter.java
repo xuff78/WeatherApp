@@ -16,6 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import weather.ppx.com.weatherapp.Bean.AreaWorkingInfo;
+import weather.ppx.com.weatherapp.Bean.WeatherInfo;
 import weather.ppx.com.weatherapp.R;
 import weather.ppx.com.weatherapp.Util.ActUtil;
 import weather.ppx.com.weatherapp.Util.LogUtil;
@@ -28,10 +30,12 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
 
 
     private Context mContext;
+    private AreaWorkingInfo workingInfo;
 
-    public MainInfoAdapter( Context context)
+    public MainInfoAdapter(Context context, AreaWorkingInfo workingInfo)
     {
         this.mContext = context;
+        this.workingInfo=workingInfo;
     }
 
     @Override
@@ -159,7 +163,8 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
 
         int marginTop= ScreenUtil.dip2px(mContext, 2);
         int itemHeight= ScreenUtil.dip2px(mContext, 26);
-        for (int i=0; i<9; i++){
+        for (int i=0; i<workingInfo.getDetail().size(); i++){
+            WeatherInfo info=workingInfo.getDetail().get(i);
             LinearLayout layout=new LinearLayout(mContext);
             layout.setOrientation(LinearLayout.HORIZONTAL);
             layout.setGravity(Gravity.CENTER);
@@ -170,13 +175,13 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, itemHeight);
             llp.topMargin=marginTop;
             layout.setLayoutParams(llp);
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, "06-12时", 14, Lwidth));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, "3-4级◀", 14, Lwidth));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getDt(), 14, Lwidth));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWiSV(), 14, Lwidth));
 //            layout.addView(ActUtil.getImageView(mContext, R.drawable.icon_wind, 20));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, "1.4", 14, Swidth));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, "50", 14, Swidth));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, "东南波", 14, Lwidth));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, "极不安全", 14, Lwidth));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaH(), 14, Swidth));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.gettL(), 14, Swidth));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaDT(), 14, Lwidth));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getSafe(), 14, Lwidth));
             if(i>3){
                 mh.bottomDayInfoLayout2.addView(layout);
             }else
