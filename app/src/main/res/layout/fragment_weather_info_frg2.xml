@@ -99,7 +99,8 @@
                     android:layout_width="26dip"
                     android:layout_height="26dip" />
                 <TextView
-                    android:text="05:00 多云"
+                    android:text=""
+                    android:id="@+id/rightInfoTxt1"
                     android:textSize="14sp"
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"
@@ -117,7 +118,8 @@
                     android:layout_width="26dip"
                     android:layout_height="26dip" />
                 <TextView
-                    android:text="05:00  晴"
+                    android:id="@+id/rightInfoTxt2"
+                    android:text=""
                     android:textSize="14sp"
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"
@@ -135,7 +137,8 @@
                 android:layout_width="26dip"
                 android:layout_height="26dip" />
             <TextView
-                android:text="05:00 多云"
+                android:id="@+id/rightInfoTxt3"
+                android:text=""
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"

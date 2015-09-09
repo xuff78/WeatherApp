@@ -38,6 +38,12 @@
             m_list4[i] = m_info4[i].data;
         }
 
+        var tags_info = m_json.tags;
+        var m_tags = new Array();
+        for (var i = 0; i < tags_info.length; i++) {
+            m_tags[i] = tags_info[i].data;
+        }
+
         // 基于准备好的dom，初始化echarts图表
         var myChart = echarts.init(document.getElementById('main'));
         var myChart2 = echarts.init(document.getElementById('main2'));
@@ -77,7 +83,7 @@
     xAxis : [
         {
             type : 'category',
-            data : ['00','06','12','18','00','06','12','18','00','06','12','18'],
+            data : m_tags,
             axisLine: {            // 坐标轴线
                 show: true,        // 默认显示，属性show控制显示与否
                 lineStyle: {       // 属性lineStyle控制线条样式
@@ -217,7 +223,7 @@
     <!--},-->
     calculable : true,
     legend: {
-        data:['潮位','浪高和波向'],
+        data:['浪高和波向','潮位'],
         textStyle: {
             color: 'white'          // 图例文字颜色
         }
@@ -225,7 +231,7 @@
     xAxis : [
         {
             type : 'category',
-            data : ['00','06','12','18','00','06','12','18','00','06','12','18'],
+            data : m_tags,
             axisLine: {            // 坐标轴线
                 show: true,        // 默认显示，属性show控制显示与否
                 lineStyle: {       // 属性lineStyle控制线条样式
@@ -282,9 +288,10 @@
                 }
             }
             <!--axisLabel : {-->
-                <!--formatter: '{value} ml'-->
+                <!--formatter: '{value} °C'-->
             <!--}-->
-        },
+        }
+        ,
         {
             type : 'value',
             name : '潮位(cm)',
@@ -310,9 +317,6 @@
                     type: 'solid'
                 }
             }
-            <!--axisLabel : {-->
-                <!--formatter: '{value} °C'-->
-            <!--}-->
         }
     ],
     series : [
@@ -328,25 +332,27 @@
             <!--data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]-->
         <!--},-->
         {
-            name:'潮位',
-            type:'bar',
-            itemStyle: {
-                normal: {
-                    color: '#5CACEE',
-                }
-            },
-            data:m_list3
-        },
-        {
             name:'浪高和波向',
             type:'line',
             symbol: 'arrow',
             symbolSize: 4,
             symbolRotate: -40,
-            yAxisIndex: 1,
+            yAxisIndex: 0,
             itemStyle: {
                 normal: {
                     color: '#C9C9C9',
+                }
+            },
+            data:m_list3
+        }
+        ,
+        {
+            name:'潮位',
+            type:'bar',
+            yAxisIndex: 1,
+            itemStyle: {
+                normal: {
+                    color: '#5CACEE',
                 }
             },
             data:m_list4

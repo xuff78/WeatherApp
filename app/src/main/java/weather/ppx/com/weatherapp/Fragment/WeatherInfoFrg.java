@@ -68,6 +68,8 @@ public class WeatherInfoFrg extends BaseFragment {
             @Override
             public void onSuccess(String method, String jsonMessage) {
                 super.onSuccess(method, jsonMessage);
+                if(getActivity()==null)
+                    return;
 //                LogUtil.i("Location", jsonMessage);
                 workingInfo= JsonUtil.getWorkingInfo(jsonMessage);
                 myAdapter = new MainInfoAdapter(getActivity(), workingInfo);

@@ -97,7 +97,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
         public TopViewHolder( View v )
         {
             super(v);
-            dateTxt=(TextView)v.findViewById(R.id.fengxiangTxt);
+            dateTxt=(TextView)v.findViewById(R.id.dateTxt);
             fengxiangTxt=(TextView)v.findViewById(R.id.fengxiangTxt);
             chaoweiTxt=(TextView)v.findViewById(R.id.chaoweiTxt);
             langgaoTxt=(TextView)v.findViewById(R.id.langgaoTxt);
@@ -151,7 +151,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
-                    mWebView.loadUrl("javascript:setData('" + getJsonData() + "')");
+                    mWebView.loadUrl("javascript:setData('" + getJsonStr() + "')");
                 }
 
                 @Override
@@ -168,9 +168,9 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
         int Swidth = 40;
         int Lwidth = 60;
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "时间", 15, Lwidth));
-        mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "风", 15, Lwidth));
+        mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "风", 15, 50));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "浪高\n(m)", 15, Swidth));
-        mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "潮位\n(cm)", 15, Swidth));
+        mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "潮位\n(cm)", 15, 50));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "波向", 15, Lwidth));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "安全\n等级", 15, Lwidth));
 
@@ -189,10 +189,10 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             llp.topMargin=marginTop;
             layout.setLayoutParams(llp);
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getDt(), 14, Lwidth));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWiSV(), 14, Lwidth));
-//            layout.addView(ActUtil.getImageView(mContext, R.drawable.icon_wind, 20));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaH(), 14, Swidth));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.gettL(), 14, Swidth));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWiSV(), 14, 35));
+            layout.addView(ActUtil.getImageView(mContext, R.drawable.icon_wind, 15));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaH(), 14, 40));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.gettL(), 14, 50));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaDT(), 14, Lwidth));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getSafe(), 14, Lwidth));
             if(i>3){
@@ -202,10 +202,64 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
         }
     }
 
+    private String getJsonStr() {
+        String jsonData="";
+        try {
+            int max=12;
+            JSONObject jsonObj=new JSONObject();
+            if(workingInfo.getDetail().size()<max)
+                max=workingInfo.getDetail().size();
+
+            JSONArray array=new JSONArray();
+            JSONArray array2=new JSONArray();
+            JSONArray array3=new JSONArray();
+            JSONArray array4=new JSONArray();
+            JSONArray array5=new JSONArray();
+            for(int i=0;i<max;i++){
+                JSONObject objsub=new JSONObject();
+                String safeTxt=workingInfo.getDetail().get(i).getSafe();
+                String safeLevel="";
+                if(safeTxt.equals("安全")){
+                    safeLevel="1";
+                }else if(safeTxt.equals("不安全")){
+                    safeLevel="2";
+                }else if(safeTxt.equals("极不安全")){
+                    safeLevel="3";
+                }
+                objsub.put("data", safeLevel);
+                array.put(i, objsub);
+                objsub=new JSONObject();
+                objsub.put("data",  workingInfo.getDetail().get(i).getWiSV());
+                array2.put(i, objsub);
+                objsub=new JSONObject();
+                objsub.put("data", workingInfo.getDetail().get(i).getWaH());
+                array3.put(i, objsub);
+                objsub=new JSONObject();
+                objsub.put("data", workingInfo.getDetail().get(i).gettL());
+                array4.put(i, objsub);
+                objsub=new JSONObject();
+                objsub.put("data", workingInfo.getDetail().get(i).getTime());
+                array5.put(i, objsub);
+            }
+            jsonObj.put("FristFormInfo1", array);
+            jsonObj.put("FristFormInfo2", array2);
+            jsonObj.put("SecondFormInfo1", array3);
+            jsonObj.put("SecondFormInfo2", array4);
+            jsonObj.put("tags", array5);
+
+            jsonData=jsonObj.toString();
+            LogUtil.d("Weather", jsonObj.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonData;
+    }
+
     String[] formData1={"0.8", "2.2", "1.3", "1.5", "1.2", "0.7", "0.6", "0.7", "1", "1.2", "1.1", "0.7"};
     String[] formData2={"40", "40", "40", "45", "46", "48", "38", "35", "35", "40", "45", "30"};
     String[] formData3={"1.3", "1.9", "2.0", "1.4", "2.7", "1.7", "2.6", "1.2", "1.7", "0.8", "1.0", "2.3"};
     String[] formData4={"46.3", "32.2", "36.6", "75.1", "34.6", "50.2", "36.3", "32.2", "46.6", "75.1", "34.6", "50.2"};
+    String[] tags={"46", "32", "36", "75", "34", "50", "36", "32", "46", "75", "34", "50"};
     private String getJsonData() {
         String jsonData="";
         try {
@@ -241,6 +295,14 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                 array.put(i, objsub);
             }
             jsonObj.put("SecondFormInfo2", array);
+
+            array=new JSONArray();
+            for(int i=0;i<tags.length;i++){
+                JSONObject objsub=new JSONObject();
+                objsub.put("data", tags[i]);
+                array.put(i, objsub);
+            }
+            jsonObj.put("tags", array);
 
             jsonData=jsonObj.toString();
             LogUtil.d("Weather", jsonObj.toString());

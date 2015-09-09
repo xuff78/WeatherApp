@@ -77,7 +77,7 @@ public class JsonUtil {
                 WeatherInfo item=new WeatherInfo();
                 JSONObject itemObj=array.getJSONObject(i);
                 item.setDt(itemObj.getString("dt"));
-//                item.setTime(itemObj.getString("time"));
+                item.setTime(itemObj.getString("time"));
                 item.setSafe(itemObj.getString("safe"));
                 item.setWaDT(itemObj.getString("waDT"));
                 item.settL(itemObj.getString("tL"));
