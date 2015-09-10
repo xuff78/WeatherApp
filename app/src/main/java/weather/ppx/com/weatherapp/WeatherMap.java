@@ -1,5 +1,6 @@
 package weather.ppx.com.weatherapp;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -32,7 +33,9 @@ import common.eric.com.ebaselibrary.util.ToastUtils;
 import weather.ppx.com.weatherapp.Adapter.MainInfoAdapter;
 import weather.ppx.com.weatherapp.Bean.AreaInfo;
 import weather.ppx.com.weatherapp.Bean.AreaWorkingInfo;
+import weather.ppx.com.weatherapp.Bean.WeatherInfo;
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
+import weather.ppx.com.weatherapp.Util.ActUtil;
 import weather.ppx.com.weatherapp.Util.ConstantUtil;
 import weather.ppx.com.weatherapp.Util.JsonUtil;
 import weather.ppx.com.weatherapp.Util.ScreenUtil;
@@ -57,8 +60,11 @@ public class WeatherMap extends BaseActivity {
     ImageView playBtn, prevBtn, nextBtn;
     private boolean isPlay=false;
     Random r = new Random();
+    TextView dateTxt;
     HttpHandler weatherHandler;
     ArrayList<AreaWorkingInfo> mapinfo;
+    private int stepWidth=5;
+    private ProgressDialog progressDialog;
 
     private void initHandler() {
         weatherHandler=new HttpHandler(WeatherMap.this, new CallBack(WeatherMap.this){
@@ -67,6 +73,15 @@ public class WeatherMap extends BaseActivity {
                 super.onSuccess(method, jsonMessage);
 //                LogUtil.i("Location", jsonMessage);
                 mapinfo = JsonUtil.getMapInfo(jsonMessage);
+//                ToastUtils.show(getApplicationContext(), "steps: "+mapinfo.size());
+                if(mapinfo.size()>0) {
+                    progressDialog.dismiss();
+                    stepWidth = 100 / mapinfo.get(0).getDetail().size();
+                    setAreaColors();
+                }else{
+                    progressDialog.dismiss();
+                    ActUtil.showSinglseDialog(WeatherMap.this);
+                }
             }
         });
     }
@@ -84,6 +99,10 @@ public class WeatherMap extends BaseActivity {
         dip50=ScreenUtil.dip2px(this, 60);
         initView();
         initHandler();
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("数据获取中..");
+        progressDialog.show();
         weatherHandler.getMapInfo();
     }
 
@@ -95,6 +114,7 @@ public class WeatherMap extends BaseActivity {
         nextBtn=(ImageView)findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(listenr);
         seekBar=(SeekBar)findViewById(R.id.seekBar);
+        dateTxt=(TextView)findViewById(R.id.dateTxt);
         mapLayout=(RelativeLayout)findViewById(R.id.mapLayout);
         ImageView mapImg=(ImageView)findViewById(R.id.mapImg);
         Bitmap bmptmp= BitmapFactory.decodeResource(getResources(),R.drawable.mpbg2);
@@ -121,9 +141,10 @@ public class WeatherMap extends BaseActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if (seekBar.getProgress() % 5 != 0) {
-                    seekBar.setProgress(seekBar.getProgress() / 5 * 5);
-                }
+                int progress=seekBar.getProgress() / stepWidth * stepWidth;
+                if(progress>(mapinfo.get(0).getDetail().size()-1)*stepWidth)
+                    progress=0;
+                seekBar.setProgress(progress);
                 setAreaColors();
             }
         });
@@ -184,7 +205,18 @@ public class WeatherMap extends BaseActivity {
         for (int i=0; i<imgs.size(); i++){
 
             Drawable imgDrawable=imgs.get(i).getDrawable();
-            imgDrawable.setColorFilter(colors[((int) (Math.random() * 3))], PorterDuff.Mode.SRC_IN);
+//            imgDrawable.setColorFilter(colors[((int) (Math.random() * 3))], PorterDuff.Mode.SRC_IN);
+            dateTxt.setText(mapinfo.get(i).getDetail().get(seekBar.getProgress()/stepWidth).getDt());
+            String safeStr=mapinfo.get(i).getDetail().get(seekBar.getProgress()/stepWidth).getSafe();
+            int colorPos=1;
+            if(safeStr.equals("安全")){
+                colorPos=0;
+            }else if(safeStr.equals("不安全")){
+                colorPos=1;
+            }else if(safeStr.equals("极不安全")){
+                colorPos=2;
+            }
+            imgDrawable.setColorFilter(colors[colorPos], PorterDuff.Mode.SRC_IN);
 
         }
     }
@@ -206,6 +238,7 @@ public class WeatherMap extends BaseActivity {
                     break;
                 case R.id.nextBtn:
                     toNextInfo();
+                    break;
                 case R.id.prevBtn:
                     toPrvInfo();
                     break;
@@ -216,12 +249,20 @@ public class WeatherMap extends BaseActivity {
     private void showPopupWindow(View view, int pos) {
 
         // 一个自定义的布局，作为显示的内容
+        int padding20=ScreenUtil.dip2px(this, 20);
         View contentView = LayoutInflater.from(this).inflate(
                 R.layout.pop_window, null);
         // 设置按钮的点击事件
+        int datePos=seekBar.getProgress()/stepWidth;
+        WeatherInfo info=mapinfo.get(pos).getDetail().get(datePos);
         TextView txt1 = (TextView) contentView.findViewById(R.id.txt1);
         TextView txt2 = (TextView) contentView.findViewById(R.id.txt2);
-
+        TextView txt3 = (TextView) contentView.findViewById(R.id.txt3);
+        TextView txt4 = (TextView) contentView.findViewById(R.id.txt4);
+        txt1.setText("风："+info.getWiSV()+"级");
+        txt2.setText("浪："+info.getWaH()+"m");
+        txt3.setText("潮："+info.gettL() +"cm");
+        txt4.setText("波向："+info.getWaDT());
 
         final PopupWindow popupWindow = new PopupWindow(contentView,
                 WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
@@ -237,9 +278,11 @@ public class WeatherMap extends BaseActivity {
         int padding=0;
         if(pos>4) {
             padding = -dip50 * 5/2;
+            contentView.setPadding(padding20, 0, (int)(padding20*1.25),0);
             contentView.setBackgroundResource(R.drawable.popbgright);
         }else {
             padding = dip50 * 2;
+            contentView.setPadding((int)(padding20*1.25), 0, padding20,0);
             contentView.setBackgroundResource(R.drawable.popbg);
         }
         popupWindow.showAsDropDown(view, padding, -(view.getHeight()/2+dip50));
@@ -270,20 +313,20 @@ public class WeatherMap extends BaseActivity {
     }
 
     private void toNextInfo() {
-        if(seekBar.getProgress()<100){
-            seekBar.setProgress(seekBar.getProgress()+5);
-            setAreaColors();
-        }else if(seekBar.getProgress()==100){
-            stopTimer();
+        if(seekBar.getProgress()+stepWidth>=100) {
             seekBar.setProgress(0);
             playBtn.setImageResource(R.drawable.map_icon_play);
+            isPlay=false;
+            stopTimer();
+        }else {
+            int progress=seekBar.getProgress() + stepWidth;
+            seekBar.setProgress(progress);
         }
     }
 
     private void toPrvInfo() {
         if(seekBar.getProgress()>0){
-            seekBar.setProgress(seekBar.getProgress()-5);
-            setAreaColors();
+            seekBar.setProgress(seekBar.getProgress() - stepWidth);
         }
     }
 
@@ -295,7 +338,8 @@ public class WeatherMap extends BaseActivity {
     }
 
     private void stopTimer() {
-        task.cancel();
+        if(task!=null)
+            task.cancel();
     }
 
 }

@@ -74,6 +74,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                 th.langgaoTxt.setText("浪高：" + info.getWaH()+"m");
                 th.chaoweiTxt.setText("潮位：" + info.gettL()+"cm");
                 th.boxiangTxt.setText("波向：" + info.getWaDT());
+                th.publishTime.setText( workingInfo.getDate_time()+"  发布");
             }
         }else if(i==1) {
             MidViewHolder mh=(MidViewHolder)viewHolder;
@@ -93,7 +94,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
     // 重写的自定义ViewHolder
     public class TopViewHolder extends RecyclerView.ViewHolder
     {
-        TextView dateTxt, fengxiangTxt, chaoweiTxt, langgaoTxt, boxiangTxt;
+        TextView dateTxt, fengxiangTxt, chaoweiTxt, langgaoTxt, boxiangTxt, publishTime;
         public TopViewHolder( View v )
         {
             super(v);
@@ -102,6 +103,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             chaoweiTxt=(TextView)v.findViewById(R.id.chaoweiTxt);
             langgaoTxt=(TextView)v.findViewById(R.id.langgaoTxt);
             boxiangTxt=(TextView)v.findViewById(R.id.boxiangTxt);
+            publishTime=(TextView)v.findViewById(R.id.publishTime);
         }
     }
 

@@ -64,13 +64,12 @@ public class MainActivity extends BaseActivity
 
         // Set up the drawer.
         mainBgImg=(ImageView)findViewById(R.id.mainBgImg);
-        mNavigationDrawerFragment.setUp( R.id.navigation_drawer,(DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
         _setRightHomeListener(R.drawable.icon_app_location, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "开始定位", 500).show();
-                mLocationManagerProxy.requestLocationData(
-                        LocationProviderProxy.AMapNetwork, 10 * 1000, 15, MainActivity.this);
+                initLocation();
             }
         });
 
@@ -83,8 +82,9 @@ public class MainActivity extends BaseActivity
         });
         startActivity(new Intent(this, FirstPage.class));
         overridePendingTransition(0, 0);
-        initLocation();
-        mNavigationDrawerFragment.selectItem(1);
+        if (SharedPreferencesUtil.getValue(this, ConstantUtil.AutoLocation, true))
+            initLocation();
+        mNavigationDrawerFragment.selectItem(SharedPreferencesUtil.getInt(this, ConstantUtil.SelectArea, 1));
     }
 
     @Override
@@ -120,6 +120,7 @@ public class MainActivity extends BaseActivity
             startActivity(intent);
         }else {
             _setHeaderTitle(areaNames[position]+"作业区");
+            SharedPreferencesUtil.setInt(this, ConstantUtil.SelectArea, position);
             areaCode=ActUtil.getAreaCode(areaNames[position]);
             fragmentManager.beginTransaction()
                     .replace(R.id.container, WeatherInfoMain.newInstance(areaNames[position], areaCode)).commit();

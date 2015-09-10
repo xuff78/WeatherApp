@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
+import weather.ppx.com.weatherapp.Util.ConstantUtil;
 import weather.ppx.com.weatherapp.Util.SharedPreferencesUtil;
 import weather.ppx.com.weatherapp.View.SlipButton;
 
@@ -39,6 +40,13 @@ public class WeatherSetting extends BaseActivity {
     private void initView() {
         bgType=SharedPreferencesUtil.getInt(this, "BgType", 0);
         btnLocation=(SlipButton)findViewById(R.id.btnLocation);
+        btnLocation.setNowChoose(SharedPreferencesUtil.getValue(WeatherSetting.this, ConstantUtil.AutoLocation, true));
+        btnLocation.SetOnChangedListener(new SlipButton.OnChangedListener() {
+            @Override
+            public void OnChanged(boolean CheckState) {
+                SharedPreferencesUtil.setValue(WeatherSetting.this, ConstantUtil.AutoLocation, CheckState);
+            }
+        });
         btnPush=(SlipButton)findViewById(R.id.btnPush);
 
         bgImg1=(ImageView)findViewById(R.id.bgImg1);

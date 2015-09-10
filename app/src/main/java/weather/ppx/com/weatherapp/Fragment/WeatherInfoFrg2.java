@@ -52,7 +52,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
     private ArrayList<DayNightInfo> dayNightInfos;
     private ArrayList<ArrayList<WeatherInTIme>> weatherinfos;
     private ImageView weatherIcon;
-    private TextView temperatureTxt, windTxt, humidityTxt;
+    private TextView temperatureTxt, windTxt, humidityTxt, publishTime;
     private ArrayList<TextView> txts=new ArrayList<>();
 
     private void initHandler() {
@@ -77,8 +77,10 @@ public class WeatherInfoFrg2  extends BaseFragment {
                         String img=obj.getJSONObject("weather").getString("img");
                         String humidity=obj.getJSONObject("weather").getString("humidity");
                         String wind=obj.getJSONObject("wind").getString("power");
+                        String date=obj.getString("data_time");
                         temperatureTxt.setText(temperature+"°");
                         humidityTxt.setText("相对湿度"+humidity+"%");
+                        publishTime.setText( date+"  发布");
                         windTxt.setText(wind);
                         if(weatherinfos.get(0).size()>=3)
                             for(int i=0;i<3;i++)
@@ -129,6 +131,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
         bottomDayInfoLayout= (LinearLayout) v.findViewById(R.id.bottomDayInfoLayout);
         temperatureTxt= (TextView) v.findViewById(R.id.temperatureTxt);
         windTxt= (TextView) v.findViewById(R.id.windTxt);
+        publishTime=(TextView) v.findViewById(R.id.publishTime);
         humidityTxt= (TextView) v.findViewById(R.id.humidityTxt);
         weatherIcon= (ImageView) v.findViewById(R.id.weatherIcon);
         txts.add((TextView) v.findViewById(R.id.rightInfoTxt1));

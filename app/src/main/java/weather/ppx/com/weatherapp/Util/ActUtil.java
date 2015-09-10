@@ -1,11 +1,16 @@
 package weather.ppx.com.weatherapp.Util;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import weather.ppx.com.weatherapp.R;
 
 import static weather.ppx.com.weatherapp.Util.ConstantUtil.areaNames;
 
@@ -81,5 +86,21 @@ public class ActUtil {
             case 0:
         }
         return weekday;
+    }
+
+    public static void showSinglseDialog(final Activity con) {
+        final String items[]={"张三","李四","王五"};
+        //dialog参数设置
+        AlertDialog.Builder builder=new AlertDialog.Builder(con);  //先得到构造器
+        builder.setTitle("提示"); //设置标题
+        builder.setMessage("暂未获取数据，请稍后再试"); //设置内容
+        builder.setPositiveButton("确定",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                con.finish();
+            }
+        });
+        builder.create().show();
     }
 }
