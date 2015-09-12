@@ -2,6 +2,7 @@ package weather.ppx.com.weatherapp.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -250,7 +251,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             jsonObj.put("tags", array5);
 
             jsonData=jsonObj.toString();
-            LogUtil.d("Weather", jsonObj.toString());
+            Log.i("Weather", jsonObj.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

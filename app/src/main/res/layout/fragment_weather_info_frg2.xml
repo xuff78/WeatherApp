@@ -96,7 +96,6 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/topWeatherTime1"
-                    android:src="@drawable/weather_sun_cloud_s"
                     android:layout_width="26dip"
                     android:layout_height="26dip" />
                 <TextView
@@ -115,7 +114,6 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/topWeatherTime2"
-                    android:src="@drawable/weather_sun_s"
                     android:layout_width="26dip"
                     android:layout_height="26dip" />
                 <TextView
@@ -134,7 +132,6 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/topWeatherTime3"
-                android:src="@drawable/weather_sun_cloud_s"
                 android:layout_width="26dip"
                 android:layout_height="26dip" />
             <TextView

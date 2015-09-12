@@ -54,6 +54,7 @@ public class JsonUtil {
                     item.setMintemp(itemObj.getString("mintemp"));
                     item.setDirect(itemObj.getString("direct"));
                     item.setPower(itemObj.getString("power"));
+                    item.setTime(itemObj.getString("time"));
                     dayInfo.add(item);
                 }
                 infos.add(dayInfo);
@@ -80,6 +81,7 @@ public class JsonUtil {
                 item.setTime(itemObj.getString("time"));
                 item.setSafe(itemObj.getString("safe"));
                 item.setWaDT(itemObj.getString("waDT"));
+//                item.setImg(itemObj.getString("img"));
                 item.settL(itemObj.getString("tL"));
                 item.setWaH(itemObj.getString("waH"));
                 item.setWiDT(itemObj.getString("wiDT"));

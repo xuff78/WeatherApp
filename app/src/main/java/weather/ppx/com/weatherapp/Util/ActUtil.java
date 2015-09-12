@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -88,19 +89,65 @@ public class ActUtil {
         return weekday;
     }
 
-    public static void showSinglseDialog(final Activity con) {
-        final String items[]={"张三","李四","王五"};
+    public static void showSinglseDialog(final Activity con, String content) {
         //dialog参数设置
         AlertDialog.Builder builder=new AlertDialog.Builder(con);  //先得到构造器
         builder.setTitle("提示"); //设置标题
-        builder.setMessage("暂未获取数据，请稍后再试"); //设置内容
+        builder.setMessage(content); //设置内容
         builder.setPositiveButton("确定",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                con.finish();
             }
         });
         builder.create().show();
+    }
+
+    public static void showSinglseDialog(final Activity con, String content, DialogInterface.OnClickListener listener) {
+        //dialog参数设置
+        AlertDialog.Builder builder=new AlertDialog.Builder(con);  //先得到构造器
+        builder.setTitle("提示"); //设置标题
+        builder.setMessage(content); //设置内容
+        builder.setPositiveButton("确定", listener);
+        builder.create().show();
+    }
+
+    public static void showTwoOptionsDialog(final Activity con, String content, final View.OnClickListener listener) {
+        int padding=ScreenUtil.dip2px(con, 25);
+        //dialog参数设置
+        AlertDialog.Builder builder=new AlertDialog.Builder(con);  //先得到构造器
+        builder.setTitle("提示"); //设置标题
+//        builder.setMessage(content); //设置内容
+        TextView txt=new TextView(con);
+        txt.setPadding(padding, padding/2, padding, padding/2);
+        txt.setTextSize(16);
+        txt.setTextColor(Color.BLACK);
+        txt.setText(content);
+        builder.setView(txt);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                listener.onClick(new View(con));
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    public static int getWeatherImg(String weatherInt) {
+        int imgRes=0;
+        int dataInt=Integer.valueOf(weatherInt);
+        if((dataInt<34&&dataInt>-1)||dataInt==36||dataInt==53){
+            imgRes=ConstantUtil.weatherRes[dataInt];
+        }
+        return imgRes;
     }
 }

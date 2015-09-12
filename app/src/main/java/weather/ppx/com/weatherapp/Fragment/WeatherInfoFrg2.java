@@ -54,6 +54,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
     private ImageView weatherIcon;
     private TextView temperatureTxt, windTxt, humidityTxt, publishTime;
     private ArrayList<TextView> txts=new ArrayList<>();
+    private ArrayList<ImageView> imgs=new ArrayList<>();
 
     private void initHandler() {
         weatherHandler=new HttpHandler(getActivity(), new CallBack(getActivity()){
@@ -81,13 +82,25 @@ public class WeatherInfoFrg2  extends BaseFragment {
                         temperatureTxt.setText(temperature+"°");
                         humidityTxt.setText("相对湿度"+humidity+"%");
                         publishTime.setText( date+"  发布");
+                        weatherIcon.setImageResource(ActUtil.getWeatherImg(img));
                         windTxt.setText(wind);
                         if(weatherinfos.get(0).size()>=3)
-                            for(int i=0;i<3;i++)
-                                txts.get(i).setText(weatherinfos.get(0).get(i).getDt() +" "+ weatherinfos.get(0).get(i).getInfo());
-                        else
-                            for(int i=0;i<weatherinfos.get(0).size();i++)
-                                txts.get(i).setText(weatherinfos.get(0).get(i).getDt() +" "+ weatherinfos.get(0).get(i).getInfo());
+                            for(int i=0;i<3;i++) {
+                                txts.get(i).setText(weatherinfos.get(0).get(i).getTime() + ":00 " + weatherinfos.get(0).get(i).getInfo());
+                                imgs.get(i).setImageResource(ActUtil.getWeatherImg(weatherinfos.get(0).get(i).getImg()));
+                            }
+                        else {
+                            for (int i = 0; i < weatherinfos.get(0).size(); i++) {
+                                txts.get(i).setText(weatherinfos.get(0).get(i).getTime() + ":00 " + weatherinfos.get(0).get(i).getInfo());
+                                imgs.get(i).setImageResource(ActUtil.getWeatherImg(weatherinfos.get(0).get(i).getImg()));
+                            }
+                            int FirstArraySize=weatherinfos.get(0).size();
+                            int SeccendArraySize=3-FirstArraySize;
+                            for (int j = 0; j < SeccendArraySize; j++) {
+                                txts.get(FirstArraySize+j).setText(weatherinfos.get(1).get(j).getTime() + ":00 " + weatherinfos.get(1).get(j).getInfo());
+                                imgs.get(FirstArraySize+j).setImageResource(ActUtil.getWeatherImg(weatherinfos.get(1).get(j).getImg()));
+                            }
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -134,6 +147,9 @@ public class WeatherInfoFrg2  extends BaseFragment {
         publishTime=(TextView) v.findViewById(R.id.publishTime);
         humidityTxt= (TextView) v.findViewById(R.id.humidityTxt);
         weatherIcon= (ImageView) v.findViewById(R.id.weatherIcon);
+        imgs.add((ImageView) v.findViewById(R.id.topWeatherTime1));
+        imgs.add ((ImageView) v.findViewById(R.id.topWeatherTime2));
+        imgs.add((ImageView) v.findViewById(R.id.topWeatherTime3));
         txts.add((TextView) v.findViewById(R.id.rightInfoTxt1));
         txts.add((TextView)v.findViewById(R.id.rightInfoTxt2));
         txts.add((TextView)v.findViewById(R.id.rightInfoTxt3));
@@ -157,8 +173,8 @@ public class WeatherInfoFrg2  extends BaseFragment {
             layout.setLayoutParams(llp);
             String weekDay= TimeUtil.getWeekDay(i);
             layout.addView(ActUtil.getTextView(getActivity(), weekDay, 15));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.weather_sun_s, 20, 8));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.weather_sun_cloud_s, 20,8));
+            layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(info.getDayWeatherImg()), 20, 8));
+            layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(info.getNightWeatherImg()), 20,8));
             layout.setBackgroundResource(R.drawable.weather_day_selector);
             topDaysInfoLayout.addView(layout);
             layout.setOnClickListener(new View.OnClickListener() {
@@ -193,7 +209,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
             layout.setLayoutParams(llp);
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getDt(), txtSize, 65));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "|", txtSize, 20));
-            layout.addView(ActUtil.getImageView(getActivity(), R.drawable.weather_rain_s, 20));
+            layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(item.getImg()), 20));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getInfo(), txtSize, 45));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getMintemp() + "°/" + item.getMaxtemp() + "°", 14, 80));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getDirect(), txtSize, 45));

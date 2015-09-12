@@ -1,6 +1,7 @@
 package weather.ppx.com.weatherapp;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -80,7 +81,13 @@ public class WeatherMap extends BaseActivity {
                     setAreaColors();
                 }else{
                     progressDialog.dismiss();
-                    ActUtil.showSinglseDialog(WeatherMap.this);
+                    ActUtil.showSinglseDialog(WeatherMap.this, "暂未获取数据，请稍后再试", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
                 }
             }
         });
@@ -206,7 +213,6 @@ public class WeatherMap extends BaseActivity {
 
             Drawable imgDrawable=imgs.get(i).getDrawable();
 //            imgDrawable.setColorFilter(colors[((int) (Math.random() * 3))], PorterDuff.Mode.SRC_IN);
-            dateTxt.setText(mapinfo.get(i).getDetail().get(seekBar.getProgress()/stepWidth).getDt());
             String safeStr=mapinfo.get(i).getDetail().get(seekBar.getProgress()/stepWidth).getSafe();
             int colorPos=1;
             if(safeStr.equals("安全")){
@@ -219,6 +225,7 @@ public class WeatherMap extends BaseActivity {
             imgDrawable.setColorFilter(colors[colorPos], PorterDuff.Mode.SRC_IN);
 
         }
+        dateTxt.setText(mapinfo.get(0).getDetail().get(seekBar.getProgress()/stepWidth).getDt());
     }
 
     View.OnClickListener listenr=new View.OnClickListener(){
@@ -315,18 +322,21 @@ public class WeatherMap extends BaseActivity {
     private void toNextInfo() {
         if(seekBar.getProgress()+stepWidth>=100) {
             seekBar.setProgress(0);
+            setAreaColors();
             playBtn.setImageResource(R.drawable.map_icon_play);
             isPlay=false;
             stopTimer();
         }else {
             int progress=seekBar.getProgress() + stepWidth;
             seekBar.setProgress(progress);
+            setAreaColors();
         }
     }
 
     private void toPrvInfo() {
         if(seekBar.getProgress()>0){
             seekBar.setProgress(seekBar.getProgress() - stepWidth);
+            setAreaColors();
         }
     }
 

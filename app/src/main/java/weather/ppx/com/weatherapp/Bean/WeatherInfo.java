@@ -17,6 +17,15 @@ public class WeatherInfo extends EBaseModel {
     private String wiSI="";
     private String wiSV="";
     private String waDV="";
+    private String img="0";
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public String getDt() {
         return dt;

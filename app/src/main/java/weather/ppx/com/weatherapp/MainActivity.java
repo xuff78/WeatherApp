@@ -1,5 +1,6 @@
 package weather.ppx.com.weatherapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
@@ -197,7 +198,7 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onLocationChanged(AMapLocation amapLocation) {
+    public void onLocationChanged(final AMapLocation amapLocation) {
         if(amapLocation != null && amapLocation.getAMapException().getErrorCode() == 0){
             //获取位置信息
 //            BigDecimal dbLa = new BigDecimal(amapLocation.getLatitude());
@@ -206,15 +207,27 @@ public class MainActivity extends BaseActivity
 //            String longitude = dbLo.toString();
 //            handler.getLocation(latitude, longitude);
             if(amapLocation.getCity()!=null) {
-                Toast.makeText(this, "城市：" + amapLocation.getCity() + "\n" +
-                        "位置：" + amapLocation.getAddress(), 500).show();
-                String getAreaCode = ActUtil.getAreaCode(amapLocation.getCity());
-                if(getAreaCode.length()>0) {
-                    areaCode=getAreaCode;
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, WeatherInfoMain.newInstance(areaNames[selectedPos], areaCode)).commit();
-                    SharedPreferencesUtil.setString(this, ConstantUtil.AreCode, areaCode);
-                }
+//                Toast.makeText(this, "城市：" + amapLocation.getCity() + "\n" +
+//                        "位置：" + amapLocation.getAddress(), 500).show();
+                String currentCity=SharedPreferencesUtil.getString(this, ConstantUtil.AreName);
+                if(!currentCity.equals(amapLocation.getCity()))
+                    ActUtil.showTwoOptionsDialog(MainActivity.this, "您所在的城市为" + amapLocation.getCity() + ",与当前城市不一致，是否切换成"
+                            + amapLocation.getCity(), new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View view) {
+                            String getAreaCode = ActUtil.getAreaCode(amapLocation.getCity());
+                            if(getAreaCode.length()>0) {
+                                areaCode=getAreaCode;
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.container, WeatherInfoMain.newInstance(areaNames[selectedPos], areaCode)).commit();
+                                SharedPreferencesUtil.setString(MainActivity.this, ConstantUtil.AreCode, areaCode);
+                                SharedPreferencesUtil.setString(MainActivity.this, ConstantUtil.AreName, amapLocation.getCity());
+                            }else
+                                ActUtil.showSinglseDialog(MainActivity.this, "暂无"+amapLocation.getCity()+"相关数据");
+                        }
+                    });
+
                 mLocationManagerProxy.removeUpdates(MainActivity.this);
 
             }
