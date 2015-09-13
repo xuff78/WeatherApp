@@ -199,7 +199,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.gettL(), 14, 50));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaDT(), 14, Lwidth));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getSafe(), 14, Lwidth));
-            if(i>3){
+            if(i>8){
                 mh.bottomDayInfoLayout2.addView(layout);
             }else
                 mh.bottomDayInfoLayout1.addView(layout);
