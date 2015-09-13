@@ -74,11 +74,20 @@ public class ActUtil {
 
     public static String getAreaCode(String city){
         for(int i=0;i<9;i++) {
-            if (city.contains(areaNames[i])) {
+            if (city.contains(ConstantUtil.areaNames[i])) {
                 return ConstantUtil.areaCodes[i];
             }
         }
         return "";
+    }
+
+    public static int getPosByAreaCode(String code){
+        for(int i=0;i<9;i++) {
+            if (code.contains(ConstantUtil.areaCodes[i])) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static String getWeekDay(int day){

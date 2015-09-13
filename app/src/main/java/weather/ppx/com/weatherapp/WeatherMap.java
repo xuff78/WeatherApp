@@ -66,6 +66,7 @@ public class WeatherMap extends BaseActivity {
     ArrayList<AreaWorkingInfo> mapinfo;
     private int stepWidth=5;
     private ProgressDialog progressDialog;
+    private TextView dateTime;
 
     private void initHandler() {
         weatherHandler=new HttpHandler(WeatherMap.this, new CallBack(WeatherMap.this){
@@ -122,6 +123,7 @@ public class WeatherMap extends BaseActivity {
         nextBtn.setOnClickListener(listenr);
         seekBar=(SeekBar)findViewById(R.id.seekBar);
         dateTxt=(TextView)findViewById(R.id.dateTxt);
+        dateTime=(TextView)findViewById(R.id.dateTime);
         mapLayout=(RelativeLayout)findViewById(R.id.mapLayout);
         ImageView mapImg=(ImageView)findViewById(R.id.mapImg);
         Bitmap bmptmp= BitmapFactory.decodeResource(getResources(),R.drawable.mpbg2);
@@ -225,7 +227,9 @@ public class WeatherMap extends BaseActivity {
             imgDrawable.setColorFilter(colors[colorPos], PorterDuff.Mode.SRC_IN);
 
         }
-        dateTxt.setText(mapinfo.get(0).getDetail().get(seekBar.getProgress()/stepWidth).getDt());
+        String data=mapinfo.get(0).getDetail().get(seekBar.getProgress()/stepWidth).getDt();
+        dateTxt.setText(data);
+        dateTime.setText(data);
     }
 
     View.OnClickListener listenr=new View.OnClickListener(){
@@ -320,7 +324,7 @@ public class WeatherMap extends BaseActivity {
     }
 
     private void toNextInfo() {
-        if(seekBar.getProgress()+stepWidth>=100) {
+        if(seekBar.getProgress()+stepWidth>=100||seekBar.getProgress()+stepWidth>(mapinfo.get(0).getDetail().size()-1)*stepWidth) {
             seekBar.setProgress(0);
             setAreaColors();
             playBtn.setImageResource(R.drawable.map_icon_play);

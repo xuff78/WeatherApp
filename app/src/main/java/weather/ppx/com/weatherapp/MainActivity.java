@@ -1,11 +1,9 @@
 package weather.ppx.com.weatherapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -19,20 +17,12 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.math.BigDecimal;
-import java.util.List;
-
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
 import weather.ppx.com.weatherapp.Fragment.WeatherInfoMain;
 import weather.ppx.com.weatherapp.Util.ActUtil;
 import weather.ppx.com.weatherapp.Util.ConstantUtil;
 import weather.ppx.com.weatherapp.Util.LogUtil;
 import weather.ppx.com.weatherapp.Util.SharedPreferencesUtil;
-import weather.ppx.com.weatherapp.http.CallBack;
-import weather.ppx.com.weatherapp.http.HttpHandler;
 
 
 public class MainActivity extends BaseActivity
@@ -49,9 +39,9 @@ public class MainActivity extends BaseActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private String mTitle="赣榆作业区";
-    private WeatherInfoMain mainFrgment;
     public static final String[] areaNames={"作业区", "赣榆", "灌云" , "响水", "海滨", "射阳", "大丰", "东台", "如东", "启东", "地图显示", "设置"};
     int selectedPos=1;
+//    private String areaName="";
     private int bgType=-1;
 
     @Override
@@ -77,15 +67,14 @@ public class MainActivity extends BaseActivity
         _setRightImgListener(R.drawable.icon_app_refresh, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, WeatherInfoMain.newInstance(areaNames[selectedPos], areaCode)).commit();
+                mNavigationDrawerFragment.selectItem(selectedPos);
             }
         });
         startActivity(new Intent(this, FirstPage.class));
         overridePendingTransition(0, 0);
+        mNavigationDrawerFragment.selectItem(SharedPreferencesUtil.getInt(this, ConstantUtil.SelectArea, 1));
         if (SharedPreferencesUtil.getValue(this, ConstantUtil.AutoLocation, true))
             initLocation();
-        mNavigationDrawerFragment.selectItem(SharedPreferencesUtil.getInt(this, ConstantUtil.SelectArea, 1));
     }
 
     @Override
@@ -108,8 +97,6 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        selectedPos=position;
         FragmentManager fragmentManager = getSupportFragmentManager();
         if(position==0){
 
@@ -121,7 +108,9 @@ public class MainActivity extends BaseActivity
             startActivity(intent);
         }else {
             _setHeaderTitle(areaNames[position]+"作业区");
+            selectedPos=position;
             SharedPreferencesUtil.setInt(this, ConstantUtil.SelectArea, position);
+            SharedPreferencesUtil.setString(this, ConstantUtil.AreName, areaNames[position]);
             areaCode=ActUtil.getAreaCode(areaNames[position]);
             fragmentManager.beginTransaction()
                     .replace(R.id.container, WeatherInfoMain.newInstance(areaNames[position], areaCode)).commit();
@@ -210,8 +199,8 @@ public class MainActivity extends BaseActivity
 //                Toast.makeText(this, "城市：" + amapLocation.getCity() + "\n" +
 //                        "位置：" + amapLocation.getAddress(), 500).show();
                 String currentCity=SharedPreferencesUtil.getString(this, ConstantUtil.AreName);
-                if(!currentCity.equals(amapLocation.getCity()))
-                    ActUtil.showTwoOptionsDialog(MainActivity.this, "您所在的城市为" + amapLocation.getCity() + ",与当前城市不一致，是否切换成"
+                if(!amapLocation.getCity().contains(currentCity))
+                    ActUtil.showTwoOptionsDialog(MainActivity.this, "您所在的城市为" + amapLocation.getCity() + "，与当前城市不一致，是否切换成"
                             + amapLocation.getCity(), new View.OnClickListener() {
 
                         @Override
@@ -219,10 +208,12 @@ public class MainActivity extends BaseActivity
                             String getAreaCode = ActUtil.getAreaCode(amapLocation.getCity());
                             if(getAreaCode.length()>0) {
                                 areaCode=getAreaCode;
-                                getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.container, WeatherInfoMain.newInstance(areaNames[selectedPos], areaCode)).commit();
-                                SharedPreferencesUtil.setString(MainActivity.this, ConstantUtil.AreCode, areaCode);
-                                SharedPreferencesUtil.setString(MainActivity.this, ConstantUtil.AreName, amapLocation.getCity());
+                                int areaCodePos=ActUtil.getPosByAreaCode(getAreaCode);
+                                String cityName=ConstantUtil.areaNames[areaCodePos];
+                                SharedPreferencesUtil.setString(MainActivity.this, ConstantUtil.AreName, cityName);
+                                selectedPos=areaCodePos + 1;//实际上的菜单位置要比纯地区名加1，因为第一个是【作业区】标题
+                                SharedPreferencesUtil.setInt(MainActivity.this, ConstantUtil.SelectArea, selectedPos);
+                                mNavigationDrawerFragment.selectItem(selectedPos);
                             }else
                                 ActUtil.showSinglseDialog(MainActivity.this, "暂无"+amapLocation.getCity()+"相关数据");
                         }

@@ -4,7 +4,7 @@ import weather.ppx.com.weatherapp.R;
 
 public class ConstantUtil {
 
-	public static final String AreCode="AreCode";
+//	public static final String AreCode="AreCode";
 	public static final String AreName="AreName";
 	public static final String AutoLocation="AutoLocation";
 	public static final String SelectArea="SelectArea";

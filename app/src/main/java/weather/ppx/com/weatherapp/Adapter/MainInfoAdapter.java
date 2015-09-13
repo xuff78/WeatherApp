@@ -1,6 +1,7 @@
 package weather.ppx.com.weatherapp.Adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -146,7 +147,6 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
 //            mWebView.setBackgroundColor(1);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setBackgroundColor(mContext.getResources().getColor(R.color.hard_blue));
-            mWebView.loadUrl("file:///android_asset/test.html");
             mWebView.setWebChromeClient(new WebChromeClient());
             mWebView.clearCache(false);
             mWebView.setFocusable(false);
@@ -164,6 +164,12 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                     return true;
                 }
             });
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.loadUrl("file:///android_asset/test.html");
+                }
+            },1000);
         }
     }
 
