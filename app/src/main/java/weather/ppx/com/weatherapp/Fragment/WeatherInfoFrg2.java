@@ -55,6 +55,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
     private TextView temperatureTxt, windTxt, humidityTxt, publishTime;
     private ArrayList<TextView> txts=new ArrayList<>();
     private ArrayList<ImageView> imgs=new ArrayList<>();
+    private View hintLayout, dataLayout;
 
     private void initHandler() {
         weatherHandler=new HttpHandler(getActivity(), new CallBack(getActivity()){
@@ -72,6 +73,8 @@ public class WeatherInfoFrg2  extends BaseFragment {
                     setTopInfoItem();
                     weatherHandler.getCityReal(areaCode);
                 }else if(method.equals(ConstantUtil.Method_CityReal)){
+                    dataLayout.setVisibility(View.VISIBLE);
+                    hintLayout.setVisibility(View.GONE);
                     try {
                         JSONObject obj=new JSONObject(jsonMessage);
                         String temperature=obj.getJSONObject("weather").getString("temperature");
@@ -139,7 +142,9 @@ public class WeatherInfoFrg2  extends BaseFragment {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_weather_info_frg2, container, false);
 
+        dataLayout=v.findViewById(R.id.dataLayout);
         areaCode=getArguments().getString("Code");
+        hintLayout=v.findViewById(R.id.hintLayout);
         topDaysInfoLayout= (LinearLayout) v.findViewById(R.id.topDaysInfoLayout);
         bottomDayInfoLayout= (LinearLayout) v.findViewById(R.id.bottomDayInfoLayout);
         temperatureTxt= (TextView) v.findViewById(R.id.temperatureTxt);

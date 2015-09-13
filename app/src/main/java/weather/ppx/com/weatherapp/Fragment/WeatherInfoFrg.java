@@ -43,6 +43,7 @@ public class WeatherInfoFrg extends BaseFragment {
     private MainInfoAdapter myAdapter;
     private HttpHandler weatherHandler;
     private AreaWorkingInfo workingInfo;
+    private View hintLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +53,7 @@ public class WeatherInfoFrg extends BaseFragment {
 
         areaCode=getArguments().getString("Code");
         mRecyclerView = (RecyclerView)v.findViewById(R.id.mRecyclerView);
+        hintLayout=v.findViewById(R.id.hintLayout);
         // 设置LinearLayoutManager
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         // 设置ItemAnimator
@@ -71,6 +73,8 @@ public class WeatherInfoFrg extends BaseFragment {
                 if(getActivity()==null)
                     return;
 //                LogUtil.i("Location", jsonMessage);
+
+                hintLayout.setVisibility(View.GONE);
                 workingInfo= JsonUtil.getWorkingInfo(jsonMessage);
                 myAdapter = new MainInfoAdapter(getActivity(), workingInfo);
                 mRecyclerView.setAdapter(myAdapter);

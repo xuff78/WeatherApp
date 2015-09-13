@@ -148,6 +148,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             mWebView.setBackgroundColor(mContext.getResources().getColor(R.color.hard_blue));
             mWebView.loadUrl("file:///android_asset/test.html");
             mWebView.setWebChromeClient(new WebChromeClient());
+            mWebView.clearCache(false);
             mWebView.setFocusable(false);
             mWebView.setWebViewClient(new WebViewClient() {
 
