@@ -11,19 +11,20 @@ import java.util.TimeZone;
  */
 public class TimeUtil {
 
-    public static Date getDate(String strDate){
+    public static String getDate(String strDate){
         if(strDate!=null&&strDate.length()>11) {
-            String data=strDate.substring(11);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd");
+//            String data=strDate.substring(11);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd HH:mm");
             try {
-                Date date = simpleDateFormat.parse(data);
+                Date date = simpleDateFormat.parse(strDate);
+                SimpleDateFormat showFormat = new SimpleDateFormat("MM月dd日 HH时");
                 System.out.println(date);
-                return date;
+                return showFormat.format(date);
             } catch (ParseException px) {
                 px.printStackTrace();
             }
         }
-        return null;
+        return "";
     }
 
     public static String getWeekDay(int after){

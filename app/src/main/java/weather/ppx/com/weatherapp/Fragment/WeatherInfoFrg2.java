@@ -178,8 +178,8 @@ public class WeatherInfoFrg2  extends BaseFragment {
             layout.setLayoutParams(llp);
             String weekDay= TimeUtil.getWeekDay(i);
             layout.addView(ActUtil.getTextView(getActivity(), weekDay, 15));
-            layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(info.getDayWeatherImg()), 20, 8));
-            layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(info.getNightWeatherImg()), 20,8));
+            layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(info.getDayWeatherImg()), 28, 8));
+            layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(info.getNightWeatherImg()), 28,8));
             layout.setBackgroundResource(R.drawable.weather_day_selector);
             topDaysInfoLayout.addView(layout);
             layout.setOnClickListener(new View.OnClickListener() {
@@ -213,8 +213,8 @@ public class WeatherInfoFrg2  extends BaseFragment {
             llp.topMargin=marginTop;
             layout.setLayoutParams(llp);
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getDt(), txtSize, 65));
-            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "|", txtSize, 20));
-            layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(item.getImg()), 20));
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "|", txtSize, 15));
+            layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(item.getImg()), 25));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getInfo(), txtSize, 45));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getMintemp() + "°/" + item.getMaxtemp() + "°", 14, 80));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getDirect(), txtSize, 45));

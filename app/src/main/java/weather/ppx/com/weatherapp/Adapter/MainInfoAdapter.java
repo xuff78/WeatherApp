@@ -169,7 +169,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                 public void run() {
                     mWebView.loadUrl("file:///android_asset/test.html");
                 }
-            },1000);
+            },500);
         }
     }
 

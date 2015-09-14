@@ -25,6 +25,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -40,6 +42,7 @@ import weather.ppx.com.weatherapp.Util.ActUtil;
 import weather.ppx.com.weatherapp.Util.ConstantUtil;
 import weather.ppx.com.weatherapp.Util.JsonUtil;
 import weather.ppx.com.weatherapp.Util.ScreenUtil;
+import weather.ppx.com.weatherapp.Util.TimeUtil;
 import weather.ppx.com.weatherapp.http.CallBack;
 import weather.ppx.com.weatherapp.http.HttpHandler;
 
@@ -79,6 +82,7 @@ public class WeatherMap extends BaseActivity {
                 if(mapinfo.size()>0) {
                     progressDialog.dismiss();
                     stepWidth = 100 / mapinfo.get(0).getDetail().size();
+                    dateTime.setText(TimeUtil.getDate(mapinfo.get(0).getDate_time()));
                     setAreaColors();
                 }else{
                     progressDialog.dismiss();
@@ -229,7 +233,6 @@ public class WeatherMap extends BaseActivity {
         }
         String data=mapinfo.get(0).getDetail().get(seekBar.getProgress()/stepWidth).getDt();
         dateTxt.setText(data);
-        dateTime.setText(data);
     }
 
     View.OnClickListener listenr=new View.OnClickListener(){
