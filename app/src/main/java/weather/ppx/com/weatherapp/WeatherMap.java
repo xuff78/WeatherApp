@@ -82,7 +82,7 @@ public class WeatherMap extends BaseActivity {
                 if(mapinfo.size()>0) {
                     progressDialog.dismiss();
                     stepWidth = 100 / mapinfo.get(0).getDetail().size();
-                    dateTime.setText(TimeUtil.getDate(mapinfo.get(0).getDate_time()));
+//                    dateTime.setText(TimeUtil.getDate(mapinfo.get(0).getDate_time()));
                     setAreaColors();
                 }else{
                     progressDialog.dismiss();
@@ -232,6 +232,7 @@ public class WeatherMap extends BaseActivity {
 
         }
         String data=mapinfo.get(0).getDetail().get(seekBar.getProgress()/stepWidth).getDt();
+        dateTime.setText(data);
         dateTxt.setText(data);
     }
 

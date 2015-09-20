@@ -3,6 +3,7 @@ package weather.ppx.com.weatherapp.Adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import weather.ppx.com.weatherapp.R;
 import weather.ppx.com.weatherapp.Util.ActUtil;
 import weather.ppx.com.weatherapp.Util.LogUtil;
 import weather.ppx.com.weatherapp.Util.ScreenUtil;
+import weather.ppx.com.weatherapp.Util.TimeUtil;
 
 /**
  * Created by 可爱的蘑菇 on 2015/8/27.
@@ -70,13 +72,33 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
         if(i==0) {
             TopViewHolder th=(TopViewHolder)viewHolder;
             if(workingInfo.getDetail().size()>0){
-                WeatherInfo info=workingInfo.getDetail().get(0);
-                th.dateTxt.setText(info.getDt());
-                th.fengxiangTxt.setText("风速：" + info.getWiSV()+"级");
-                th.langgaoTxt.setText("浪高：" + info.getWaH()+"m");
-                th.chaoweiTxt.setText("潮位：" + info.gettL()+"cm");
-                th.boxiangTxt.setText("波向：" + info.getWaDT());
-                th.publishTime.setText( workingInfo.getDate_time()+"  发布");
+                Time t=new Time(); // or Time t=new Time("GMT+8"); 加上Time Zone资料。
+                t.setToNow(); // 取得系统时间。
+                int hour = t.hour; // 0-23
+                for(int j=0;j<workingInfo.getDetail().size();j++) {
+                    WeatherInfo info = null;
+                    WeatherInfo tempInfo = workingInfo.getDetail().get(j);
+                    String[] date=tempInfo.getDt().split("日");
+                    int day=Integer.valueOf(date[0]);
+                    if(day==t.monthDay)
+                    if(Integer.valueOf(tempInfo.getTime())>hour){
+                        info=tempInfo;
+                    }else if(workingInfo.getDetail().size()>(j+1)&&Integer.valueOf(tempInfo.getTime())>Integer.valueOf(workingInfo.getDetail().get(j+1).getTime()))
+                        info=workingInfo.getDetail().get(j+1);
+                    if(info!=null) {
+                        th.dateTxt.setText(info.getDt());
+                        if (info.getSafe().equals("不安全"))
+                            th.safeTxt.setTextColor(mContext.getResources().getColor(R.color.normal_orange));
+                        else if (info.getSafe().equals("极不安全"))
+                            th.safeTxt.setTextColor(mContext.getResources().getColor(R.color.norma_red));
+                        th.fengxiangTxt.setText("风速：" + info.getWiSV() + "m/s");
+                        th.langgaoTxt.setText("浪高：" + info.getWaH() + "m");
+                        th.chaoweiTxt.setText("潮位：" + info.gettL() + "cm");
+                        th.boxiangTxt.setText("波向：" + info.getWaDT());
+                        th.publishTime.setText(workingInfo.getDate_time() + "  发布");
+                        return;
+                    }
+                }
             }
         }else if(i==1) {
             MidViewHolder mh=(MidViewHolder)viewHolder;
@@ -96,7 +118,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
     // 重写的自定义ViewHolder
     public class TopViewHolder extends RecyclerView.ViewHolder
     {
-        TextView dateTxt, fengxiangTxt, chaoweiTxt, langgaoTxt, boxiangTxt, publishTime;
+        TextView dateTxt, fengxiangTxt, chaoweiTxt, langgaoTxt, boxiangTxt, publishTime, safeTxt;
         public TopViewHolder( View v )
         {
             super(v);
@@ -106,6 +128,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             langgaoTxt=(TextView)v.findViewById(R.id.langgaoTxt);
             boxiangTxt=(TextView)v.findViewById(R.id.boxiangTxt);
             publishTime=(TextView)v.findViewById(R.id.publishTime);
+            safeTxt=(TextView)v.findViewById(R.id.safeTxt);
         }
     }
 
@@ -164,12 +187,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                     return true;
                 }
             });
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mWebView.loadUrl("file:///android_asset/test.html");
-                }
-            },500);
+            mWebView.loadUrl("file:///android_asset/test.html");
         }
     }
 

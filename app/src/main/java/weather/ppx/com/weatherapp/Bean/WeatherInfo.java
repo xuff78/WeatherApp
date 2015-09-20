@@ -7,7 +7,7 @@ import common.eric.com.ebaselibrary.model.EBaseModel;
  */
 public class WeatherInfo extends EBaseModel {
     private String dt="";
-    private String time="";
+    private String time="0";
     private String safe="";
     private String waDT="";
     private String tL="";

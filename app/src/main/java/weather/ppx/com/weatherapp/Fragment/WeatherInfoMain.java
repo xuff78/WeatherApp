@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 
 import weather.ppx.com.weatherapp.BaseActivity;
 import weather.ppx.com.weatherapp.R;
+import weather.ppx.com.weatherapp.Util.ActUtil;
 
 /**
  * Created by �ɰ���Ģ�� on 2015/8/23.
@@ -55,7 +56,7 @@ public class WeatherInfoMain extends BaseFragment {
                     ((BaseActivity)getActivity())._setHeaderTitle(areaName+"作业区");
 
                 }else
-                    ((BaseActivity)getActivity())._setHeaderTitle(areaName);
+                    ((BaseActivity)getActivity())._setHeaderTitle(ActUtil.getCityName(areaName));
 
             }
 

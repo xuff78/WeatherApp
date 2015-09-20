@@ -19,11 +19,13 @@
         <ImageView
             android:layout_toLeftOf="@+id/block_black"
             android:src="@drawable/block_white"
+            android:layout_marginTop="15dip"
             android:layout_width="20dip"
             android:layout_height="20dip" />
         <ImageView
             android:id="@+id/block_black"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="15dip"
             android:src="@drawable/block_black"
             android:layout_width="20dip"
             android:layout_height="20dip" />
@@ -31,14 +33,14 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dip"
+        android:layout_marginBottom="20dip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <LinearLayout
             android:background="@drawable/ringbg"
             android:id="@+id/todayInfoLeft"
             android:orientation="vertical"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:layout_width="170dip"
             android:layout_height="170dip">
             <LinearLayout
@@ -46,18 +48,19 @@
                 android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_margin="5dp"
-                    android:id="@+id/weatherIcon"
-                    android:layout_width="40dip"
-                    android:layout_height="40dip" />
+                <!--<ImageView-->
+                    <!--android:layout_margin="5dp"-->
+                    <!--android:id="@+id/weatherIcon"-->
+                    <!--android:layout_width="40dip"-->
+                    <!--android:layout_height="40dip" />-->
                 <TextView
-                    android:text="极不安全"
+                    android:id="@+id/safeTxt"
+                    android:text="安全"
                     android:textSize="24sp"
-                    android:textColor="@color/norma_red"
+                    android:textColor="@color/text_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <TextView
+                <!--<TextView
                     android:text="不安全"
                     android:textSize="24sp"
                     android:textColor="@color/normal_orange"
@@ -68,7 +71,7 @@
                     android:textSize="24sp"
                     android:textColor="@color/text_state"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content" />-->
             </LinearLayout>
         </LinearLayout>
         <LinearLayout

@@ -11,10 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import weather.ppx.com.weatherapp.R;
-
-import static weather.ppx.com.weatherapp.Util.ConstantUtil.areaNames;
-
 /**
  * Created by 可爱的蘑菇 on 2015/8/25.
  */
@@ -158,5 +154,13 @@ public class ActUtil {
             imgRes=ConstantUtil.weatherRes[dataInt];
         }
         return imgRes;
+    }
+
+    public static String getCityName(String areaName) {
+        for (int i=0;i<ConstantUtil.cityName.length;i++){
+            if(ConstantUtil.cityName[i].contains(areaName))
+                return ConstantUtil.cityName[i];
+        }
+        return "";
     }
 }

@@ -9,6 +9,7 @@ public class ConstantUtil {
 	public static final String AutoLocation="AutoLocation";
 	public static final String SelectArea="SelectArea";
 
+	public static final String[] cityName={"赣榆县", "灌云县", "响水县", "滨海县", "射阳县", "大丰市", "东台市", "如东县", "启东市"};
 	public static final String[] areaNames={"赣榆", "灌云" , "响水", "海滨", "射阳", "大丰", "东台", "如东", "启东"};
 	public static final String[] areaCodes={"101191003", "101191004" , "101190702", "101190703", "101190705", "101190708", "101190707", "101190504", "101190507"};
 	public static final int[] weatherRes={R.mipmap.weather_icon_0, R.mipmap.weather_icon_1, R.mipmap.weather_icon_2, R.mipmap.weather_icon_3
