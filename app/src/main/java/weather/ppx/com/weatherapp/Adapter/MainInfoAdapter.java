@@ -60,7 +60,10 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             holder=new MidViewHolder(v);
         }else if(i==2) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.listitem_maininfo_bottom, viewGroup, false);
-            holder=new BottomViewHolder(v);
+            holder=new BottomViewHolder(v, "file:///android_asset/form1.html");
+        }else if(i==3) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.listitem_maininfo_bottom, viewGroup, false);
+            holder=new BottomViewHolder(v, "file:///android_asset/form2.html");
         }
         return holder;
     }
@@ -112,7 +115,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
     public int getItemCount()
     {
         // 返回数据总数
-        return 3;
+        return 4;
     }
 
     // 重写的自定义ViewHolder
@@ -163,7 +166,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
     public class BottomViewHolder extends RecyclerView.ViewHolder
     {
         WebView mWebView;
-        public BottomViewHolder( View v )
+        public BottomViewHolder(View v, String url)
         {
             super(v);
             mWebView=(WebView)v.findViewById(R.id.mWebView);
@@ -187,7 +190,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                     return true;
                 }
             });
-            mWebView.loadUrl("file:///android_asset/test.html");
+            mWebView.loadUrl(url);
         }
     }
 

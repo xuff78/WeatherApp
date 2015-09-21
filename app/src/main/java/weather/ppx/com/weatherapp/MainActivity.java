@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private String mTitle="赣榆作业区";
-    public static final String[] areaNames={"作业区", "赣榆", "灌云" , "响水", "海滨", "射阳", "大丰", "东台", "如东", "启东", "地图显示", "设置"};
+    public static final String[] areaNames={"作业区", "赣榆", "灌云" , "响水", "滨海", "射阳", "大丰", "东台", "如东", "启东", "地图显示", "设置"};
     int selectedPos=1;
 //    private String areaName="";
     private int bgType=-1;
@@ -152,7 +152,7 @@ public class MainActivity extends BaseActivity
     private void initLocation() {
         mLocationManagerProxy = LocationManagerProxy.getInstance(this);
         mLocationManagerProxy.requestLocationData(
-                LocationProviderProxy.AMapNetwork, 10*1000, 15, this);
+                LocationProviderProxy.AMapNetwork, -1, 15, this);
         mLocationManagerProxy.setGpsEnable(true);
     }
 
@@ -202,29 +202,29 @@ public class MainActivity extends BaseActivity
                 if(!amapLocation.getCity().contains(currentCity)) {
                     final String getAreaCode = ActUtil.getAreaCode(amapLocation.getCity());
                     if(getAreaCode.length()>0) {
-                    ActUtil.showTwoOptionsDialog(MainActivity.this, "您所在的城市为" + amapLocation.getCity() + "，与当前城市不一致，是否切换成"
-                            + amapLocation.getCity(), new View.OnClickListener() {
+                        ActUtil.showTwoOptionsDialog(MainActivity.this, "您所在的城市为" + amapLocation.getCity() + "，与当前城市不一致，是否切换成"
+                                + amapLocation.getCity(), new View.OnClickListener() {
 
-                        @Override
-                        public void onClick(View view) {
-                                areaCode = getAreaCode;
-                                int areaCodePos = ActUtil.getPosByAreaCode(getAreaCode);
-                                String cityName = ConstantUtil.areaNames[areaCodePos];
-                                SharedPreferencesUtil.setString(MainActivity.this, ConstantUtil.AreName, cityName);
-                                selectedPos = areaCodePos + 1;//实际上的菜单位置要比纯地区名加1，因为第一个是【作业区】标题
-                                SharedPreferencesUtil.setInt(MainActivity.this, ConstantUtil.SelectArea, selectedPos);
-                                mNavigationDrawerFragment.selectItem(selectedPos);
+                            @Override
+                            public void onClick(View view) {
+                                    areaCode = getAreaCode;
+                                    int areaCodePos = ActUtil.getPosByAreaCode(getAreaCode);
+                                    String cityName = ConstantUtil.areaNames[areaCodePos];
+                                    SharedPreferencesUtil.setString(MainActivity.this, ConstantUtil.AreName, cityName);
+                                    selectedPos = areaCodePos + 1;//实际上的菜单位置要比纯地区名加1，因为第一个是【作业区】标题
+                                    SharedPreferencesUtil.setInt(MainActivity.this, ConstantUtil.SelectArea, selectedPos);
+                                    mNavigationDrawerFragment.selectItem(selectedPos);
 
-                        }
-                    });
-                } else
-                    ActUtil.showSinglseDialog(MainActivity.this, "您所在的城市为" + amapLocation.getCity() + "，切换至如东");
-
+                            }
+                        });
+                    } else {
+                        ActUtil.showSinglseDialog(MainActivity.this, "您所在的城市为" + amapLocation.getCity() + "，切换至如东");
+                        mNavigationDrawerFragment.selectItem(8);
+                    }
+                }
                 mLocationManagerProxy.removeUpdates(MainActivity.this);
-
+                LogUtil.i("Location", "La:" + amapLocation.getLatitude() + "  Lo:" + amapLocation.getLongitude());
             }
-            LogUtil.i("Location", "La:" + amapLocation.getLatitude() + "  Lo:" + amapLocation.getLongitude());
         }
-    }
     }
 }

@@ -164,13 +164,13 @@ public class WeatherMap extends BaseActivity {
     }
 
     private void setImageOnMap() {
-        areaInfos.add(new AreaInfo(R.drawable.gangyu, 0.082f, 0f));
+        areaInfos.add(new AreaInfo(R.drawable.gangyu, 0.062f, 0f));
         areaInfos.add(new AreaInfo(R.drawable.guanyun, 0.082f, 0.082f));
         areaInfos.add(new AreaInfo(R.drawable.xiangshui, 0.178f, 0.146f));
-        areaInfos.add(new AreaInfo(R.drawable.haibing, 0.373f, 0.228f));
-        areaInfos.add(new AreaInfo(R.drawable.sheyang, 0.405f, 0.311f));
+        areaInfos.add(new AreaInfo(R.drawable.haibing, 0.359f, 0.228f));
+        areaInfos.add(new AreaInfo(R.drawable.sheyang, 0.398f, 0.311f));
         areaInfos.add(new AreaInfo(R.drawable.dafeng, 0.475f, 0.401f));
-        areaInfos.add(new AreaInfo(R.drawable.dongtai, 0.536f, 0.531f));
+        areaInfos.add(new AreaInfo(R.drawable.dongtai, 0.541f, 0.531f));
         areaInfos.add(new AreaInfo(R.drawable.rudong, 0.573f, 0.623f));
         areaInfos.add(new AreaInfo(R.drawable.qidong, 0.705f, 0.775f));
         for (int i=0; i<areaInfos.size(); i++){
