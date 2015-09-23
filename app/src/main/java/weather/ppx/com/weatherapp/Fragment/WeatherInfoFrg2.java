@@ -53,7 +53,8 @@ public class WeatherInfoFrg2  extends BaseFragment {
     private ArrayList<ArrayList<WeatherInTIme>> weatherinfos;
     private ImageView weatherIcon;
     private TextView temperatureTxt, windTxt, humidityTxt, publishTime;
-    private ArrayList<TextView> txts=new ArrayList<>();
+    private ArrayList<TextView> txtsL=new ArrayList<>();
+    private ArrayList<TextView> txtsR=new ArrayList<>();
     private ArrayList<ImageView> imgs=new ArrayList<>();
     private View hintLayout, dataLayout;
 
@@ -89,19 +90,22 @@ public class WeatherInfoFrg2  extends BaseFragment {
                         windTxt.setText(wind);
                         if(weatherinfos.get(0).size()>=3)
                             for(int i=0;i<3;i++) {
-                                txts.get(i).setText(weatherinfos.get(0).get(i).getTime() + ":00 " + weatherinfos.get(0).get(i).getInfo());
+                                txtsL.get(i).setText(weatherinfos.get(0).get(i).getTime() + ":00 ");
                                 imgs.get(i).setImageResource(ActUtil.getWeatherImg(weatherinfos.get(0).get(i).getImg()));
+                                txtsR.get(i).setText(weatherinfos.get(0).get(i).getInfo());
                             }
                         else {
                             for (int i = 0; i < weatherinfos.get(0).size(); i++) {
-                                txts.get(i).setText(weatherinfos.get(0).get(i).getTime() + ":00 " + weatherinfos.get(0).get(i).getInfo());
+                                txtsL.get(i).setText(weatherinfos.get(0).get(i).getTime() + ":00 ");
                                 imgs.get(i).setImageResource(ActUtil.getWeatherImg(weatherinfos.get(0).get(i).getImg()));
+                                txtsR.get(i).setText(weatherinfos.get(0).get(i).getInfo());
                             }
                             int FirstArraySize=weatherinfos.get(0).size();
                             int SeccendArraySize=3-FirstArraySize;
                             for (int j = 0; j < SeccendArraySize; j++) {
-                                txts.get(FirstArraySize+j).setText(weatherinfos.get(1).get(j).getTime() + ":00 " + weatherinfos.get(1).get(j).getInfo());
+                                txtsL.get(FirstArraySize+j).setText(weatherinfos.get(1).get(j).getTime() + ":00 ");
                                 imgs.get(FirstArraySize+j).setImageResource(ActUtil.getWeatherImg(weatherinfos.get(1).get(j).getImg()));
+                                txtsR.get(FirstArraySize).setText(weatherinfos.get(1).get(j).getInfo());
                             }
                         }
                     } catch (JSONException e) {
@@ -155,9 +159,12 @@ public class WeatherInfoFrg2  extends BaseFragment {
         imgs.add((ImageView) v.findViewById(R.id.topWeatherTime1));
         imgs.add ((ImageView) v.findViewById(R.id.topWeatherTime2));
         imgs.add((ImageView) v.findViewById(R.id.topWeatherTime3));
-        txts.add((TextView) v.findViewById(R.id.rightInfoTxt1));
-        txts.add((TextView)v.findViewById(R.id.rightInfoTxt2));
-        txts.add((TextView)v.findViewById(R.id.rightInfoTxt3));
+        txtsL.add((TextView) v.findViewById(R.id.rightInfoTxt1Left));
+        txtsL.add((TextView)v.findViewById(R.id.rightInfoTxt2Left));
+        txtsL.add((TextView)v.findViewById(R.id.rightInfoTxt3Left));
+        txtsR.add((TextView)v.findViewById(R.id.rightInfoTxt1Right));
+        txtsR.add((TextView)v.findViewById(R.id.rightInfoTxt2Right));
+        txtsR.add((TextView)v.findViewById(R.id.rightInfoTxt3Right));
 //        setTopInfoItem();
         initHandler();
         weatherHandler.getCityPredict(areaCode);

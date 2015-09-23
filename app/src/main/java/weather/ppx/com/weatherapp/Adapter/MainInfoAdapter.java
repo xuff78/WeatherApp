@@ -199,7 +199,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
         int Swidth = 40;
         int Lwidth = 60;
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "时间", 15, Lwidth));
-        mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "风", 15, 50));
+        mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "风\n(m/s)", 15, 50));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "浪高\n(m)", 15, Swidth));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "潮位\n(cm)", 15, 50));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "波向", 15, Lwidth));

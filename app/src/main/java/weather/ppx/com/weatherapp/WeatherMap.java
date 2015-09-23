@@ -274,7 +274,7 @@ public class WeatherMap extends BaseActivity {
         TextView txt2 = (TextView) contentView.findViewById(R.id.txt2);
         TextView txt3 = (TextView) contentView.findViewById(R.id.txt3);
         TextView txt4 = (TextView) contentView.findViewById(R.id.txt4);
-        txt1.setText("风："+info.getWiSV()+"级");
+        txt1.setText("风："+info.getWiSV()+"m/s");
         txt2.setText("浪："+info.getWaH()+"m");
         txt3.setText("潮："+info.gettL() +"cm");
         txt4.setText("波向："+info.getWaDT());
