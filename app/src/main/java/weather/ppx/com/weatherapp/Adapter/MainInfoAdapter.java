@@ -212,10 +212,14 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             LinearLayout layout=new LinearLayout(mContext);
             layout.setOrientation(LinearLayout.HORIZONTAL);
             layout.setGravity(Gravity.CENTER);
-            if(info.getSafe().equals("不安全"))
+            String safeValue="1";
+            if(info.getSafe().equals("不安全")) {
+                safeValue="2";
                 layout.setBackgroundColor(mContext.getResources().getColor(R.color.normal_orange));
-            else if(info.getSafe().equals("极不安全"))
+            }else if(info.getSafe().equals("极不安全")) {
                 layout.setBackgroundColor(mContext.getResources().getColor(R.color.norma_red));
+                safeValue="3";
+            }
             LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, itemHeight);
             llp.topMargin=marginTop;
             layout.setLayoutParams(llp);
@@ -225,7 +229,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaH(), 14, 40));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.gettL(), 14, 50));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaDT(), 14, Lwidth));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getSafe(), 14, Lwidth));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, safeValue, 14, Lwidth));
             if(i>8){
                 mh.bottomDayInfoLayout2.addView(layout);
             }else

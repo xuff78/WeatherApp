@@ -11,8 +11,17 @@ public class WeatherInTIme {
     private String info="";
     private String maxtemp="";
     private String mintemp="";
+    private String temp="";
     private String direct="";
     private String power="";
+
+    public String getTemp() {
+        return temp;
+    }
+
+    public void setTemp(String temp) {
+        this.temp = temp;
+    }
 
     public String getDt() {
         return dt;

@@ -52,6 +52,7 @@ public class JsonUtil {
                     item.setInfo(itemObj.getString("info"));
                     item.setMaxtemp(itemObj.getString("maxtemp"));
                     item.setMintemp(itemObj.getString("mintemp"));
+                    item.setTemp(itemObj.getString("temp"));
                     item.setDirect(itemObj.getString("direct"));
                     item.setPower(itemObj.getString("power"));
                     item.setTime(itemObj.getString("time"));

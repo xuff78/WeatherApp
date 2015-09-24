@@ -72,7 +72,8 @@ public class WeatherInfoFrg2  extends BaseFragment {
                 }else if(method.equals(ConstantUtil.Method_CityRefined)){
                     weatherinfos=JsonUtil.getWeatherInTimes(jsonMessage);
                     setTopInfoItem();
-                    weatherHandler.getCityReal(areaCode);
+                    if(weatherinfos.size()>0)
+                        weatherHandler.getCityReal(areaCode);
                 }else if(method.equals(ConstantUtil.Method_CityReal)){
                     dataLayout.setVisibility(View.VISIBLE);
                     hintLayout.setVisibility(View.GONE);
@@ -92,20 +93,20 @@ public class WeatherInfoFrg2  extends BaseFragment {
                             for(int i=0;i<3;i++) {
                                 txtsL.get(i).setText(weatherinfos.get(0).get(i).getTime() + ":00 ");
                                 imgs.get(i).setImageResource(ActUtil.getWeatherImg(weatherinfos.get(0).get(i).getImg()));
-                                txtsR.get(i).setText(weatherinfos.get(0).get(i).getInfo());
+                                txtsR.get(i).setText(weatherinfos.get(0).get(i).getTemp()+"°");
                             }
                         else {
                             for (int i = 0; i < weatherinfos.get(0).size(); i++) {
                                 txtsL.get(i).setText(weatherinfos.get(0).get(i).getTime() + ":00 ");
                                 imgs.get(i).setImageResource(ActUtil.getWeatherImg(weatherinfos.get(0).get(i).getImg()));
-                                txtsR.get(i).setText(weatherinfos.get(0).get(i).getInfo());
+                                txtsR.get(i).setText(weatherinfos.get(0).get(i).getTemp()+"°");
                             }
                             int FirstArraySize=weatherinfos.get(0).size();
                             int SeccendArraySize=3-FirstArraySize;
                             for (int j = 0; j < SeccendArraySize; j++) {
                                 txtsL.get(FirstArraySize+j).setText(weatherinfos.get(1).get(j).getTime() + ":00 ");
                                 imgs.get(FirstArraySize+j).setImageResource(ActUtil.getWeatherImg(weatherinfos.get(1).get(j).getImg()));
-                                txtsR.get(FirstArraySize).setText(weatherinfos.get(1).get(j).getInfo());
+                                txtsR.get(FirstArraySize).setText(weatherinfos.get(1).get(j).getTemp()+"°");
                             }
                         }
                     } catch (JSONException e) {
@@ -208,7 +209,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
     }
 
     private void setBottomInfo(int pos){
-        int txtSize=13;
+        int txtSize=14;
         bottomDayInfoLayout.removeAllViews();
         int marginTop= ScreenUtil.dip2px(getActivity(), 8);
         for (int i=0; i<weatherinfos.get(pos).size(); i++){
@@ -223,9 +224,9 @@ public class WeatherInfoFrg2  extends BaseFragment {
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "|", txtSize, 15));
             layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(item.getImg()), 25));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getInfo(), txtSize, 45));
-            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getMintemp() + "°/" + item.getMaxtemp() + "°", 14, 80));
-            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getDirect(), txtSize, 45));
-            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getPower(), txtSize, 45));
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getTemp() + "°", 14, 50));
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getDirect(), txtSize, 55));
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getPower(), txtSize, 50));
             bottomDayInfoLayout.addView(layout);
         }
     }
