@@ -223,7 +223,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getDt(), txtSize, 65));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "|", txtSize, 15));
             layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(item.getImg()), 25));
-            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getInfo(), txtSize, 45));
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getInfo(), txtSize, 55));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getTemp() + "°", 14, 50));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getDirect(), txtSize, 55));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getPower(), txtSize, 50));
