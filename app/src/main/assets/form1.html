@@ -59,7 +59,7 @@
             <!--saveAsImage : {show: true}-->
         <!--}-->
     <!--},-->
-    calculable : true,
+    calculable : false,
     legend: {
         data:['等级曲线','风速曲线'],
         textStyle: {
@@ -104,6 +104,7 @@
         {
             type : 'value',
             name : '安全等级',
+            splitNumber: 3,
             axisLine: {            // 坐标轴线
                 show: true,        // 默认显示，属性show控制显示与否
                 lineStyle: {       // 属性lineStyle控制线条样式

@@ -186,7 +186,7 @@ public class WeatherMap extends BaseActivity {
             TextView tv=new TextView(this);
             tv.setTextColor(Color.WHITE);
             tv.setTextSize(14);
-            tv.setText(ConstantUtil.areaNames[i]);
+            tv.setText(ConstantUtil.cityName[i]);
             RelativeLayout.LayoutParams rlptxt=new RelativeLayout.LayoutParams(-2, -2);
             if(i==areaInfos.size()-1){
                 rlptxt.addRule(RelativeLayout.CENTER_VERTICAL);
