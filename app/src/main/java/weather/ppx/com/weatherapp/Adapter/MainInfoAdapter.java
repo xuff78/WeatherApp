@@ -90,10 +90,13 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                         info=workingInfo.getDetail().get(j+1);
                     if(info!=null) {
                         th.dateTxt.setText(info.getDt());
-                        if (info.getSafe().equals("不安全"))
+                        if (info.getSafe().equals("不安全")) {
                             th.safeTxt.setTextColor(mContext.getResources().getColor(R.color.normal_orange));
-                        else if (info.getSafe().equals("极不安全"))
+                            th.safeTxt.setText("不安全");
+                        }else if (info.getSafe().equals("极不安全")) {
                             th.safeTxt.setTextColor(mContext.getResources().getColor(R.color.norma_red));
+                            th.safeTxt.setText("极不安全");
+                        }
                         th.fengxiangTxt.setText("风速：" + info.getWiSV() + "m/s");
                         th.langgaoTxt.setText("浪高：" + info.getWaH() + "m");
                         th.chaoweiTxt.setText("潮位：" + info.gettL() + "cm");
