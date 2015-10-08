@@ -95,6 +95,19 @@ public class WeatherMap extends BaseActivity {
                     });
                 }
             }
+
+            @Override
+            public void onHTTPException(String method, String jsonMessage) {
+                super.onHTTPException(method, jsonMessage);
+                progressDialog.dismiss();
+                ActUtil.showSinglseDialog(WeatherMap.this, "暂未获取数据，请稍后再试", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+            }
         });
     }
 
