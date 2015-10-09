@@ -337,7 +337,7 @@ public class WeatherMap extends BaseActivity {
             }
 
         };
-        timer.scheduleAtFixedRate(task, 0, 5000);
+        timer.scheduleAtFixedRate(task, 0, 1000);
     }
 
     private void toNextInfo() {

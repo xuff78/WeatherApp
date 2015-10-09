@@ -86,7 +86,12 @@ public class WeatherInfoFrg2  extends BaseFragment {
                         String date=obj.getString("data_time");
                         temperatureTxt.setText(temperature+"°");
                         humidityTxt.setText("相对湿度"+humidity+"%");
-                        publishTime.setText( date+"  发布");
+                        String pt="";
+                        if(date.contains(" "))
+                            pt=date.split(" ")[1];
+                        else
+                            pt=date;
+                        publishTime.setText(pt + "  发布");
                         weatherIcon.setImageResource(ActUtil.getWeatherImg(img));
                         windTxt.setText(wind);
                         if(weatherinfos.get(0).size()>=3)
@@ -209,7 +214,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
     }
 
     private void setBottomInfo(int pos){
-        int txtSize=14;
+        int txtSize=13;
         bottomDayInfoLayout.removeAllViews();
         int marginTop= ScreenUtil.dip2px(getActivity(), 8);
         for (int i=0; i<weatherinfos.get(pos).size(); i++){
@@ -220,7 +225,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
             LinearLayout.LayoutParams llp=new  LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             llp.topMargin=marginTop;
             layout.setLayoutParams(llp);
-            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getDt(), txtSize, 65));
+            layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getDt(), txtSize, 70));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), "|", txtSize, 15));
             layout.addView(ActUtil.getImageView(getActivity(), ActUtil.getWeatherImg(item.getImg()), 25));
             layout.addView(ActUtil.getTextViewWithWidth(getActivity(), item.getInfo(), txtSize, 55));

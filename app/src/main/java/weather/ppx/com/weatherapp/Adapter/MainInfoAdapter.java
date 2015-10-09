@@ -101,7 +101,12 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                         th.langgaoTxt.setText("浪高：" + info.getWaH() + "m");
                         th.chaoweiTxt.setText("潮位：" + info.gettL() + "cm");
                         th.boxiangTxt.setText("波向：" + info.getWaDT());
-                        th.publishTime.setText(workingInfo.getDate_time() + "  发布");
+                        String pt="";
+                        if(workingInfo.getDate_time().contains(" "))
+                            pt=workingInfo.getDate_time().split(" ")[1];
+                        else
+                            pt=workingInfo.getDate_time();
+                        th.publishTime.setText(pt + "  发布");
                         return;
                     }
                 }
@@ -203,8 +208,8 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
         int Lwidth = 60;
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "时间", 14, Lwidth));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "风\n(m/s)", 15, 50));
-        mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "浪高\n(m)", 15, Swidth));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "潮位\n(cm)", 15, 50));
+        mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "浪高\n(m)", 15, Swidth));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "波向", 14, Lwidth));
         mh.topDaysInfoLayout.addView(ActUtil.getTextViewWithWidth(mContext, "安全\n等级", 14, Lwidth));
 
@@ -229,8 +234,8 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getDt(), 14, Lwidth));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWiSV(), 14, 35));
             layout.addView(ActUtil.getImageView(mContext, R.drawable.icon_wind, 15));
-            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaH(), 14, 40));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.gettL(), 14, 50));
+            layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaH(), 14, 40));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaDT(), 14, Lwidth));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getSafe(), 14, Lwidth));
             if(i>8){
