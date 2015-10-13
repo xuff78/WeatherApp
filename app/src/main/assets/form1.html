@@ -37,13 +37,14 @@
         var option = {
     tooltip : {
         trigger: 'axis',
-        formatter:function(a)
+        formatter:function(params)
         {
             var safe = "";
 
-            console.log(a);
+            console.log(params);
+//            alert(params);
 
-            var value = a[0];
+            var value = params[0].data;
 
             if(value=='1')
                 safe = "安全";
@@ -51,10 +52,12 @@
                 safe = "不安全";
             else if(value == '3')
                 safe = "极不安全";
+            else
+                safe = value;
 
             var relVal = "";
-            relVal = safe + "<br/>";
-            relVal = relVal+a[1]+"m/s";
+            relVal = "安全等级：" + safe + "<br/>";
+            relVal += "风速：" + params[1].data + "m/s";
             return relVal;
         }
     },
@@ -116,8 +119,13 @@
                     width: 1,
                     type: 'solid'
                 }
+            },
+            splitArea : {
+                show: true,
+                areaStyle:{
+                    color:['rgba(70,130,180,0.2)','rgba(71,71,71,0.2)']
+                }
             }
-
         }
     ],
     yAxis : [
@@ -186,6 +194,12 @@
                     color: ['#969696'],
                     width: 1,
                     type: 'solid'
+                }
+            },
+            splitArea : {
+                show: true,
+                areaStyle:{
+                    color:['rgba(70,130,180,0.2)','rgba(71,71,71,0.2)']
                 }
             }
         }

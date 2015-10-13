@@ -37,7 +37,15 @@
 
         var option2 = {
     tooltip : {
-        trigger: 'axis'
+        trigger: 'axis',
+        formatter:function(params)
+        {
+
+            var relVal = "";
+            relVal = "浪高和波向：" + params[0].data + "m<br/>";
+            relVal += "潮位：" + params[1].data + "m/s";
+            return relVal;
+        }
     },
     grid: {
         x: 30,
@@ -96,6 +104,12 @@
                     color: ['#969696'],
                     width: 1,
                     type: 'solid'
+                }
+            },
+            splitArea : {
+                show: true,
+                areaStyle:{
+                    color:['rgba(70,130,180,0.2)','rgba(71,71,71,0.2)']
                 }
             }
         }
@@ -156,6 +170,12 @@
                     color: ['#969696'],
                     width: 1,
                     type: 'solid'
+                }
+            },
+            splitArea : {
+                show: true,
+                areaStyle:{
+                    color:['rgba(70,130,180,0.2)','rgba(71,71,71,0.2)']
                 }
             }
         }

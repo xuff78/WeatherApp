@@ -2,6 +2,8 @@ package weather.ppx.com.weatherapp.Fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import common.eric.com.ebaselibrary.util.ToastUtils;
 import weather.ppx.com.weatherapp.Adapter.MainInfoAdapter;
 import weather.ppx.com.weatherapp.Bean.AreaWorkingInfo;
+import weather.ppx.com.weatherapp.MainActivity;
 import weather.ppx.com.weatherapp.R;
 import weather.ppx.com.weatherapp.Util.JsonUtil;
 import weather.ppx.com.weatherapp.Util.LogUtil;
@@ -44,6 +47,7 @@ public class WeatherInfoFrg extends BaseFragment {
     private HttpHandler weatherHandler;
     private AreaWorkingInfo workingInfo;
     private View hintLayout;
+    private SwipeRefreshLayout mSwipeLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +66,14 @@ public class WeatherInfoFrg extends BaseFragment {
         mRecyclerView.setHasFixedSize(true);
         initHandler();
         weatherHandler.getSeaInfo(areaCode);
+        mSwipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefresh);
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                weatherHandler.getSeaInfo(areaCode);
+            }
+        });
         return v;
     }
 
@@ -73,11 +85,17 @@ public class WeatherInfoFrg extends BaseFragment {
                 if(getActivity()==null)
                     return;
 //                LogUtil.i("Location", jsonMessage);
-
+                mSwipeLayout.setRefreshing(false);
                 hintLayout.setVisibility(View.GONE);
                 workingInfo= JsonUtil.getWorkingInfo(jsonMessage);
                 myAdapter = new MainInfoAdapter(getActivity(), workingInfo);
                 mRecyclerView.setAdapter(myAdapter);
+            }
+
+            @Override
+            public void onHTTPException(String method, String jsonMessage) {
+                super.onHTTPException(method, jsonMessage);
+                mSwipeLayout.setRefreshing(false);
             }
         });
     }

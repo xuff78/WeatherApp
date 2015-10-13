@@ -2,6 +2,7 @@ package weather.ppx.com.weatherapp.Fragment;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
     private ArrayList<TextView> txtsR=new ArrayList<>();
     private ArrayList<ImageView> imgs=new ArrayList<>();
     private View hintLayout, dataLayout;
+    private SwipeRefreshLayout mSwipeLayout;
 
     private void initHandler() {
         weatherHandler=new HttpHandler(getActivity(), new CallBack(getActivity()){
@@ -75,6 +77,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
                     if(weatherinfos.size()>0)
                         weatherHandler.getCityReal(areaCode);
                 }else if(method.equals(ConstantUtil.Method_CityReal)){
+                    mSwipeLayout.setRefreshing(false);
                     dataLayout.setVisibility(View.VISIBLE);
                     hintLayout.setVisibility(View.GONE);
                     try {
@@ -118,6 +121,12 @@ public class WeatherInfoFrg2  extends BaseFragment {
                         e.printStackTrace();
                     }
                 }
+            }
+
+            @Override
+            public void onHTTPException(String method, String jsonMessage) {
+                super.onHTTPException(method, jsonMessage);
+                mSwipeLayout.setRefreshing(false);
             }
         });
 //        weatherHandler2=new HttpHandler(getActivity(), new CallBack(getActivity()){
@@ -171,13 +180,22 @@ public class WeatherInfoFrg2  extends BaseFragment {
         txtsR.add((TextView)v.findViewById(R.id.rightInfoTxt1Right));
         txtsR.add((TextView)v.findViewById(R.id.rightInfoTxt2Right));
         txtsR.add((TextView)v.findViewById(R.id.rightInfoTxt3Right));
-//        setTopInfoItem();
+
         initHandler();
+        mSwipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefresh);
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                weatherHandler.getCityPredict(areaCode);
+            }
+        });
+//        setTopInfoItem();
         weatherHandler.getCityPredict(areaCode);
         return v;
     }
 
     private void setTopInfoItem(){
+        topDaysInfoLayout.removeAllViews();
         int toppadding=ScreenUtil.dip2px(getActivity(),5);
         for (int i=0; i<dayNightInfos.size(); i++){
             DayNightInfo info=dayNightInfos.get(i);

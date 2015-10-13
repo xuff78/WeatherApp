@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity
         _setRightImgListener(R.drawable.icon_app_refresh, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mNavigationDrawerFragment.selectItem(selectedPos);
+                refreshData();
             }
         });
         startActivity(new Intent(this, FirstPage.class));
@@ -76,6 +76,11 @@ public class MainActivity extends BaseActivity
         if (SharedPreferencesUtil.getValue(this, ConstantUtil.AutoLocation, true))
             initLocation();
     }
+
+    public void refreshData(){
+        mNavigationDrawerFragment.selectItem(selectedPos);
+    }
+
 
     @Override
     protected void onResume() {
@@ -115,27 +120,6 @@ public class MainActivity extends BaseActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.container, WeatherInfoMain.newInstance(areaNames[position], areaCode)).commit();
         }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            getMenuInflater().inflate(R.menu.main, menu);
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
