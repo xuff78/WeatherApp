@@ -60,6 +60,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
     private ArrayList<ImageView> imgs=new ArrayList<>();
     private View hintLayout, dataLayout;
     private SwipeRefreshLayout mSwipeLayout;
+    private boolean refresh=false;
 
     private void initHandler() {
         weatherHandler=new HttpHandler(getActivity(), new CallBack(getActivity()){
@@ -79,7 +80,10 @@ public class WeatherInfoFrg2  extends BaseFragment {
                         weatherHandler.getCityReal(areaCode);
                 }else if(method.equals(ConstantUtil.Method_CityReal)){
                     mSwipeLayout.setRefreshing(false);
-                    ToastUtils.show(getActivity(), "数据已更新");
+                    if(refresh) {
+                        ToastUtils.show(getActivity(), "数据已更新");
+                    }
+                    refresh=false;
                     dataLayout.setVisibility(View.VISIBLE);
                     hintLayout.setVisibility(View.GONE);
                     try {
@@ -129,6 +133,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
             public void onHTTPException(String method, String jsonMessage) {
                 super.onHTTPException(method, jsonMessage);
                 mSwipeLayout.setRefreshing(false);
+                refresh=false;
             }
         });
 //        weatherHandler2=new HttpHandler(getActivity(), new CallBack(getActivity()){
@@ -188,6 +193,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                refresh=true;
                 weatherHandler.getCityPredict(areaCode);
             }
         });

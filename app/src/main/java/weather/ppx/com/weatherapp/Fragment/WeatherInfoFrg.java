@@ -48,6 +48,7 @@ public class WeatherInfoFrg extends BaseFragment {
     private AreaWorkingInfo workingInfo;
     private View hintLayout;
     private SwipeRefreshLayout mSwipeLayout;
+    private boolean refresh=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,7 +71,7 @@ public class WeatherInfoFrg extends BaseFragment {
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                refresh=true;
                 weatherHandler.getSeaInfo(areaCode);
             }
         });
@@ -86,7 +87,9 @@ public class WeatherInfoFrg extends BaseFragment {
                     return;
 //                LogUtil.i("Location", jsonMessage);
                 mSwipeLayout.setRefreshing(false);
-                ToastUtils.show(getActivity(),"数据已更新");
+                if(refresh)
+                    ToastUtils.show(getActivity(),"数据已更新");
+                refresh=false;
                 hintLayout.setVisibility(View.GONE);
                 workingInfo= JsonUtil.getWorkingInfo(jsonMessage);
                 myAdapter = new MainInfoAdapter(getActivity(), workingInfo);
@@ -96,6 +99,7 @@ public class WeatherInfoFrg extends BaseFragment {
             @Override
             public void onHTTPException(String method, String jsonMessage) {
                 super.onHTTPException(method, jsonMessage);
+                refresh=false;
                 mSwipeLayout.setRefreshing(false);
             }
         });
