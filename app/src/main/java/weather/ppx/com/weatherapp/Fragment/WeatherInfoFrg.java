@@ -86,6 +86,7 @@ public class WeatherInfoFrg extends BaseFragment {
                     return;
 //                LogUtil.i("Location", jsonMessage);
                 mSwipeLayout.setRefreshing(false);
+                ToastUtils.show(getActivity(),"数据已更新");
                 hintLayout.setVisibility(View.GONE);
                 workingInfo= JsonUtil.getWorkingInfo(jsonMessage);
                 myAdapter = new MainInfoAdapter(getActivity(), workingInfo);

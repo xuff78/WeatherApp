@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import common.eric.com.ebaselibrary.util.ToastUtils;
 import weather.ppx.com.weatherapp.Bean.DayNightInfo;
 import weather.ppx.com.weatherapp.Bean.WeatherInTIme;
 import weather.ppx.com.weatherapp.R;
@@ -78,6 +79,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
                         weatherHandler.getCityReal(areaCode);
                 }else if(method.equals(ConstantUtil.Method_CityReal)){
                     mSwipeLayout.setRefreshing(false);
+                    ToastUtils.show(getActivity(), "数据已更新");
                     dataLayout.setVisibility(View.VISIBLE);
                     hintLayout.setVisibility(View.GONE);
                     try {
