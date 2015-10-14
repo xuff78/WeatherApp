@@ -2,6 +2,7 @@ package weather.ppx.com.weatherapp.Util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -110,10 +111,11 @@ public class ActUtil {
 
     public static void showSinglseDialog(final Activity con, String content, DialogInterface.OnClickListener listener) {
         //dialog参数设置
-        AlertDialog.Builder builder=new AlertDialog.Builder(con);  //先得到构造器
+        AlertDialog.Builder builder=new AlertDialog.Builder(con, 32);  //先得到构造器
         builder.setTitle("提示"); //设置标题
         builder.setMessage(content); //设置内容
         builder.setPositiveButton("确定", listener);
+        builder.setCancelable(false);
         builder.create().show();
     }
 
