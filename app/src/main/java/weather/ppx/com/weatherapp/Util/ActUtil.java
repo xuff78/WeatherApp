@@ -165,4 +165,27 @@ public class ActUtil {
         }
         return "";
     }
+
+    public static int getDegree(String direct) {
+        int degree=-45;
+        if(direct.startsWith("东北")){
+            degree*=1;
+        }else if(direct.startsWith("东南")){
+            degree*=3;
+        }else if(direct.startsWith("西南")){
+            degree*=5;
+        }else if(direct.startsWith("西北")){
+            degree*=7;
+        }else if(direct.startsWith("北")){
+            degree*=0;
+        }else if(direct.startsWith("东")){
+            degree*=2;
+        }else if(direct.startsWith("南")){
+            degree*=4;
+        }else if(direct.startsWith("西")){
+            degree*=6;
+        }
+
+        return degree;
+    }
 }

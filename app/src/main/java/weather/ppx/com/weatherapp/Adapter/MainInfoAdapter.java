@@ -272,10 +272,21 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                 objsub.put("data", safeLevel);
                 array.put(i, objsub);
                 objsub=new JSONObject();
-                objsub.put("data",  workingInfo.getDetail().get(i).getWiSV());
+                JSONObject wind=new JSONObject();
+                wind.put("value", workingInfo.getDetail().get(i).getWiSV());
+                wind.put("symbol", "arrow");
+                wind.put("symbolSize", 5);
+                wind.put("symbolRotate", ActUtil.getDegree(workingInfo.getDetail().get(i).getWiDT()));
+                objsub.put("data",  wind);
                 array2.put(i, objsub);
                 objsub=new JSONObject();
-                objsub.put("data", workingInfo.getDetail().get(i).getWaH());
+
+                JSONObject direct=new JSONObject();
+                direct.put("value", workingInfo.getDetail().get(i).getWaH());
+                direct.put("symbol", "arrow");
+                direct.put("symbolSize", 5);
+                direct.put("symbolRotate", ActUtil.getDegree(workingInfo.getDetail().get(i).getWaDT()));
+                objsub.put("data",  direct);
                 array3.put(i, objsub);
                 objsub=new JSONObject();
                 objsub.put("data", workingInfo.getDetail().get(i).gettL());

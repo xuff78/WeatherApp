@@ -57,7 +57,11 @@
 
             var relVal = "";
             relVal = "安全等级：" + safe + "<br/>";
-            relVal += "风速：" + params[1].data + "m/s";
+
+
+             console.log(params[1].data);
+            var d=params[1].value;
+            relVal += "风速：" + d + "m/s";
             return relVal;
         }
     },
@@ -90,7 +94,7 @@
         }
     },
     title: {
-        text:"时次",
+        text:"时刻",
         x: 'right',                 // 水平安放位置，默认为左对齐，可选为：
                                    // 'center' ¦ 'left' ¦ 'right'
                                    // ¦ {number}（x坐标，单位px）
@@ -227,7 +231,7 @@
     ],
     series : [
         {
-            name:'等级',
+            name:'等级曲线',
             type:'line',
             itemStyle: {
                 normal: {
@@ -237,7 +241,7 @@
             data:m_list
         },
         {
-            name:'风速',
+            name:'风速曲线',
             type:'line',
             symbol: 'arrow',
             symbolSize: 4,
