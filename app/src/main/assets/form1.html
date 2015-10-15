@@ -55,11 +55,9 @@
             else
                 safe = value;
 
-            var relVal = "";
-            relVal = "安全等级：" + safe + "<br/>";
+            var relVal = params[2]+"时<br/>";
+            relVal += "安全等级：" + safe + "<br/>";
 
-
-             console.log(params[1].data);
             var d=params[1].value;
             relVal += "风速：" + d + "m/s";
             return relVal;
