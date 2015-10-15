@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nineoldandroids.view.ViewHelper;
+
 /**
  * Created by 可爱的蘑菇 on 2015/8/25.
  */
@@ -55,6 +57,16 @@ public class ActUtil {
         ImageView iv=new ImageView(con);
         iv.setImageResource(res);
         LinearLayout.LayoutParams llp=new LinearLayout.LayoutParams(width,width);
+        iv.setLayoutParams(llp);
+        return iv;
+    }
+
+    public static ImageView getImageViewS(Context con, int res, int w, int h){
+        int width=ScreenUtil.dip2px(con, w);
+        int height=ScreenUtil.dip2px(con, h);
+        ImageView iv=new ImageView(con);
+        iv.setBackgroundResource(res);
+        LinearLayout.LayoutParams llp=new LinearLayout.LayoutParams(width,height);
         iv.setLayoutParams(llp);
         return iv;
     }
@@ -187,5 +199,29 @@ public class ActUtil {
         }
 
         return degree;
+    }
+
+    public static void setDirectImg(String direct, ImageView img) {
+        int degree=-45;
+        if(direct.startsWith("东北")){
+            degree*=1;
+        }else if(direct.startsWith("东南")){
+            degree*=3;
+        }else if(direct.startsWith("西南")){
+            degree*=5;
+        }else if(direct.startsWith("西北")){
+            degree*=7;
+        }else if(direct.startsWith("北")){
+            degree*=0;
+        }else if(direct.startsWith("东")){
+            degree*=2;
+        }else if(direct.startsWith("南")){
+            degree*=4;
+        }else if(direct.startsWith("西")){
+            degree*=6;
+        }
+//        ViewHelper.setPivotX(img, 0.5f);
+//        ViewHelper.setPivotY(img, 0.5f);
+        ViewHelper.setRotation(img, -degree);
     }
 }

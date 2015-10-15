@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -98,6 +99,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                             th.safeTxt.setText("极不安全");
                         }
                         th.fengxiangTxt.setText("风速：" + info.getWiSV() + "m/s");
+                        ActUtil.setDirectImg(info.getWiDT(), th.windDirect);
                         th.langgaoTxt.setText("浪高：" + info.getWaH() + "m");
                         th.chaoweiTxt.setText("潮位：" + info.gettL() + "cm");
                         th.boxiangTxt.setText("波向：" + info.getWaDT());
@@ -129,10 +131,12 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
     // 重写的自定义ViewHolder
     public class TopViewHolder extends RecyclerView.ViewHolder
     {
+        ImageView windDirect;
         TextView dateTxt, fengxiangTxt, chaoweiTxt, langgaoTxt, boxiangTxt, publishTime, safeTxt;
         public TopViewHolder( View v )
         {
             super(v);
+            windDirect=(ImageView)v.findViewById(R.id.windDirect);
             dateTxt=(TextView)v.findViewById(R.id.dateTxt);
             fengxiangTxt=(TextView)v.findViewById(R.id.fengxiangTxt);
             chaoweiTxt=(TextView)v.findViewById(R.id.chaoweiTxt);
@@ -233,7 +237,9 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             layout.setLayoutParams(llp);
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getDt(), 14, Lwidth));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWiSV(), 14, 35));
-            layout.addView(ActUtil.getImageView(mContext, R.drawable.icon_wind, 15));
+            ImageView img=ActUtil.getImageViewS(mContext, R.drawable.icon_wind, 10, 12);
+            layout.addView(img);
+            ActUtil.setDirectImg(workingInfo.getDetail().get(i).getWiDT(), img);
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.gettL(), 14, 50));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaH(), 14, 40));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWaDT(), 14, Lwidth));
