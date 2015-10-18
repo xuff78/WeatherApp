@@ -41,9 +41,9 @@
         formatter:function(params)
         {
 
-            var relVal = "";
+            var relVal = params[0].name+"时<br/>";
 
-            relVal = "浪高和波向：" + params[1].value + "m<br/>";
+            relVal += "浪高和波向：" + params[1].value + "m<br/>";
             relVal += "潮位：" + params[0].data + "m/s";
             return relVal;
         }
