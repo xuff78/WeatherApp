@@ -1,5 +1,6 @@
 package weather.ppx.com.weatherapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,5 +75,11 @@ public class WeatherSetting extends BaseActivity {
         }else if(bgType==1){
             themeChecked2.setVisibility(View.VISIBLE);
         }
+        findViewById(R.id.feedbackLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(WeatherSetting.this, UserFeedBack.class));
+            }
+        });
     }
 }

@@ -53,7 +53,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
     private String areaCode="";
     private ArrayList<DayNightInfo> dayNightInfos;
     private ArrayList<ArrayList<WeatherInTIme>> weatherinfos;
-    private ImageView weatherIcon;
+    private ImageView weatherIcon, windIcon;
     private TextView temperatureTxt, windTxt, humidityTxt, publishTime;
     private ArrayList<TextView> txtsL=new ArrayList<>();
     private ArrayList<TextView> txtsR=new ArrayList<>();
@@ -93,6 +93,8 @@ public class WeatherInfoFrg2  extends BaseFragment {
                         String humidity=obj.getJSONObject("weather").getString("humidity");
                         String wind=obj.getJSONObject("wind").getString("power");
                         String date=obj.getString("data_time");
+                        String windDirect=obj.getJSONObject("wind").getString("direct");
+                        ActUtil.setDirectImg(windDirect, windIcon);
                         temperatureTxt.setText(temperature+"°");
                         humidityTxt.setText("相对湿度"+humidity+"%");
                         String pt="";
@@ -171,6 +173,7 @@ public class WeatherInfoFrg2  extends BaseFragment {
         dataLayout=v.findViewById(R.id.dataLayout);
         areaCode=getArguments().getString("Code");
         hintLayout=v.findViewById(R.id.hintLayout);
+        windIcon=(ImageView)v.findViewById(R.id.windIcon);
         topDaysInfoLayout= (LinearLayout) v.findViewById(R.id.topDaysInfoLayout);
         bottomDayInfoLayout= (LinearLayout) v.findViewById(R.id.bottomDayInfoLayout);
         temperatureTxt= (TextView) v.findViewById(R.id.temperatureTxt);
