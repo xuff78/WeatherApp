@@ -94,8 +94,8 @@
                 <ImageView
                     android:id="@+id/windIcon"
                     android:background="@drawable/icon_wind"
-                    android:layout_width="20dip"
-                    android:layout_height="20dip" />
+                    android:layout_width="15dip"
+                    android:layout_height="15dip" />
                 <TextView
                     android:text="3-4级"
                     android:id="@+id/windTxt"
