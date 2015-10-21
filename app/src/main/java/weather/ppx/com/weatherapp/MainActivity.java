@@ -16,6 +16,8 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
+import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UpdateConfig;
 
 import weather.ppx.com.weatherapp.Fragment.BaseFragment;
 import weather.ppx.com.weatherapp.Fragment.WeatherInfoMain;
@@ -75,6 +77,9 @@ public class MainActivity extends BaseActivity
         mNavigationDrawerFragment.selectItem(SharedPreferencesUtil.getInt(this, ConstantUtil.SelectArea, 8));
         if (SharedPreferencesUtil.getValue(this, ConstantUtil.AutoLocation, true))
             initLocation();
+
+        UpdateConfig.setDebug(true);
+        UmengUpdateAgent.update(this);
     }
 
     public void refreshData(){

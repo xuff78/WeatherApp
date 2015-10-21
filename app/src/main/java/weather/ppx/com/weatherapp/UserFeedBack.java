@@ -1,8 +1,10 @@
 package weather.ppx.com.weatherapp;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -32,7 +34,9 @@ public class UserFeedBack extends BaseActivity {
 
     SlipButton btnLocation, btnPush;
     private ImageView themeChecked1, themeChecked2, bgImg1, bgImg2;
+    private EditText feedbackEdt;
     int bgType=0;
+    private ProgressDialog progressDialog;
     private ArrayList<RelativeLayout> layouts=new ArrayList<RelativeLayout>();
     private int[] resLayout={R.id.feedbackLayout1, R.id.feedbackLayout2, R.id.feedbackLayout3, R.id.feedbackLayout4
             , R.id.feedbackLayout5, R.id.feedbackLayout6, R.id.feedbackLayout7};
@@ -51,6 +55,7 @@ public class UserFeedBack extends BaseActivity {
     }
 
     private void initView() {
+        feedbackEdt=(EditText)findViewById(R.id.feedbackEdt);
         for (int i=0;i<resLayout.length;i++) {
             RelativeLayout rl = (RelativeLayout) findViewById(resLayout[i]);
             rl.setTag(i);
@@ -61,13 +66,29 @@ public class UserFeedBack extends BaseActivity {
         findViewById(R.id.feedbackBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        getRemoteInfo("false,false,false,false,false,false,false,测试一下");
-                    }
-                }.start();
+                String feedback = "";
+                boolean hasFeedBack = false;
+                for (int i = 0; i < checks.length; i++) {
+                    feedback += String.valueOf(checks[i])+",";
+                    if (checks[i])
+                        hasFeedBack = true;
+                }
+                String edtTxt = feedbackEdt.getText().toString();
+                final String fb=feedback+edtTxt;
+                if (!hasFeedBack && edtTxt.length() == 0) {
+                    ToastUtils.show(UserFeedBack.this, "请先反馈问题");
+                } else {
+                    progressDialog=new ProgressDialog(UserFeedBack.this);
+                    progressDialog.setMessage("数据获取中..");
+                    progressDialog.show();
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            super.run();
+                            getRemoteInfo(fb);
+                        }
+                    }.start();
+                }
             }
         });
     }
@@ -131,7 +152,8 @@ public class UserFeedBack extends BaseActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ToastUtils.show(UserFeedBack.this, "success： "+putout);
+                    progressDialog.dismiss();
+                    ToastUtils.show(UserFeedBack.this, putout);
                     ActUtil.showSinglseDialog(UserFeedBack.this, "反馈已发送，感谢您的支持", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -142,12 +164,25 @@ public class UserFeedBack extends BaseActivity {
             });
         } catch (Exception e) {
             e.printStackTrace();
-            try {
-                SoapPrimitive soapPrimitive =(SoapPrimitive) envelope.getResponse();
-                ToastUtils.show(UserFeedBack.this, "发送失败  "+soapPrimitive.toString());
-            } catch (Exception ex) {
-
-            }
+//            try {
+//                final SoapPrimitive soapPrimitive =(SoapPrimitive) envelope.getResponse();
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        progressDialog.dismiss();
+//                        ToastUtils.show(UserFeedBack.this, soapPrimitive.toString());
+//                    }
+//                });
+//            } catch (Exception ex) {
+//
+//            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progressDialog.dismiss();
+                    ToastUtils.show(UserFeedBack.this, "发送失败,请稍后重试");
+                }
+            });
         }
 
     }
