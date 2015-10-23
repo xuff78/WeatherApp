@@ -1,5 +1,6 @@
 package weather.ppx.com.weatherapp.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -24,6 +26,7 @@ import weather.ppx.com.weatherapp.Bean.AreaWorkingInfo;
 import weather.ppx.com.weatherapp.Bean.WeatherInfo;
 import weather.ppx.com.weatherapp.R;
 import weather.ppx.com.weatherapp.Util.ActUtil;
+import weather.ppx.com.weatherapp.Util.ConstantUtil;
 import weather.ppx.com.weatherapp.Util.LogUtil;
 import weather.ppx.com.weatherapp.Util.ScreenUtil;
 import weather.ppx.com.weatherapp.Util.TimeUtil;
@@ -36,11 +39,16 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
 
     private Context mContext;
     private AreaWorkingInfo workingInfo;
+    private int formWidth, formedge, timeCenterPos=0, textWidth=0;
+    private String publishDate="";
 
-    public MainInfoAdapter(Context context, AreaWorkingInfo workingInfo)
+    public MainInfoAdapter(Activity context, AreaWorkingInfo workingInfo)
     {
         this.mContext = context;
         this.workingInfo=workingInfo;
+        formedge=ScreenUtil.dip2px(context,46);
+        formWidth= ScreenUtil.getScreenWidth(context)-formedge*2;
+        textWidth=ScreenUtil.dip2px(context,80);
     }
 
     @Override
@@ -104,9 +112,11 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                         th.chaoweiTxt.setText("潮位：" + info.gettL() + "cm");
                         th.boxiangTxt.setText("波向：" + info.getWaDT());
                         String pt="";
-                        if(workingInfo.getDate_time().contains(" "))
-                            pt=workingInfo.getDate_time().split(" ")[1];
-                        else
+                        if(workingInfo.getDate_time().contains(" ")) {
+                            String[] timeInfo=workingInfo.getDate_time().split(" ");
+                            publishDate=timeInfo[0];
+                            pt = timeInfo[1];
+                        }else
                             pt=workingInfo.getDate_time();
                         th.publishTime.setText(pt + "  发布");
                         return;
@@ -178,9 +188,12 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
     public class BottomViewHolder extends RecyclerView.ViewHolder
     {
         WebView mWebView;
+        TextView dateTxt1,dateTxt2;
         public BottomViewHolder(View v, String url)
         {
             super(v);
+            dateTxt1=(TextView)v.findViewById(R.id.dateTxt1);
+            dateTxt2=(TextView)v.findViewById(R.id.dateTxt2);
             mWebView=(WebView)v.findViewById(R.id.mWebView);
 //            mWebView.setBackgroundColor(1);
             mWebView.getSettings().setJavaScriptEnabled(true);
@@ -194,6 +207,15 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
                     mWebView.loadUrl("javascript:setData('" + getJsonStr() + "')");
+                    RelativeLayout.LayoutParams rlp1= (RelativeLayout.LayoutParams) dateTxt1.getLayoutParams();
+                    rlp1.leftMargin=formedge+(formWidth/12*timeCenterPos-textWidth)/2;
+                    dateTxt1.setLayoutParams(rlp1);
+                    dateTxt1.setText(TimeUtil.getDate(publishDate));
+                    RelativeLayout.LayoutParams rlp2= (RelativeLayout.LayoutParams) dateTxt2.getLayoutParams();
+                    rlp2.leftMargin=formedge+formWidth/12*timeCenterPos+(formWidth/12*(12-timeCenterPos)-textWidth)/2;
+                    dateTxt2.setLayoutParams(rlp2);
+                    dateTxt2.setText(TimeUtil.getNextDate(publishDate));
+
                 }
 
                 @Override
@@ -298,7 +320,12 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                 objsub.put("data", workingInfo.getDetail().get(i).gettL());
                 array4.put(i, objsub);
                 objsub=new JSONObject();
-                objsub.put("data", workingInfo.getDetail().get(i).getTime());
+                String time=workingInfo.getDetail().get(i).getTime();
+                if(i>0){
+                    if(Integer.valueOf(time)<Integer.valueOf(workingInfo.getDetail().get(i-1).getTime()))
+                        timeCenterPos=i;
+                }
+                objsub.put("data", time);
                 array5.put(i, objsub);
             }
             jsonObj.put("FristFormInfo1", array);

@@ -12,14 +12,32 @@ import java.util.TimeZone;
 public class TimeUtil {
 
     public static String getDate(String strDate){
-        if(strDate!=null&&strDate.length()>11) {
+        if(strDate!=null&&strDate.length()==10) {
 //            String data=strDate.substring(11);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd HH:mm");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date date = simpleDateFormat.parse(strDate);
-                SimpleDateFormat showFormat = new SimpleDateFormat("MM月dd日 HH时");
+                SimpleDateFormat showFormat = new SimpleDateFormat("MM月dd日");
                 System.out.println(date);
                 return showFormat.format(date);
+            } catch (ParseException px) {
+                px.printStackTrace();
+            }
+        }
+        return "";
+    }
+
+    public static String getNextDate(String strDate){
+        if(strDate!=null&&strDate.length()==10) {
+//            String data=strDate.substring(11);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date date = simpleDateFormat.parse(strDate);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+                SimpleDateFormat showFormat = new SimpleDateFormat("MM月dd日");
+                return showFormat.format(calendar.getTime());
             } catch (ParseException px) {
                 px.printStackTrace();
             }
