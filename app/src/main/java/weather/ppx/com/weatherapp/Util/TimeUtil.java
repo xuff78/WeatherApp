@@ -27,7 +27,7 @@ public class TimeUtil {
         return "";
     }
 
-    public static String getNextDate(String strDate){
+    public static String getNextDate(String strDate, int addDay){
         if(strDate!=null&&strDate.length()==10) {
 //            String data=strDate.substring(11);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -35,7 +35,7 @@ public class TimeUtil {
                 Date date = simpleDateFormat.parse(strDate);
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
-                calendar.add(Calendar.DAY_OF_YEAR, 1);
+                calendar.add(Calendar.DAY_OF_YEAR, addDay);
                 SimpleDateFormat showFormat = new SimpleDateFormat("MM月dd日");
                 return showFormat.format(calendar.getTime());
             } catch (ParseException px) {

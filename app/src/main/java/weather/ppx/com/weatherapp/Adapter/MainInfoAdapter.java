@@ -39,7 +39,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
 
     private Context mContext;
     private AreaWorkingInfo workingInfo;
-    private int formWidth, formedge, timeCenterPos=0, textWidth=0;
+    private int formWidth, formedge, timeCenterPos=-1, timeCenterPos2=-1, textWidth=0;
     private String publishDate="";
 
     public MainInfoAdapter(Activity context, AreaWorkingInfo workingInfo)
@@ -188,12 +188,13 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
     public class BottomViewHolder extends RecyclerView.ViewHolder
     {
         WebView mWebView;
-        TextView dateTxt1,dateTxt2;
+        TextView dateTxt1,dateTxt2,dateTxt3;
         public BottomViewHolder(View v, String url)
         {
             super(v);
             dateTxt1=(TextView)v.findViewById(R.id.dateTxt1);
             dateTxt2=(TextView)v.findViewById(R.id.dateTxt2);
+            dateTxt3=(TextView)v.findViewById(R.id.dateTxt3);
             mWebView=(WebView)v.findViewById(R.id.mWebView);
 //            mWebView.setBackgroundColor(1);
             mWebView.getSettings().setJavaScriptEnabled(true);
@@ -214,7 +215,13 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                     RelativeLayout.LayoutParams rlp2= (RelativeLayout.LayoutParams) dateTxt2.getLayoutParams();
                     rlp2.leftMargin=formedge+formWidth/12*timeCenterPos+(formWidth/12*(12-timeCenterPos)-textWidth)/2;
                     dateTxt2.setLayoutParams(rlp2);
-                    dateTxt2.setText(TimeUtil.getNextDate(publishDate));
+                    dateTxt2.setText(TimeUtil.getNextDate(publishDate, 1));
+                    if(timeCenterPos2!=-1){
+                        RelativeLayout.LayoutParams rlp3= (RelativeLayout.LayoutParams) dateTxt3.getLayoutParams();
+                        rlp3.leftMargin=formedge+formWidth/12*timeCenterPos2+(formWidth/12*(12-timeCenterPos2)-textWidth)/2;
+                        dateTxt3.setLayoutParams(rlp3);
+                        dateTxt3.setText(TimeUtil.getNextDate(publishDate, 2));
+                    }
 
                 }
 
@@ -322,8 +329,12 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
                 objsub=new JSONObject();
                 String time=workingInfo.getDetail().get(i).getTime();
                 if(i>0){
-                    if(Integer.valueOf(time)<Integer.valueOf(workingInfo.getDetail().get(i-1).getTime()))
-                        timeCenterPos=i;
+                    if(Integer.valueOf(time)<Integer.valueOf(workingInfo.getDetail().get(i-1).getTime())) {
+                        if(timeCenterPos==-1)
+                            timeCenterPos = i;
+                        else
+                            timeCenterPos2= i;
+                    }
                 }
                 objsub.put("data", time);
                 array5.put(i, objsub);

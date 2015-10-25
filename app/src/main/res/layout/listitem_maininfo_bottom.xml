@@ -24,4 +24,13 @@
         android:gravity="center"
         android:layout_width="80dip"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/dateTxt3"
+        android:layout_alignBottom="@+id/mWebView"
+        android:layout_marginBottom="10dip"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_width="80dip"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
