@@ -100,15 +100,48 @@ public class JsonUtil {
     }
 
     public static ArrayList<AreaWorkingInfo> getMapInfo(String jsonStr){
-        ArrayList<AreaWorkingInfo> workingInfo=new ArrayList<AreaWorkingInfo>();
+        ArrayList<AreaWorkingInfo> workingInfo=new ArrayList<>(10);
         try {
             JSONArray data=new JSONArray(jsonStr);
+            for (int i=0;i<9;i++){
+                workingInfo.add(new AreaWorkingInfo());
+            }
             for (int i=0;i<data.length();i++){
-                workingInfo.add(getWorkingInfo(data.getString(i)));
+                String jsonData=data.getString(i);
+                workingInfo.set(getMapPos(jsonData), getWorkingInfo(jsonData));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return  workingInfo;
+    }
+
+    public static int getMapPos(String jsonStr){
+        int pos=0;
+        try {
+            JSONObject data=new JSONObject(jsonStr);
+            String cityName=data.getString("city_name");
+            if(cityName.equals("赣榆"))
+                pos=0;
+            if(cityName.equals("灌云"))
+                pos=1;
+            if(cityName.equals("响水"))
+                pos=2;
+            if(cityName.equals("滨海"))
+                pos=3;
+            if(cityName.equals("射阳"))
+                pos=4;
+            if(cityName.equals("大丰"))
+                pos=5;
+            if(cityName.equals("东台"))
+                pos=6;
+            if(cityName.equals("如东"))
+                pos=7;
+            if(cityName.equals("启东"))
+                pos=8;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return pos;
     }
 }
