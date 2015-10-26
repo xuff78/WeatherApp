@@ -306,11 +306,11 @@ public class WeatherMap extends BaseActivity {
         int padding=0;
         if(pos>4) {
             padding = -dip50 * 5/2;
-            contentView.setPadding(padding20, 0, (int)(padding20*1.25),0);
+            contentView.setPadding(padding20-5, 0, (int)(padding20*1.25),0);
             contentView.setBackgroundResource(R.drawable.popbgright);
         }else {
             padding = dip50 * 2;
-            contentView.setPadding((int)(padding20*1.25), 0, padding20,0);
+            contentView.setPadding((int)(padding20*1.25), 0, padding20-5,0);
             contentView.setBackgroundResource(R.drawable.popbg);
         }
         popupWindow.showAsDropDown(view, padding, -(view.getHeight()/2+dip50));

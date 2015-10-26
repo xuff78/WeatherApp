@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.nineoldandroids.view.ViewHelper;
 
+import weather.ppx.com.weatherapp.R;
+
 /**
  * Created by 可爱的蘑菇 on 2015/8/25.
  */
@@ -65,7 +67,7 @@ public class ActUtil {
         int width=ScreenUtil.dip2px(con, w);
         int height=ScreenUtil.dip2px(con, h);
         ImageView iv=new ImageView(con);
-        iv.setBackgroundResource(res);
+        iv.setImageResource(res);
         LinearLayout.LayoutParams llp=new LinearLayout.LayoutParams(width,height);
         iv.setLayoutParams(llp);
         return iv;
@@ -220,8 +222,28 @@ public class ActUtil {
         }else if(direct.startsWith("西")){
             degree*=2;
         }
-//        ViewHelper.setPivotX(img, 0.5f);
-//        ViewHelper.setPivotY(img, 0.5f);
         ViewHelper.setRotation(img, -degree);
     }
+
+//    public static void setDirectImg(String direct, ImageView img) {
+//        int degree=-45;
+//        if(direct.startsWith("东北")){
+//            degree= R.drawable.icon_wind5;
+//        }else if(direct.startsWith("东南")){
+//            degree=R.drawable.icon_wind7;
+//        }else if(direct.startsWith("西南")){
+//            degree=R.drawable.icon_wind1;
+//        }else if(direct.startsWith("西北")){
+//            degree=R.drawable.icon_wind3;
+//        }else if(direct.startsWith("北")){
+//            degree=R.drawable.icon_wind4;
+//        }else if(direct.startsWith("东")){
+//            degree=R.drawable.icon_wind6;
+//        }else if(direct.startsWith("南")){
+//            degree=R.drawable.icon_wind;
+//        }else if(direct.startsWith("西")){
+//            degree=R.drawable.icon_wind2;
+//        }
+//        img.setBackgroundResource(degree);
+//    }
 }
