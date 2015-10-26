@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -223,6 +225,34 @@ public class ActUtil {
             degree*=2;
         }
         ViewHelper.setRotation(img, -degree);
+    }
+
+    public static void setDirectImg(String direct, ImageView img, Bitmap bitmap) {
+        int degree=-45;
+        if(direct.startsWith("东北")){
+            degree*=5;
+        }else if(direct.startsWith("东南")){
+            degree*=7;
+        }else if(direct.startsWith("西南")){
+            degree*=1;
+        }else if(direct.startsWith("西北")){
+            degree*=3;
+        }else if(direct.startsWith("北")){
+            degree*=4;
+        }else if(direct.startsWith("东")){
+            degree*=6;
+        }else if(direct.startsWith("南")){
+            degree*=0;
+        }else if(direct.startsWith("西")){
+            degree*=2;
+        }
+        Matrix m = new Matrix();
+        m.setRotate(-degree);
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        Bitmap b = Bitmap.createBitmap(bitmap,0,0,width,height,m,true);
+        img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        img.setImageBitmap(b);
     }
 
 //    public static void setDirectImg(String direct, ImageView img) {

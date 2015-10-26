@@ -2,6 +2,8 @@ package weather.ppx.com.weatherapp.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.Time;
@@ -248,6 +250,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
 
         int marginTop= ScreenUtil.dip2px(mContext, 2);
         int itemHeight= ScreenUtil.dip2px(mContext, 26);
+//        Bitmap tmp= BitmapFactory.decodeResource(mContext.getResources(), R.drawable.icon_wind);
         for (int i=0; i<workingInfo.getDetail().size(); i++){
             WeatherInfo info=workingInfo.getDetail().get(i);
             LinearLayout layout=new LinearLayout(mContext);
