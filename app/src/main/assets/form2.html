@@ -44,7 +44,7 @@
             var relVal = params[0].name+"时<br/>";
 
             relVal += "浪高和波向：" + params[1].value + "m<br/>";
-            relVal += "潮位：" + params[0].data + "m/s";
+            relVal += "潮位：" + params[0].data + "cm";
             return relVal;
         }
     },
@@ -151,7 +151,8 @@
              },
              axisLabel : {
                 textStyle: {
-                    color: 'white'
+                    color: 'white',
+                    fontSize: 11
                 }
             },
             splitLine: {           // 分隔线
@@ -181,7 +182,8 @@
              },
              axisLabel : {
                 textStyle: {
-                    color: 'white'
+                    color: 'white',
+                    fontSize: 9
                 }
             },
             splitLine: {           // 分隔线

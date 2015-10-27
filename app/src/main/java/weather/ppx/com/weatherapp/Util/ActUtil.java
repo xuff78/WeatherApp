@@ -256,7 +256,7 @@ public class ActUtil {
     }
 
     public static void setDirectImg(String direct, ImageView img) {
-        int degree=-45;
+        int degree=0;
         if(direct.startsWith("东北")){
             degree= R.drawable.icon_wind5;
         }else if(direct.startsWith("东南")){
