@@ -205,27 +205,27 @@ public class ActUtil {
         return degree;
     }
 
-    public static void setDirectImg(String direct, ImageView img) {
-        int degree=-45;
-        if(direct.startsWith("东北")){
-            degree*=5;
-        }else if(direct.startsWith("东南")){
-            degree*=7;
-        }else if(direct.startsWith("西南")){
-            degree*=1;
-        }else if(direct.startsWith("西北")){
-            degree*=3;
-        }else if(direct.startsWith("北")){
-            degree*=4;
-        }else if(direct.startsWith("东")){
-            degree*=6;
-        }else if(direct.startsWith("南")){
-            degree*=0;
-        }else if(direct.startsWith("西")){
-            degree*=2;
-        }
-        ViewHelper.setRotation(img, -degree);
-    }
+//    public static void setDirectImg(String direct, ImageView img) {
+//        int degree=-45;
+//        if(direct.startsWith("东北")){
+//            degree*=5;
+//        }else if(direct.startsWith("东南")){
+//            degree*=7;
+//        }else if(direct.startsWith("西南")){
+//            degree*=1;
+//        }else if(direct.startsWith("西北")){
+//            degree*=3;
+//        }else if(direct.startsWith("北")){
+//            degree*=4;
+//        }else if(direct.startsWith("东")){
+//            degree*=6;
+//        }else if(direct.startsWith("南")){
+//            degree*=0;
+//        }else if(direct.startsWith("西")){
+//            degree*=2;
+//        }
+//        ViewHelper.setRotation(img, -degree);
+//    }
 
     public static void setDirectImg(String direct, ImageView img, Bitmap bitmap) {
         int degree=-45;
@@ -255,25 +255,25 @@ public class ActUtil {
         img.setImageBitmap(b);
     }
 
-//    public static void setDirectImg(String direct, ImageView img) {
-//        int degree=-45;
-//        if(direct.startsWith("东北")){
-//            degree= R.drawable.icon_wind5;
-//        }else if(direct.startsWith("东南")){
-//            degree=R.drawable.icon_wind7;
-//        }else if(direct.startsWith("西南")){
-//            degree=R.drawable.icon_wind1;
-//        }else if(direct.startsWith("西北")){
-//            degree=R.drawable.icon_wind3;
-//        }else if(direct.startsWith("北")){
-//            degree=R.drawable.icon_wind4;
-//        }else if(direct.startsWith("东")){
-//            degree=R.drawable.icon_wind6;
-//        }else if(direct.startsWith("南")){
-//            degree=R.drawable.icon_wind;
-//        }else if(direct.startsWith("西")){
-//            degree=R.drawable.icon_wind2;
-//        }
-//        img.setBackgroundResource(degree);
-//    }
+    public static void setDirectImg(String direct, ImageView img) {
+        int degree=-45;
+        if(direct.startsWith("东北")){
+            degree= R.drawable.icon_wind5;
+        }else if(direct.startsWith("东南")){
+            degree=R.drawable.icon_wind7;
+        }else if(direct.startsWith("西南")){
+            degree=R.drawable.icon_wind1;
+        }else if(direct.startsWith("西北")){
+            degree=R.drawable.icon_wind3;
+        }else if(direct.startsWith("北")){
+            degree=R.drawable.icon_wind4;
+        }else if(direct.startsWith("东")){
+            degree=R.drawable.icon_wind6;
+        }else if(direct.startsWith("南")){
+            degree=R.drawable.icon_wind;
+        }else if(direct.startsWith("西")){
+            degree=R.drawable.icon_wind2;
+        }
+        img.setBackgroundResource(degree);
+    }
 }

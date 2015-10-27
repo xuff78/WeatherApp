@@ -105,7 +105,7 @@
                 android:id="@+id/windDirect"
                 android:layout_marginLeft="5dip"
                 android:background="@drawable/icon_wind"
-                android:layout_width="10dip"
+                android:layout_width="12dip"
                 android:layout_height="12dip" />
             </LinearLayout>
             <TextView

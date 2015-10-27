@@ -269,7 +269,7 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
             layout.setLayoutParams(llp);
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getDt(), 14, Lwidth));
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.getWiSV(), 14, 35));
-            ImageView img=ActUtil.getImageViewS(mContext, R.drawable.icon_wind, 10, 12);
+            ImageView img=ActUtil.getImageViewS(mContext, 0, 12, 12);
             layout.addView(img);
             ActUtil.setDirectImg(workingInfo.getDetail().get(i).getWiDT(), img);
             layout.addView(ActUtil.getTextViewWithWidth(mContext, info.gettL(), 14, 50));
@@ -284,6 +284,8 @@ public class MainInfoAdapter extends RecyclerView.Adapter{
     }
 
     private String getJsonStr() {
+        timeCenterPos=-1;
+        timeCenterPos2=-1;
         String jsonData="";
         try {
             int max=12;
