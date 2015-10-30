@@ -287,13 +287,13 @@ public class WeatherMap extends BaseActivity {
         TextView txt2 = (TextView) contentView.findViewById(R.id.txt2);
         TextView txt3 = (TextView) contentView.findViewById(R.id.txt3);
         TextView txt4 = (TextView) contentView.findViewById(R.id.txt4);
-        txt1.setText("风："+info.getWiSV()+"m/s");
-        txt2.setText("浪："+info.getWaH()+"m");
-        txt3.setText("潮："+info.gettL() +"cm");
+        txt1.setText("风速："+info.getWiSV()+"m/s");
+        txt2.setText("浪高："+info.getWaH()+"m");
+        txt3.setText("潮位："+info.gettL() +"cm");
         txt4.setText("波向："+info.getWaDT());
 
         final PopupWindow popupWindow = new PopupWindow(contentView,
-                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, true);
+               ScreenUtil.dip2px(this, 225), WindowManager.LayoutParams.WRAP_CONTENT, true);
 
         popupWindow.setTouchable(true);
 
@@ -306,14 +306,14 @@ public class WeatherMap extends BaseActivity {
         int padding=0;
         if(pos>4) {
             padding = -dip50 * 5/2;
-            contentView.setPadding(padding20-5, 0, (int)(padding20*1.25),0);
+            contentView.setPadding(padding20, 0, (int)(padding20*1.25),0);
             contentView.setBackgroundResource(R.drawable.popbgright);
         }else {
             padding = dip50 * 2;
-            contentView.setPadding((int)(padding20*1.25), 0, padding20-5,0);
+            contentView.setPadding((int)(padding20*1.25), 0, padding20,0);
             contentView.setBackgroundResource(R.drawable.popbg);
         }
-        popupWindow.showAsDropDown(view, padding, -(view.getHeight()/2+dip50));
+        popupWindow.showAsDropDown(view, (int)(padding*1.2), -(view.getHeight()/2+dip50));
 
     }
 

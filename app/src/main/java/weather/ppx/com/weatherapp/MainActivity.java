@@ -208,7 +208,8 @@ public class MainActivity extends BaseActivity
                         });
                     } else {
                         ActUtil.showSinglseDialog(MainActivity.this, "您所在的城市为" + amapLocation.getCity() + "，切换至如东");
-                        mNavigationDrawerFragment.selectItem(8);
+                        if(!currentCity.contains("如东"))
+                            mNavigationDrawerFragment.selectItem(8);
                     }
                 }
                 mLocationManagerProxy.removeUpdates(MainActivity.this);
